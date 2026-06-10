@@ -12,6 +12,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
@@ -27,4 +28,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "MovieApp"
 include(":app")
-include(":core-ui")
+include(":core")
+include(":core:ui")
+include(":core:common")
+include(":feature")

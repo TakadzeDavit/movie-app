@@ -1,11 +1,10 @@
 import com.android.build.api.dsl.LibraryExtension
+import com.space.movieapp.convention.libs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.kotlin.dsl.dependencies
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -23,18 +22,13 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                     sourceCompatibility = JavaVersion.VERSION_17
                     targetCompatibility = JavaVersion.VERSION_17
                 }
-
-                buildTypes {
-                    getByName("release") {
-                        isMinifyEnabled = false
-                    }
-                }
             }
 
-            tasks.withType<KotlinCompile>().configureEach {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_17)
-                }
+            dependencies {
+                add("implementation", libs.findLibrary("kotlinx-coroutines-core").get())
+                add("implementation", libs.findLibrary("kotlinx-coroutines-android").get())
+                add("implementation", libs.findLibrary("androidx-core-ktx").get())
+                add("implementation", libs.findLibrary("androidx-lifecycle-runtime-ktx").get())
             }
         }
     }
