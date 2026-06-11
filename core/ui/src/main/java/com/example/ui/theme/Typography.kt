@@ -1,6 +1,5 @@
 package com.example.ui.theme
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
