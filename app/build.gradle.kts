@@ -1,6 +1,7 @@
 plugins {
     id("movieapp.android.application")
     id("movieapp.android.compose")
+    alias(libs.plugins.kotlin.serialization)
 }
 android {
     namespace = "com.example.movieapp"
@@ -24,6 +25,11 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
 
-    // core-ui
-    implementation(projects.core.ui)
+    // compose navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // modules
+    implementation(project(":core:ui"))
+    implementation(project(":core:common"))
+    implementation(project(":feature:catalogue:presentation"))
 }

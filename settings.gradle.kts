@@ -28,7 +28,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "MovieApp"
 include(":app")
-include(":core")
 include(":core:ui")
 include(":core:common")
-include(":feature")
+include(":feature:catalogue")
+include(":feature:catalogue:presentation")

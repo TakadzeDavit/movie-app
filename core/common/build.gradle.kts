@@ -3,6 +3,7 @@ plugins {
     id("movieapp.android.compose")
     id("movieapp.android.koin")
     id("movieapp.android.network")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
