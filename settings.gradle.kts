@@ -28,7 +28,14 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "MovieApp"
 include(":app")
-include(":core")
-include(":core:ui")
-include(":core:common")
-include(":feature")
+
+fun includeAllModules(vararg groupDirs: String) {
+    val rootDir = settings.rootDir
+    groupDirs.forEach { group ->
+        File(rootDir, group).listFiles()?.filter { it.isDirectory }?.forEach {
+            include(":$group:${it.name}")
+        }
+    }
+}
+
+includeAllModules("core", "feature")
