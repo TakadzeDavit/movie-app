@@ -1,4 +1,4 @@
-package com.example.common.network
+package com.space.common.network
 
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
