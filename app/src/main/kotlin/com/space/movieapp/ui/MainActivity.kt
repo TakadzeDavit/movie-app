@@ -14,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.example.movieapp.navigation.MovieNavigation
-import com.example.ui.theme.MovieAppTheme
-import com.example.ui.theme.MovieTheme
+import com.space.movieapp.core.navigation.Route
+import com.space.movieapp.navigation.MovieNavigation
+import com.space.ui.theme.MovieAppTheme
 
 class MainActivity : ComponentActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
@@ -55,9 +55,10 @@ private fun MainScreen(
 
         MovieNavigation(
             navController = navController,
+            startDestination = startDestination,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(paddingValues),
         )
     }
 }
