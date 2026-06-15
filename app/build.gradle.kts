@@ -31,5 +31,6 @@ dependencies {
     // modules
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
+    implementation(project(":core:navigation"))
     implementation(project(":feature:catalogue:presentation"))
 }
