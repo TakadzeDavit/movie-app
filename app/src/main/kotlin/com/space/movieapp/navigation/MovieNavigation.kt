@@ -1,4 +1,4 @@
-package com.example.movieapp.navigation
+package com.space.movieapp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
