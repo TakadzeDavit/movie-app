@@ -20,6 +20,9 @@ android {
 }
 
 dependencies {
+    // splash
+    implementation(libs.androidx.core.splashscreen)
+
     // tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
