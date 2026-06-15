@@ -14,10 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.space.movieapp.navigation.MovieNavigation
-import com.example.movieapp.ui.MainActivityViewModel
-import com.space.ui.theme.MovieAppTheme
-import com.space.common.navigation.Route
+import com.example.movieapp.navigation.MovieNavigation
+import com.example.ui.theme.MovieAppTheme
+import com.example.ui.theme.MovieTheme
 
 class MainActivity : ComponentActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
