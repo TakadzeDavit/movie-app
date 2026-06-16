@@ -7,8 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
-import com.example.ui.theme.MovieAppTheme
-import com.example.ui.theme.MovieTheme
+import com.space.ui.theme.MovieAppTheme
+import com.space.ui.theme.MovieTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
