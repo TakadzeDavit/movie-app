@@ -54,3 +54,8 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+movie-android-library = { id = "movieapp.android.library", version = "unspecified" }
+movie-android-compose = { id = "movieapp.android.compose", version = "unspecified" }
+movie-android-koin = { id = "movieapp.android.koin", version = "unspecified" }
+movie-android-network = { id = "movieapp.android.network", version = "unspecified" }
+movie-android-application = { id = "movieapp.android.application", version = "unspecified" }

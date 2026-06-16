@@ -1,8 +1,7 @@
-package com.example.common.base
+package com.space.common.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.network.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -32,30 +31,5 @@ abstract class BaseViewModel<State, Event ,SideEffect>(
         }
     }
 
-    open fun onEvent(event: Event) = Unit
-
-    protected fun <T : Any> handleResponse(
-        apiCall: suspend () -> Flow<Resource<T>>,
-        onSuccess: (T) -> Unit,
-        onError: ((String) -> Unit)? = null,
-        onLoading: (Resource.Loading) -> Unit,
-    ) {
-        viewModelScope.launch {
-            apiCall.invoke().collect { resource ->
-                when (resource) {
-                    is Resource.Error -> {
-                        onError?.invoke(resource.message)
-                    }
-
-                    is Resource.Loading -> {
-                        onLoading.invoke(resource)
-                    }
-
-                    is Resource.Success -> {
-                        onSuccess.invoke(resource.data)
-                    }
-                }
-            }
-        }
-    }
+    abstract fun onEvent(event: Event)
 }

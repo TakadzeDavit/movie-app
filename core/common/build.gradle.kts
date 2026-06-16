@@ -1,8 +1,8 @@
 plugins {
-    id("movieapp.android.library")
-    id("movieapp.android.compose")
-    id("movieapp.android.koin")
-    id("movieapp.android.network")
+    alias(libs.plugins.movie.android.library)
+    alias(libs.plugins.movie.android.compose)
+    alias(libs.plugins.movie.android.koin)
+    alias(libs.plugins.movie.android.network)
 }
 
 android {
