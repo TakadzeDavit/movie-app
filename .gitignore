@@ -1,15 +1,19 @@
 *.iml
 .gradle
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+local.properties
+
+# Android Studio configuration files
+.idea/
+/.idea/
+
 .DS_Store
-/build
 /captures
 .externalNativeBuild
 .cxx
-local.properties
+
+# Build directories
+build/
+**/build/
+build-logic/convention/build/
+build-logic/.gradle/
