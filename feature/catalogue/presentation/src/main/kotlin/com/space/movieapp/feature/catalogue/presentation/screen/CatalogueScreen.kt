@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.ui.theme.MovieTheme
+import com.space.ui.theme.MovieTheme
 
 @Composable
 fun CatalogueScreen() {

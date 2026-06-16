@@ -62,3 +62,4 @@ movie-android-compose = { id = "movieapp.android.compose", version = "unspecifie
 movie-android-koin = { id = "movieapp.android.koin", version = "unspecified" }
 movie-android-network = { id = "movieapp.android.network", version = "unspecified" }
 movie-android-application = { id = "movieapp.android.application", version = "unspecified" }
+movie-android-feature = { id = "movieapp.android.feature", version = "unspecified" }
