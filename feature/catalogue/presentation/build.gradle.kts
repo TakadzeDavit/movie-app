@@ -1,5 +1,5 @@
 plugins {
-    id("movieapp.android.feature")
+    alias(libs.plugins.movie.android.feature)
 }
 
 android {

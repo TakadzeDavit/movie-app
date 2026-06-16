@@ -1,7 +1,7 @@
 plugins {
-    id("movieapp.android.application")
-    id("movieapp.android.compose")
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.movie.android.application)
+    alias(libs.plugins.movie.android.compose)
 }
 android {
     namespace = "com.example.movieapp"
