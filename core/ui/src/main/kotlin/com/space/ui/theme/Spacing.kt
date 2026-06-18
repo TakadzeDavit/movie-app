@@ -3,18 +3,12 @@ package com.space.ui.theme
 import androidx.compose.ui.unit.dp
 
 object Spacing {
-    val spacing2 = 2.dp
-    val spacing4 = 4.dp
-    val spacing8 = 8.dp
-    val spacing12 = 12.dp
-    val spacing14 = 14.dp
-    val spacing16 = 16.dp
-    val spacing22 = 22.dp
-    val spacing26 = 26.dp
-    val spacing32 = 32.dp
-    val spacing42 = 42.dp
-    val spacing48 = 48.dp
-    val spacing56 = 56.dp
-    val spacing64 = 64.dp
-    val spacing124 = 124.dp
+    val spacing02 = Dimensions.dimension02
+    val spacing04 = Dimensions.dimension04
+    val spacing08 = Dimensions.dimension08
+    val spacing12 = Dimensions.dimension12
+    val spacing16 = Dimensions.dimension16
+    val spacing24 = Dimensions.dimension24
+    val spacing48 = Dimensions.dimension48
+    val spacing64 = Dimensions.dimension64
 }
