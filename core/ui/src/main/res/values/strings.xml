@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cancel">Cancel</string>
+    <string name="search">Search</string>
+
+    <!-- Genre -->
+    <string name="comedy">Comedy</string>
+    <string name="drama">Drama</string>
+    <string name="romance">Romance</string>
+    <string name="horror">Horror</string>
+    <string name="science_fiction">Science Fiction</string>
+</resources>

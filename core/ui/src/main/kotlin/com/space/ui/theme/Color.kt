@@ -15,13 +15,13 @@ val Neutral08Whisper = Color(0xFFEAEAEA)
 
 data class MovieAppColors(
     val primary: Color,
+    val primaryText: Color,
     val background: Color,
     val surface: Color,
     val onPrimary: Color,
     val onBackground: Color,
     val onSurface: Color,
     val textSecondary: Color,
-    val textTertiary: Color,
     val textHint: Color,
     val border: Color
 )
@@ -33,10 +33,10 @@ val DarkMovieColors = MovieAppColors(
     onPrimary = Neutral01Black,
     onBackground = Neutral08Whisper,
     onSurface = Neutral07LightestGrey,
-    textSecondary = Neutral06LighterGrey,
-    textTertiary = Neutral04Grey,
+    textSecondary = Neutral04Grey,
     textHint = Neutral05LightGrey,
-    border = Neutral03DarkGrey
+    border = Neutral03DarkGrey,
+    primaryText = Neutral06LighterGrey
 )
 
 val LocalMovieColors = staticCompositionLocalOf<MovieAppColors> {
