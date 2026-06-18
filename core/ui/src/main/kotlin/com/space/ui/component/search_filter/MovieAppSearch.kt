@@ -113,7 +113,7 @@ fun MovieAppSearch(
                             modifier = Modifier.size(20.dp)
                         )
 
-                        Spacer(modifier = Modifier.width(Spacing.spacing8))
+                        Spacer(modifier = Modifier.width(Spacing.spacing08))
 
                         Box(modifier = Modifier.weight(1f)) {
                             if (searchQuery.isEmpty()) {
@@ -171,7 +171,7 @@ fun MovieAppSearch(
                 Spacer(modifier = Modifier.height(Spacing.spacing12))
 
                 LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.spacing8),
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.spacing08),
                     contentPadding = PaddingValues(horizontal = Spacing.spacing16)
                 ) {
                     itemsIndexed(
