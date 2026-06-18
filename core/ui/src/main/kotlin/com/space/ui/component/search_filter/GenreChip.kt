@@ -13,12 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.space.movieapp.core.model.Genre
 import com.space.ui.theme.MovieTheme
 
 @Composable
 fun GenreChip(
-    genre: Genre,
+    title: String,
     isSelected: Boolean,
     onChipClick: () -> Unit
 ) {
@@ -38,7 +37,7 @@ fun GenreChip(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = genre.toDisplayString(),
+                text = title,
                 color = if (isSelected) colors.onPrimary else colors.primaryText,
                 style = typography.bodyMedium
             )

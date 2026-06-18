@@ -17,7 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -41,7 +41,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.space.movieapp.core.model.Genre
 import com.space.movieapp.core.ui.R
 import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Spacing
@@ -52,9 +51,9 @@ fun MovieAppSearch(
     onSearchQueryChange: (String) -> Unit,
     onFilterClick: () -> Unit,
     areFiltersExpanded: Boolean,
-    genreList: List<Genre>,
-    onGenreSelected: (Genre) -> Unit,
-    activeGenre: Genre?,
+    filterOptions: List<String>,
+    selectedOptionIndex: Int?,
+    onOptionSelected: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val colors = MovieTheme.colors
@@ -175,12 +174,17 @@ fun MovieAppSearch(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.spacing8),
                     contentPadding = PaddingValues(horizontal = Spacing.spacing16)
                 ) {
-                    items(items = genreList, key = { it.name }) { genre ->
-                        val isSelected = genre == activeGenre
+                    itemsIndexed(
+                        items = filterOptions,
+                        key = { index, optionTitle -> optionTitle }
+                    ) { index, optionTitle ->
+                        val isSelected = index == selectedOptionIndex
+
                         GenreChip(
-                            genre = genre,
+                            title = optionTitle,
                             isSelected = isSelected,
-                            onChipClick = { onGenreSelected(genre) })
+                            onChipClick = { onOptionSelected(index) }
+                        )
                     }
                 }
             }
