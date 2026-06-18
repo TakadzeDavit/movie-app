@@ -24,20 +24,20 @@ val MovieTypography = MovieAppTypography(
     titleLarge = TextStyle(
         fontFamily = MontserratFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
-        lineHeight = 26.sp
+        fontSize = TextSizing.size20,
+        lineHeight = TextSizing.size26
     ),
     titleMedium = TextStyle(
         fontFamily = MontserratFontFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 16.sp,
-        lineHeight = 21.sp
+        fontSize = TextSizing.size16,
+        lineHeight = TextSizing.size20
     ),
     bodyMedium = TextStyle(
         fontFamily = MontserratFontFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        lineHeight = 18.sp
+        fontSize = TextSizing.size14,
+        lineHeight = TextSizing.size18
     ),
 )
 
