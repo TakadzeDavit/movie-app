@@ -18,6 +18,7 @@ lifecycleViewModel = "2.8.7"
 navigationCompose = "2.9.6"
 coreSplashscreen = "1.2.0"
 jetbrainsKotlinJvm = "2.2.21"
+coil = "2.7.0"
 
 [libraries]
 kotlin-serialization-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
@@ -53,6 +54,9 @@ androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifec
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleViewModel" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -68,3 +72,11 @@ movie-android-application = { id = "movieapp.android.application", version = "un
 movie-android-feature = { id = "movieapp.android.feature", version = "unspecified" }
 movieapp-jvm-library = { id = "movieapp.jvm.library", version = "unspecified" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+
+[bundles]
+
+coil = [
+    "coil",
+    "coil-svg",
+    "coil-compose"
+]

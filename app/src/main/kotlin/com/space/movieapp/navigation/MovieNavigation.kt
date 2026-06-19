@@ -13,7 +13,6 @@ fun MovieNavigation(
     startDestination: Route,
     modifier: Modifier
 ) {
-
     NavHost(
         modifier = modifier,
         startDestination = startDestination,

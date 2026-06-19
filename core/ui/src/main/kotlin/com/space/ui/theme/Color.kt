@@ -31,12 +31,12 @@ val DarkMovieColors = MovieAppColors(
     background = Neutral01Black,
     surface = Neutral02DarkestGrey,
     onPrimary = Neutral01Black,
-    onBackground = Neutral08Whisper,
+    onBackground = Neutral06LighterGrey,
     onSurface = Neutral07LightestGrey,
     textSecondary = Neutral04Grey,
     textHint = Neutral05LightGrey,
     border = Neutral03DarkGrey,
-    primaryText = Neutral06LighterGrey
+    primaryText = Neutral08Whisper
 )
 
 val LocalMovieColors = staticCompositionLocalOf<MovieAppColors> {

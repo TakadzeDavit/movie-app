@@ -1,4 +1,4 @@
-package com.space.ui.component.search_filter
+package com.space.ui.component.searchAndFilter
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -40,9 +40,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
 import com.space.movieapp.core.ui.R
 import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 
 @Composable
@@ -72,13 +72,13 @@ fun MovieAppSearch(
         modifier = modifier
             .fillMaxWidth()
             .background(colors.background)
-            .padding(vertical = 8.dp)
+            .padding(vertical = Spacing.spacing08)
     ) {
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = Spacing.spacing16),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -88,7 +88,7 @@ fun MovieAppSearch(
                 onValueChange = onSearchQueryChange,
                 modifier = Modifier
                     .weight(1f)
-                    .height(48.dp)
+                    .height(Sizing.size48)
                     .onFocusChanged { focusState ->
                         isSearchFieldFocused = focusState.isFocused
                     },
@@ -103,14 +103,14 @@ fun MovieAppSearch(
                             .fillMaxWidth()
                             .clip(CircleShape)
                             .background(colors.surface)
-                            .padding(horizontal = 16.dp),
+                            .padding(horizontal = Spacing.spacing16),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.icon_search),
                             contentDescription = "Search Icon",
                             tint = colors.textHint,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(Sizing.size22)
                         )
 
                         Spacer(modifier = Modifier.width(Spacing.spacing08))
@@ -140,17 +140,21 @@ fun MovieAppSearch(
                             onSearchQueryChange("")
                             focusManager.clearFocus()
                         }
-                        .padding(horizontal = 4.dp, vertical = 8.dp))
+                        .padding(
+                            horizontal = Spacing.spacing04,
+                            vertical = Spacing.spacing08
+                        ))
             } else {
                 Box(
                     modifier = Modifier
-                        .size(48.dp)
+                        .size(Sizing.size48)
                         .clip(CircleShape)
                         .background(colors.background),
                     contentAlignment = Alignment.Center
                 ) {
                     IconButton(
-                        onClick = onFilterClick, modifier = Modifier.size(36.dp)
+                        onClick = onFilterClick,
+                        modifier = Modifier.size(Sizing.size36)
                     ) {
                         Icon(
                             painter = painterResource(filterIconAsset),

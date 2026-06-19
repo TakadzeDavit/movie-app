@@ -16,6 +16,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", project(":core:navigation"))
                 add("implementation", libs.findLibrary("androidx-lifecycle-viewmodel-ktx").get())
                 add("implementation", libs.findLibrary("androidx-lifecycle-viewmodel-compose").get())
+                add("implementation", libs.findBundle("coil").get())
                 add("compileOnly", libs.findLibrary("androidx-navigation-compose").get())
             }
         }
