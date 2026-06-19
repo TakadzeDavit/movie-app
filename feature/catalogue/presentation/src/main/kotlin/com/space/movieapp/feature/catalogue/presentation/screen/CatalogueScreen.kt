@@ -45,24 +45,7 @@ fun CatalogueScreen() {
             .fillMaxSize()
             .background(MovieTheme.colors.background)
             .padding(horizontal = 20.dp)
-    ) {
-        Spacer(modifier = Modifier.height(20.dp))
-
-        var isFavorite by remember { mutableStateOf(true) }
-
-
-        MovieCatalogueCard(
-            imgUrl = "",
-            genre = "Comedy",
-            title = "დმსალკდმსალკდამსდლკსამლდკსამდლკსამკლ",
-            isFavorite = isFavorite,
-            year = "211",
-            onFavoriteClick = {
-                isFavorite = !isFavorite
-            }
-        )
-
-    }
+    ) {}
 }
 
 

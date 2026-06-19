@@ -30,6 +30,22 @@ import com.space.ui.theme.Radius
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 
+/**
+ * A composable component that represents a movie card in the catalogue list.
+ * Displays the movie's poster, genre badge, title, release year, and a favorite toggle button.
+ *
+ * This component is optimized for grid grids and automatically handles long titles
+ * by truncating them with an ellipsis.
+ *
+ * @param modifier The [Modifier] to be applied to the outer [Column] layout.
+ * @param imgUrl The remote URL of the movie poster image to be loaded via Coil.
+ * @param genre The text to be displayed inside the [GenreBadge] (e.g., "Action").
+ * @param title The title of the movie. Truncated to a single line if too long.
+ * @param isFavorite Indicates whether the movie is marked as a favorite, changing the icon state.
+ * @param year The release year of the movie (e.g., "2024").
+ * @param onFavoriteClick Callback lambda to be invoked when the favorite icon button is clicked.
+ */
+
 @Composable
 fun MovieCatalogueCard(
     modifier: Modifier = Modifier,
@@ -46,7 +62,7 @@ fun MovieCatalogueCard(
     Column(
         modifier = modifier.width(Sizing.size162)
     ) {
-        // card and genre together
+        // Card and genre badge together
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -74,7 +90,7 @@ fun MovieCatalogueCard(
 
         Spacer(modifier = Modifier.height(Spacing.spacing04))
 
-        // title and favorite button
+        // Title and favorite button
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -103,7 +119,7 @@ fun MovieCatalogueCard(
             }
         }
 
-        // year
+        // Year
         Text(
             text = year,
             style = typography.labelMedium,

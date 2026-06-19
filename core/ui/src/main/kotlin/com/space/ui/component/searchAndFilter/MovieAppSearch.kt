@@ -45,6 +45,28 @@ import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 
+/**
+ * A highly interactive search bar component tailored for the movie application.
+ *
+ * This component features a [BasicTextField] styled with a custom decoration box,
+ * dynamic search focus behavior (hiding the filter button and showing a "Cancel" button
+ * when active), and an expandable horizontal list ([LazyRow]) of filter chips.
+ *
+ * ### Key Features:
+ * * Automatically clears keyboard focus when the user presses the 'Search' IME action.
+ * * Toggles the filter icon asset state based on whether the filters are expanded.
+ * * Uses [AnimatedVisibility] to smoothly fade filter options in and out.
+ *
+ * @param searchQuery The current text query typed in the search field.
+ * @param onSearchQueryChange Callback lambda invoked when the input text changes.
+ * @param onFilterClick Callback lambda invoked when the filter toggle button is clicked.
+ * @param areFiltersExpanded Controls the visibility state of the expandable filter chip section.
+ * @param filterOptions A list of strings representing the titles of available filter choices (genres).
+ * @param selectedOptionIndex The index of the currently active filter option, or null if none is selected.
+ * @param onOptionSelected Callback lambda invoked when a specific filter chip is clicked, passing its index.
+ * @param modifier The [Modifier] to be applied to the outermost container layout ([Column]).
+ */
+
 @Composable
 fun MovieAppSearch(
     searchQuery: String,
