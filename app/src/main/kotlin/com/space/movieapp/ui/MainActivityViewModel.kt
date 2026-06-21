@@ -14,7 +14,7 @@ class MainActivityViewModel : ViewModel() {
     private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val loading = _isLoading.asStateFlow()
 
-    private val _startDestination: MutableStateFlow<Route> = MutableStateFlow(Route.Catalogue)
+    private val _startDestination: MutableStateFlow<Route> = MutableStateFlow(Route.Home)
     val startDestination = _startDestination.asStateFlow()
 
     init {

@@ -13,9 +13,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.space.movieapp.core.navigation.Route
-import com.space.movieapp.navigation.MovieNavigation
+import com.space.movieapp.navigation.bottomNavigation.MovieBottomBar
+import com.space.movieapp.navigation.navHost.MovieNavigation
 import com.space.ui.theme.MovieAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -50,7 +54,32 @@ private fun MainScreen(
 ) {
     val navController = rememberNavController()
 
-    Scaffold() { paddingValues ->
+    // Bottom navigation, current route
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.let { destination ->
+        when {
+            destination.hasRoute(Route.Home::class) -> Route.Home
+            destination.hasRoute(Route.Favorites::class) -> Route.Favorites
+            else -> null
+        }
+    }
+
+    Scaffold(
+        bottomBar = {
+            MovieBottomBar(
+                currentRoute = currentRoute,
+                onNavigate = { route ->
+                    navController.navigate(route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
         MovieNavigation(
             navController = navController,
             startDestination = startDestination,

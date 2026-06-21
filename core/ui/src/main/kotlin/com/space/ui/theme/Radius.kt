@@ -5,4 +5,5 @@ import androidx.compose.ui.unit.dp
 
 object Radius {
     val radius16 = RoundedCornerShape(Dimensions.dimension16)
+    val radius08 = RoundedCornerShape(Dimensions.dimension08)
 }

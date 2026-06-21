@@ -3,7 +3,7 @@ package com.space.common.extension
 import com.space.common.network.ApiResult
 import kotlinx.coroutines.flow.Flow
 
-suspend fun <T : Any> Flow<ApiResult<T>>.handleResource(
+suspend fun <T : Any> Flow<ApiResult<T>>.handleApiResult(
     onSuccess: (T) -> Unit,
     onError: (String) -> Unit = {},
     onLoading: () -> Unit = {},

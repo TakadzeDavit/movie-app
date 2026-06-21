@@ -4,10 +4,10 @@ plugins {
     alias(libs.plugins.movie.android.compose)
 }
 android {
-    namespace = "com.example.movieapp"
+    namespace = "com.space.movieapp"
 
     defaultConfig {
-        applicationId = "com.example.movieapp"
+        applicationId = "com.space.movieapp"
     }
 }
 
@@ -27,5 +27,6 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
     implementation(project(":core:navigation"))
-    implementation(project(":feature:catalogue:presentation"))
+    implementation(project(":feature:home:presentation"))
+    implementation(project(":feature:favorites:presentation"))
 }
