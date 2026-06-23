@@ -19,7 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.space.movieapp.core.navigation.Route
 import com.space.movieapp.navigation.bottomNavigation.MovieBottomBar
-import com.space.movieapp.navigation.navHost.MovieNavigation
+import com.space.movieapp.navigation.navhost.MovieNavigation
 import com.space.ui.theme.MovieAppTheme
 
 class MainActivity : ComponentActivity() {
