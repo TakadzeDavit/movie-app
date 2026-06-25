@@ -32,10 +32,14 @@ include(":app")
 fun includeAllModules(vararg groupDirs: String) {
     val rootDir = settings.rootDir
     groupDirs.forEach { group ->
-        File(rootDir, group).listFiles()?.filter { it.isDirectory }?.forEach {
-            include(":$group:${it.name}")
-        }
+        File(rootDir, group).walkTopDown()
+            .filter { it.isDirectory && File(it, "build.gradle.kts").exists() }
+            .forEach {
+                val relativePath = it.relativeTo(rootDir).path.replace(File.separator, ":")
+                include(":$relativePath")
+            }
     }
 }
 
 includeAllModules("core", "feature")
+include(":core:navigation")

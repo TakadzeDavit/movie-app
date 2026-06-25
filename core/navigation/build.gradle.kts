@@ -1,13 +1,12 @@
 plugins {
     alias(libs.plugins.movie.android.library)
-    alias(libs.plugins.movie.android.compose)
-    alias(libs.plugins.movie.android.koin)
     alias(libs.plugins.movie.android.network)
     alias(libs.plugins.kotlin.serialization)
 }
 
+
 android {
-    namespace = "com.example.common"
+    namespace = "com.space.movieapp.core.navigation"
 }
 
 dependencies {
