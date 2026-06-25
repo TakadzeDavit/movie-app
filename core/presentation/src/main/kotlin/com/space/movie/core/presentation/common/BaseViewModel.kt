@@ -1,4 +1,4 @@
-package com.space.movie.core.presentation.base
+package com.space.movie.core.presentation.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,10 +12,13 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-interface UIEvent //
-interface UISideEffect
+interface UiEvent
+interface UiSideEffect
+interface UiState
 
-abstract class BaseViewModel<State, Event : UIEvent ,SideEffect : UISideEffect>(
+object EmptySideEffect : UiSideEffect
+
+abstract class BaseViewModel<State: UiState, Event : UiEvent ,SideEffect : UiSideEffect>(
     initialState: State
 ) : ViewModel() {
     private val _state = MutableStateFlow(initialState)
@@ -25,7 +28,9 @@ abstract class BaseViewModel<State, Event : UIEvent ,SideEffect : UISideEffect>(
     val sideEffect: Flow<SideEffect> by lazy { _sideEffect.receiveAsFlow() }
 
     fun updateState(update: State.() -> State) {
-        _state.update(update)
+        _state.update { currentState ->
+            currentState.update()
+        }
     }
 
     protected fun emitSideEffect(sideEffect: SideEffect) {

@@ -19,6 +19,7 @@ data class MovieAppTypography(
     val titleLarge: TextStyle,
     val titleMedium: TextStyle,
     val bodyMedium: TextStyle,
+    val headlineSmall: TextStyle
 )
 
 val MovieTypography = MovieAppTypography(
@@ -52,6 +53,12 @@ val MovieTypography = MovieAppTypography(
         fontSize = TextSizing.size14,
         lineHeight = TextSizing.size18
     ),
+    headlineSmall = TextStyle(
+        fontFamily = MontserratFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = TextSizing.size18,
+        lineHeight = TextSizing.size18
+    )
 )
 
 val LocalMovieTypography = staticCompositionLocalOf<MovieAppTypography> {
