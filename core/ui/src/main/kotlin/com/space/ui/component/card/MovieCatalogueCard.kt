@@ -114,7 +114,7 @@ fun MovieCatalogueCard(
                         R.drawable.icon_favorite
                     ),
                     tint = colors.primary,
-                    contentDescription = "Favorite"
+                    contentDescription = null
                 )
             }
         }

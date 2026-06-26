@@ -32,13 +32,13 @@ fun ErrorScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 64.dp),
+            .padding(horizontal = Spacing.spacing64),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
             painter = painterResource(R.drawable.icon_error),
-            contentDescription = "Error icon",
+            contentDescription = null,
             tint = Color.Unspecified
         )
 
@@ -60,7 +60,7 @@ fun ErrorScreen(
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(110.dp))
+        Spacer(modifier = Modifier.height(Spacing.spacing110))
 
         ButtonRefresh(text = "Refresh", iconRes = R.drawable.icon_refresh, onClick = onRefreshClick)
     }
