@@ -7,8 +7,10 @@ import kotlinx.serialization.Serializable
 class PopularMovieDto(
     val id: Int,
     val title: String,
-    val overview: String,
-    @SerialName("poster_path") val posterPath: String? = null,
-    @SerialName("vote_average") val voteAverage: Double,
-    @SerialName("release_date") val releaseDate: String,
+    @SerialName("genre_ids")
+    val genreIds: List<Int>,
+    @SerialName("poster_path")
+    val posterPath: String? = null,
+    @SerialName("release_date")
+    val releaseDate: String,
 )

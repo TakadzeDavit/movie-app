@@ -6,6 +6,7 @@ import com.space.movie.feature.home.data.di.homeDataMapperModule
 import com.space.movie.feature.home.data.di.repositoryModule
 import com.space.movieapp.core.network.di.networkModule
 import com.space.movieapp.core.network.di.responseHandlerModule
+import com.space.movieapp.feature.home.presentation.di.homeUiModule
 import com.space.movieapp.feature.home.presentation.di.useCaseModule
 import com.space.movieapp.feature.home.presentation.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -19,6 +20,7 @@ class MovieApp : Application() {
             androidContext(this@MovieApp)
 
             modules (
+                homeUiModule,
                 homeDataMapperModule,
                 responseHandlerModule,
                 networkModule,

@@ -5,15 +5,15 @@ import com.space.movie.core.presentation.common.BaseViewModel
 import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.common.EmptySideEffect
 import com.space.movie.core.presentation.extension.handleApiResult
-import com.space.movie.feature.home.domain.model.PopularMovie
 import com.space.movie.feature.home.domain.usecase.GetPopularMoviesUseCase
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent
 import com.space.movieapp.feature.home.presentation.contract.HomeState
-import com.space.movieapp.feature.home.presentation.mapper.toPresentation
+import com.space.movieapp.feature.home.presentation.mapper.PopularMovieUiMapper
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val getPopularMoviesUseCase: GetPopularMoviesUseCase
+    private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
+    private val popularMovieUiMapper: PopularMovieUiMapper
 ) : BaseViewModel<HomeState, HomeEvent, EmptySideEffect>(HomeState()) {
 
     init {
@@ -33,7 +33,7 @@ class HomeViewModel(
 
             getPopularMoviesUseCase.invoke().handleApiResult(
                 onSuccess = { movies ->
-                    val mappedMovies = movies.results.map(PopularMovie::toPresentation)
+                    val mappedMovies = movies.results.map(popularMovieUiMapper::map)
 
                     updateState { copy(screenDataState = DataState.Success(mappedMovies)) }
                 },

@@ -70,7 +70,7 @@ private fun HomeContent(
                 // Also hardcoded parameters for testing
                 MovieCatalogueCard(
                     imgUrl = if (!movie.posterPath.isNullOrEmpty()) "https://image.tmdb.org/t/p/w500${movie.posterPath}" else "",
-                    genre = "test",
+                    genre = "${movie.genreId}",
                     title = movie.title,
                     isFavorite = movie.isFavorite,
                     year = movie.releaseDate,

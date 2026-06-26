@@ -4,8 +4,7 @@ data class PopularMovieUI(
     val id: Int,
     val title: String,
     val posterPath: String? = null,
-    val overview: String,
-    val voteAverage: Double,
     val releaseDate: String,
+    val genreId: Int,
     val isFavorite: Boolean = false
 )
