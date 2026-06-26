@@ -1,6 +1,6 @@
 package com.space.movie.core.presentation.extension
 
-import com.space.common.ApiResult
+import com.space.common.api_result.ApiResult
 import kotlinx.coroutines.flow.Flow
 
 suspend fun <T : Any> Flow<ApiResult<T>>.handleApiResult(

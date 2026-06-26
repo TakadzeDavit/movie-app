@@ -1,6 +1,6 @@
 package com.space.movieapp.core.network.apicall
 
-import com.space.common.ApiResult
+import com.space.common.api_result.ApiResult
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.Response

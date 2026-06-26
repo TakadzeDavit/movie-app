@@ -1,4 +1,4 @@
-package com.space.common
+package com.space.common.api_result
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

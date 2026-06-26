@@ -2,6 +2,7 @@ package com.space.movieapp
 
 import android.app.Application
 import com.space.movie.feature.home.data.di.apiServiceModule
+import com.space.movie.feature.home.data.di.homeDataMapperModule
 import com.space.movie.feature.home.data.di.repositoryModule
 import com.space.movieapp.core.network.di.networkModule
 import com.space.movieapp.core.network.di.responseHandlerModule
@@ -18,6 +19,7 @@ class MovieApp : Application() {
             androidContext(this@MovieApp)
 
             modules (
+                homeDataMapperModule,
                 responseHandlerModule,
                 networkModule,
                 apiServiceModule,
