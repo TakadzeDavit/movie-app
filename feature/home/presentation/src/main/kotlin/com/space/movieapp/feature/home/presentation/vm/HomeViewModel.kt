@@ -37,8 +37,15 @@ class HomeViewModel(
 
                     updateState { copy(screenDataState = DataState.Success(mappedMovies)) }
                 },
-                onError = { message ->
-                    updateState { copy(screenDataState = DataState.Error(message)) }
+                onError = { networkError, message ->
+                    updateState {
+                        copy(
+                            screenDataState = DataState.Error(
+                                errorType = networkError,
+                                message = message
+                            )
+                        )
+                    }
                 }
             )
         }

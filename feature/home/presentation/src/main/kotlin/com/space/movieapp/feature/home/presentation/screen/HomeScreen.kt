@@ -9,10 +9,14 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.space.common.api_result.NetworkError
 import com.space.movie.core.presentation.common.DataState
+import com.space.movie.core.presentation.common.getErrorStrings
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent
 import com.space.movieapp.feature.home.presentation.model.PopularMovieUI
 import com.space.movieapp.feature.home.presentation.vm.HomeViewModel
@@ -41,10 +45,11 @@ fun HomeScreen(
         }
 
         is DataState.Error -> {
-            // These strings are hardcoded for testing purposes
+            val (title, description) = getErrorStrings(dataState.errorType)
+
             ErrorScreen(
-                title = "Data can’t be loaded",
-                description = "internet connection or some other server error",
+                title = stringResource(title),
+                description = stringResource(description),
                 onRefreshClick = {
                     viewModel.onEvent(HomeEvent.GetPopularMovies)
                 }

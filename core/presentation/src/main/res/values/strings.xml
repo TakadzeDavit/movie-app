@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_can_t_be_loaded">Data can’t be loaded</string>
+    <string name="internet_connection_or_some_other_server_error">internet connection or some other server error</string>
+
+    <string name="error_unauthorized_title">Authentication Required</string>
+    <string name="error_unauthorized_desc">Your session has expired. Please log in again to continue.</string>
+
+    <string name="error_not_found_title">Page Not Found</string>
+    <string name="error_not_found_desc">The requested information is currently unavailable or has been removed.</string>
+
+    <string name="error_server_error_title">System Error</string>
+    <string name="error_server_error_desc">An error occurred on the server. Our team is already working to fix it.</string>
+
+    <string name="error_empty_response_title">No Data Available</string>
+    <string name="error_empty_response_desc">There is currently no content to display in this section.</string>
+
+    <string name="error_unknown_title">Unknown Error</string>
+    <string name="error_unknown_desc">Something went wrong. Please try again later or contact support.</string>
+</resources>
