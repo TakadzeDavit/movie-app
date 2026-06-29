@@ -15,36 +15,36 @@ fun getErrorStrings(errorType: NetworkError): ErrorUiModel {
 
         NetworkError.UNAUTHORIZED -> {
             ErrorUiModel(
-                title = R.string.error_unauthorized_title,
-                description = R.string.error_unauthorized_desc
+                titleResId = R.string.error_unauthorized_title,
+                descriptionResId = R.string.error_unauthorized_desc
             )
         }
 
         NetworkError.NOT_FOUND -> {
             ErrorUiModel(
-                title = R.string.error_not_found_title,
-                description = R.string.error_not_found_desc
+                titleResId = R.string.error_not_found_title,
+                descriptionResId = R.string.error_not_found_desc
             )
         }
 
         NetworkError.SERVER_ERROR -> {
             ErrorUiModel(
-                title = R.string.error_server_error_title,
-                description = R.string.error_server_error_desc
+                titleResId = R.string.error_server_error_title,
+                descriptionResId = R.string.error_server_error_desc
             )
         }
 
         NetworkError.EMPTY_RESPONSE -> {
             ErrorUiModel(
-                title = R.string.error_empty_response_title,
-                description = R.string.error_empty_response_desc
+                titleResId = R.string.error_empty_response_title,
+                descriptionResId = R.string.error_empty_response_desc
             )
         }
 
         NetworkError.UNKNOWN -> {
             ErrorUiModel(
-                title = R.string.error_unknown_title,
-                description = R.string.error_unknown_desc
+                titleResId = R.string.error_unknown_title,
+                descriptionResId = R.string.error_unknown_desc
             )
         }
     }

@@ -7,6 +7,7 @@ import com.space.common.exception.PagingException
 import com.space.movie.feature.home.data.mapper.PopularMovieDtoMapper
 import com.space.movie.feature.home.data.remote.apiservice.PopularMoviesApiService
 import com.space.movie.feature.home.domain.model.PopularMovie
+import com.space.movieapp.core.network.extension.toNetworkError
 import java.io.IOException
 
 class PopularMoviesPagingSource(
@@ -27,20 +28,12 @@ class PopularMoviesPagingSource(
                 val nextKey = if (domainMovies.isEmpty()) null else pageNumber + 1
 
                 LoadResult.Page(
-                    data = domainMovies,
-                    prevKey = prevKey,
-                    nextKey = nextKey
+                    data = domainMovies, prevKey = prevKey, nextKey = nextKey
                 )
             } else {
-                val errorType = when (response.code()) {
-                    401 -> NetworkError.UNAUTHORIZED
-                    404 -> NetworkError.NOT_FOUND
-                    500 -> NetworkError.SERVER_ERROR
-                    else -> NetworkError.UNKNOWN
-                }
                 LoadResult.Error(
                     PagingException(
-                        errorType = errorType,
+                        errorType = response.toNetworkError(),
                         message = response.errorBody()?.string()
                     )
                 )
@@ -53,11 +46,9 @@ class PopularMoviesPagingSource(
 
             LoadResult.Error(
                 PagingException(
-                    errorType = errorType,
-                    message = e.message
+                    errorType = errorType, message = e.message
                 )
             )
-
         }
     }
 

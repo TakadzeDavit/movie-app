@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 
 data class ErrorUiModel(
     @param:StringRes
-    val title: Int,
+    val titleResId: Int,
     @param:StringRes
-    val description: Int
+    val descriptionResId: Int
 )
