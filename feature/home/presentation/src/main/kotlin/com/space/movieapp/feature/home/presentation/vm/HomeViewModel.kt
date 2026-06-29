@@ -1,23 +1,27 @@
 package com.space.movieapp.feature.home.presentation.vm
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.map
+import com.space.common.network.NetworkObserver
 import com.space.movie.core.presentation.common.BaseViewModel
-import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.common.EmptySideEffect
-import com.space.movie.core.presentation.extension.handleApiResult
 import com.space.movie.feature.home.domain.usecase.GetPopularMoviesUseCase
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent
 import com.space.movieapp.feature.home.presentation.contract.HomeState
 import com.space.movieapp.feature.home.presentation.mapper.PopularMovieUiMapper
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
-    private val popularMovieUiMapper: PopularMovieUiMapper
+    private val popularMovieUiMapper: PopularMovieUiMapper,
+    private val networkObserver: NetworkObserver
 ) : BaseViewModel<HomeState, HomeEvent, EmptySideEffect>(HomeState()) {
 
     init {
         getPopularMovies()
+        observeNetwork()
     }
 
     override fun onEvent(event: HomeEvent) {
@@ -27,40 +31,24 @@ class HomeViewModel(
         }
     }
 
-    private fun getPopularMovies() {
+    private fun observeNetwork() {
         viewModelScope.launch {
-            updateState { copy(screenDataState = DataState.Loading) }
-
-            getPopularMoviesUseCase.invoke().handleApiResult(
-                onSuccess = { movies ->
-                    val mappedMovies = movies.results.map(popularMovieUiMapper::map)
-
-                    updateState { copy(screenDataState = DataState.Success(mappedMovies)) }
-                },
-                onError = { networkError, message ->
-                    updateState {
-                        copy(
-                            screenDataState = DataState.Error(
-                                errorType = networkError,
-                                message = message
-                            )
-                        )
-                    }
-                }
-            )
+            networkObserver.isConnected.collect { connected ->
+                updateState { copy(isOnline = connected) }
+            }
         }
     }
 
-    private fun toggleFavorite(movieId: Int) {
-        val currentState = state.value.screenDataState as? DataState.Success ?: return
-
-        val updatedMovies = currentState.data.map { movie ->
-            if (movieId == movie.id) {
-                movie.copy(isFavorite = !movie.isFavorite)
-            } else {
-                movie
+    private fun getPopularMovies() {
+        val pagedMoviesFlow = getPopularMoviesUseCase.invoke()
+            .map { pagingData ->
+                pagingData.map(popularMovieUiMapper::map)
             }
-        }
-        updateState { copy(screenDataState = DataState.Success(updatedMovies)) }
+            .cachedIn(viewModelScope)
+
+        updateState { copy(moviesPagedData = pagedMoviesFlow) }
+    }
+
+    private fun toggleFavorite(movieId: Int) {
     }
 }

@@ -10,6 +10,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.paging.common)
+
+    // modules
     implementation(projects.core.network)
     implementation(projects.core.common)
     implementation(projects.feature.home.domain)
