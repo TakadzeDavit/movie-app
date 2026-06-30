@@ -39,6 +39,10 @@ class HomeViewModel(
         }
     }
 
+    private fun getGenres() {
+
+    }
+
     private fun getPopularMovies() {
         val pagedMoviesFlow = getPopularMoviesUseCase.invoke()
             .map { pagingData ->

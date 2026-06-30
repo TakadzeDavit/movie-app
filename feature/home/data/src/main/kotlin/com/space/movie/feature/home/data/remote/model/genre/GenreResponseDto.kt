@@ -1,0 +1,9 @@
+package com.space.movie.feature.home.data.remote.model.genre
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class GenreResponseDto(
+    val id : Int,
+    val name: String
+)

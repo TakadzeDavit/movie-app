@@ -1,4 +1,4 @@
-package com.space.movie.feature.home.data.remote.model
+package com.space.movie.feature.home.data.remote.model.movie
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
