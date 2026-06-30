@@ -4,11 +4,9 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ui"
+    namespace = "com.space.movieapp.core.ui"
 }
 
 dependencies {
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.junit)
+    implementation(projects.core.model)
 }

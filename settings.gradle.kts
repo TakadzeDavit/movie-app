@@ -42,4 +42,3 @@ fun includeAllModules(vararg groupDirs: String) {
 }
 
 includeAllModules("core", "feature")
-include(":core:navigation")

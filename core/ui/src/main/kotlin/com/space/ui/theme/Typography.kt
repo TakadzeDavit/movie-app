@@ -5,8 +5,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import com.example.ui.R
+import com.space.movieapp.core.ui.R
 
 val MontserratFontFamily = FontFamily(
     Font(resId = R.font.montserrat_medium, weight = FontWeight.Medium),
