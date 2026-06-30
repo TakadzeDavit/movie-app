@@ -10,12 +10,13 @@ import com.space.movieapp.feature.catalogue.presentation.navigation.catalogueNav
 @Composable
 fun MovieNavigation(
     navController: NavHostController,
+    startDestination: Route,
     modifier: Modifier
 ) {
 
     NavHost(
         modifier = modifier,
-        startDestination = Route.Catalogue,
+        startDestination = startDestination,
         navController = navController
     ) {
         catalogueNavGraph()
