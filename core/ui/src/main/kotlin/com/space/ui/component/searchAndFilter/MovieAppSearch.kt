@@ -70,13 +70,13 @@ import com.space.ui.theme.Spacing
 @Composable
 fun MovieAppSearch(
     searchQuery: String,
+    areFiltersExpanded: Boolean,
+    selectedOptionIndex: Int?,
+    filterOptions: List<String>,
+    modifier: Modifier = Modifier,
     onSearchQueryChange: (String) -> Unit,
     onFilterClick: () -> Unit,
-    areFiltersExpanded: Boolean,
-    filterOptions: List<String>,
-    selectedOptionIndex: Int?,
-    onOptionSelected: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    onOptionSelected: (Int) -> Unit
 ) {
     val colors = MovieTheme.colors
     val typography = MovieTheme.typography
@@ -130,7 +130,7 @@ fun MovieAppSearch(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.icon_search),
-                            contentDescription = "Search Icon",
+                            contentDescription = null,
                             tint = colors.textHint,
                             modifier = Modifier.size(Sizing.size22)
                         )
@@ -145,11 +145,9 @@ fun MovieAppSearch(
                                     style = typography.bodyMedium
                                 )
                             }
-
                             innerTextField()
                         }
                     }
-
                 })
 
             if (isSearchFieldFocused) {
@@ -181,7 +179,7 @@ fun MovieAppSearch(
                         Icon(
                             painter = painterResource(filterIconAsset),
                             tint = Color.Unspecified,
-                            contentDescription = "Filter"
+                            contentDescription = null
                         )
                     }
                 }
