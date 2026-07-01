@@ -6,4 +6,5 @@ data class PopularMovie (
     val genreIds: List<Int>,
     val posterPath: String? = null,
     val releaseDate: String,
+    val genre: String = ""
 )

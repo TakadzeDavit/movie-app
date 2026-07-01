@@ -32,16 +32,19 @@ fun GenreChip(
             .clickable { onChipClick() },
         shape = CircleShape,
         color = if (isSelected) colors.primary else Color.Transparent,
-        border = if (isSelected) null else BorderStroke(1.dp, colors.primaryText)
+        border = if (isSelected) null else BorderStroke(0.5.dp, colors.primaryText)
     ) {
         Box(
-            modifier = Modifier.padding(horizontal = Spacing.spacing18),
+            modifier = Modifier.padding(
+                horizontal = Spacing.spacing12,
+                vertical = Spacing.spacing04
+            ),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = title,
                 color = if (isSelected) colors.onPrimary else colors.primaryText,
-                style = typography.bodyMedium
+                style = typography.labelSmall
             )
         }
     }

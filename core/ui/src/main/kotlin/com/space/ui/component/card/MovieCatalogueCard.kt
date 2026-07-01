@@ -1,5 +1,7 @@
 package com.space.ui.component.card
 
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,11 +22,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
 import com.space.movieapp.core.ui.R
+import com.space.ui.component.shimmer.shimmerEffect
 import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Radius
 import com.space.ui.theme.Sizing
@@ -69,11 +75,26 @@ fun MovieCatalogueCard(
                 .aspectRatio(2f / 3f)
                 .clip(Radius.radius16)
         ) {
-            AsyncImage(
+            SubcomposeAsyncImage(
                 model = imgUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                loading = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .shimmerEffect()
+                    )
+                },
+                error = {
+                    Image(
+                        painter = painterResource(R.drawable.placeholder),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
             )
 
             // Genre

@@ -11,7 +11,7 @@ class PopularMovieUiMapper : BaseMapper<PopularMovie,PopularMovieUI > {
             title = title,
             posterPath = posterPath,
             releaseDate = releaseDate,
-            genreId = genreIds.firstOrNull() ?: -1,
+            genre = genre
         )
     }
 }

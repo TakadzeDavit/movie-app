@@ -6,28 +6,31 @@ import androidx.paging.PagingData
 import com.space.core.database.dao.GenreDao
 import com.space.movie.feature.home.data.mapper.PopularMovieDtoMapper
 import com.space.movie.feature.home.data.remote.apiservice.PopularMoviesApiService
-import com.space.movie.feature.home.data.remote.paging.movie.PopularMoviesPagingSource
+import com.space.movie.feature.home.data.remote.paging.search.SearchPagingSource
 import com.space.movie.feature.home.domain.model.PopularMovie
-import com.space.movie.feature.home.domain.repository.PopularMoviesRepository
+import com.space.movie.feature.home.domain.repository.SearchMoviesRepository
+import com.space.movieapp.core.network.apicall.ResponseHandler
 import kotlinx.coroutines.flow.Flow
 
-class PopularMoviesRepositoryImpl(
-    private val popularMoviesApi: PopularMoviesApiService,
+class SearchMoviesRepositoryImpl(
+    private val apiService: PopularMoviesApiService,
     private val popularMovieDtoMapper: PopularMovieDtoMapper,
     private val genreDao: GenreDao
-) : PopularMoviesRepository {
-    override fun getMovies(): Flow<PagingData<PopularMovie>> {
+) : SearchMoviesRepository {
+    override fun getMovies(query: String): Flow<PagingData<PopularMovie>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
                 prefetchDistance = 1,
+                initialLoadSize = 20,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
-                PopularMoviesPagingSource(
-                    popularMoviesApi = popularMoviesApi,
-                    popularMovieDtoMapper = popularMovieDtoMapper,
-                    genreDao = genreDao
+                SearchPagingSource(
+                    apiService = apiService,
+                    query = query,
+                    dtoMapper = popularMovieDtoMapper,
+                    genreDao = genreDao,
                 )
             }
         ).flow
