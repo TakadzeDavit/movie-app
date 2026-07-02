@@ -38,8 +38,8 @@ class HomeViewModel(
         .filter { it.genresLoaded }
         .map { Pair(it.searchQuery, it.selectedGenreId) }
         .distinctUntilChanged()
-        .debounce(300L.milliseconds)
-        .flatMapLatest { (query, _) ->
+        .debounce(500L.milliseconds)
+        .flatMapLatest { (query, ) ->
             when {
                 query.isNotBlank() -> searchMoviesUseCase(query)
                 else -> getPopularMoviesUseCase()

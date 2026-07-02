@@ -111,7 +111,7 @@ private fun HomeContent(
             onOptionSelected = {},
         )
 
-        when (val refreshState = lazyPagingItems.loadState.refresh) {
+        when (lazyPagingItems.loadState.refresh) {
             is LoadState.Loading -> {
                 Box(
                     modifier = Modifier

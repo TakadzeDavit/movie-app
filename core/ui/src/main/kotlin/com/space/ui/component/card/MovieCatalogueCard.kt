@@ -98,15 +98,17 @@ fun MovieCatalogueCard(
             )
 
             // Genre
-            GenreBadge(
-                text = genre,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(
-                        top = Spacing.spacing10,
-                        end = Spacing.spacing10
-                    )
-            )
+            if (genre.isNotEmpty()) {
+                GenreBadge(
+                    text = genre,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(
+                            top = Spacing.spacing10,
+                            end = Spacing.spacing10
+                        )
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(Spacing.spacing04))
