@@ -10,4 +10,6 @@
     <string name="horror">Horror</string>
     <string name="science_fiction">Science Fiction</string>
     <string name="no_internet_connection_you_are_offline">No internet connection. You are offline.</string>
+    <string name="no_results_found">No results found</string>
+    <string name="try_again_text">We couldn\'t find any movies matching your search. Please try again.</string>
 </resources>
