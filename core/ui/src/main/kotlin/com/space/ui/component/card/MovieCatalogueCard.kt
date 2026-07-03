@@ -2,6 +2,7 @@ package com.space.ui.component.card
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -61,7 +62,8 @@ fun MovieCatalogueCard(
     year: String,
     modifier: Modifier = Modifier,
     showFilterName: String? = null,
-    onFavoriteClick: () -> Unit
+    onFavoriteClick: () -> Unit,
+    onCardClick: () -> Unit
 ) {
     val colors = MovieTheme.colors
     val typography = MovieTheme.typography
@@ -75,6 +77,7 @@ fun MovieCatalogueCard(
                 .fillMaxWidth()
                 .aspectRatio(2f / 3f)
                 .clip(Radius.radius16)
+                .clickable(onClick = { onCardClick() })
         ) {
             SubcomposeAsyncImage(
                 model = imgUrl,

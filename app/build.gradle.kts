@@ -37,4 +37,7 @@ dependencies {
     implementation(project(":feature:home:data"))
     implementation(project(":feature:home:domain"))
     implementation(project(":feature:favorites:presentation"))
+    implementation(project(":feature:details:presentation"))
+    implementation(project(":feature:details:data"))
+    implementation(project(":feature:details:domain"))
 }

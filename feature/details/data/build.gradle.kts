@@ -5,16 +5,13 @@ plugins {
 }
 
 android {
-    namespace = "com.space.movie.feature.home.data"
+    namespace = "com.space.feature.details.data"
 }
 
 dependencies {
-    implementation(libs.androidx.paging.common)
-
-    // modules
     implementation(projects.core.network)
     implementation(projects.core.database)
     implementation(projects.core.common)
-    implementation(projects.feature.home.domain)
+    implementation(projects.feature.details.domain)
     implementation(projects.core.model)
 }
