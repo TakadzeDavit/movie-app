@@ -1,4 +1,4 @@
-package com.space.ui.component.search_filter
+package com.space.ui.component.searchAndFilter
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.Sizing
+import com.space.ui.theme.Spacing
 
 @Composable
 fun GenreChip(
@@ -26,14 +28,14 @@ fun GenreChip(
 
     Surface(
         modifier = Modifier
-            .height(22.dp)
+            .height(Sizing.size22)
             .clickable { onChipClick() },
         shape = CircleShape,
         color = if (isSelected) colors.primary else Color.Transparent,
         border = if (isSelected) null else BorderStroke(1.dp, colors.primaryText)
     ) {
         Box(
-            modifier = Modifier.padding(horizontal = 18.dp),
+            modifier = Modifier.padding(horizontal = Spacing.spacing18),
             contentAlignment = Alignment.Center
         ) {
             Text(

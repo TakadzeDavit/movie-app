@@ -1,4 +1,4 @@
-package com.space.ui.component.search_filter
+package com.space.ui.component.searchAndFilter
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -40,10 +40,32 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
 import com.space.movieapp.core.ui.R
 import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
+
+/**
+ * A highly interactive search bar component tailored for the movie application.
+ *
+ * This component features a [BasicTextField] styled with a custom decoration box,
+ * dynamic search focus behavior (hiding the filter button and showing a "Cancel" button
+ * when active), and an expandable horizontal list ([LazyRow]) of filter chips.
+ *
+ * ### Key Features:
+ * * Automatically clears keyboard focus when the user presses the 'Search' IME action.
+ * * Toggles the filter icon asset state based on whether the filters are expanded.
+ * * Uses [AnimatedVisibility] to smoothly fade filter options in and out.
+ *
+ * @param searchQuery The current text query typed in the search field.
+ * @param onSearchQueryChange Callback lambda invoked when the input text changes.
+ * @param onFilterClick Callback lambda invoked when the filter toggle button is clicked.
+ * @param areFiltersExpanded Controls the visibility state of the expandable filter chip section.
+ * @param filterOptions A list of strings representing the titles of available filter choices (genres).
+ * @param selectedOptionIndex The index of the currently active filter option, or null if none is selected.
+ * @param onOptionSelected Callback lambda invoked when a specific filter chip is clicked, passing its index.
+ * @param modifier The [Modifier] to be applied to the outermost container layout ([Column]).
+ */
 
 @Composable
 fun MovieAppSearch(
@@ -72,13 +94,13 @@ fun MovieAppSearch(
         modifier = modifier
             .fillMaxWidth()
             .background(colors.background)
-            .padding(vertical = 8.dp)
+            .padding(vertical = Spacing.spacing08)
     ) {
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = Spacing.spacing16),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -88,7 +110,7 @@ fun MovieAppSearch(
                 onValueChange = onSearchQueryChange,
                 modifier = Modifier
                     .weight(1f)
-                    .height(48.dp)
+                    .height(Sizing.size48)
                     .onFocusChanged { focusState ->
                         isSearchFieldFocused = focusState.isFocused
                     },
@@ -103,14 +125,14 @@ fun MovieAppSearch(
                             .fillMaxWidth()
                             .clip(CircleShape)
                             .background(colors.surface)
-                            .padding(horizontal = 16.dp),
+                            .padding(horizontal = Spacing.spacing16),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.icon_search),
                             contentDescription = null,
                             tint = colors.textHint,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(Sizing.size22)
                         )
 
                         Spacer(modifier = Modifier.width(Spacing.spacing08))
@@ -138,17 +160,21 @@ fun MovieAppSearch(
                             onSearchQueryChange("")
                             focusManager.clearFocus()
                         }
-                        .padding(horizontal = 4.dp, vertical = 8.dp))
+                        .padding(
+                            horizontal = Spacing.spacing04,
+                            vertical = Spacing.spacing08
+                        ))
             } else {
                 Box(
                     modifier = Modifier
-                        .size(48.dp)
+                        .size(Sizing.size48)
                         .clip(CircleShape)
                         .background(colors.background),
                     contentAlignment = Alignment.Center
                 ) {
                     IconButton(
-                        onClick = onFilterClick, modifier = Modifier.size(36.dp)
+                        onClick = onFilterClick,
+                        modifier = Modifier.size(Sizing.size36)
                     ) {
                         Icon(
                             painter = painterResource(filterIconAsset),

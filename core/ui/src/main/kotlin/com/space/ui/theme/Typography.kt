@@ -14,12 +14,26 @@ val MontserratFontFamily = FontFamily(
 )
 
 data class MovieAppTypography(
+    val labelSmall: TextStyle,
+    val labelMedium: TextStyle,
     val titleLarge: TextStyle,
     val titleMedium: TextStyle,
     val bodyMedium: TextStyle,
 )
 
 val MovieTypography = MovieAppTypography(
+    labelSmall = TextStyle(
+        fontFamily = MontserratFontFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = TextSizing.size10,
+        lineHeight = TextSizing.size13,
+    ),
+    labelMedium = TextStyle(
+        fontFamily = MontserratFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = TextSizing.size12,
+        lineHeight = TextSizing.size16,
+    ),
     titleLarge = TextStyle(
         fontFamily = MontserratFontFamily,
         fontWeight = FontWeight.Bold,

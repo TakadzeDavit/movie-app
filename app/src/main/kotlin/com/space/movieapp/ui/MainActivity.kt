@@ -50,9 +50,7 @@ private fun MainScreen(
 ) {
     val navController = rememberNavController()
 
-
     Scaffold() { paddingValues ->
-
         MovieNavigation(
             navController = navController,
             startDestination = startDestination,
