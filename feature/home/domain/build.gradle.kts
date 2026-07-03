@@ -7,4 +7,5 @@ dependencies {
 
     // modules
     implementation(projects.core.common)
+    implementation(projects.core.model)
 }

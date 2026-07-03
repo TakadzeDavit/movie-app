@@ -1,8 +1,10 @@
 package com.space.movie.feature.home.data.di
 
+import com.space.movie.feature.home.data.repository.FilterMoviesRepositoryImpl
 import com.space.movie.feature.home.data.repository.GenresRepositoryImpl
 import com.space.movie.feature.home.data.repository.PopularMoviesRepositoryImpl
 import com.space.movie.feature.home.data.repository.SearchMoviesRepositoryImpl
+import com.space.movie.feature.home.domain.repository.FilterMoviesRepository
 import com.space.movie.feature.home.domain.repository.GenresRepository
 import com.space.movie.feature.home.domain.repository.PopularMoviesRepository
 import com.space.movie.feature.home.domain.repository.SearchMoviesRepository
@@ -32,6 +34,14 @@ val repositoryModule = module {
             apiService = get(),
             popularMovieDtoMapper = get(),
             genreDao = get(),
+        )
+    }
+
+    single<FilterMoviesRepository> {
+        FilterMoviesRepositoryImpl(
+            apiService = get(),
+            dtoMapper = get(),
+            genreDao = get()
         )
     }
 }

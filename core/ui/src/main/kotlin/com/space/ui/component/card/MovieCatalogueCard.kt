@@ -54,12 +54,13 @@ import com.space.ui.theme.Spacing
 
 @Composable
 fun MovieCatalogueCard(
-    modifier: Modifier = Modifier,
     imgUrl: String,
     genre: String,
     title: String,
     isFavorite: Boolean,
     year: String,
+    modifier: Modifier = Modifier,
+    showFilterName: String? = null,
     onFavoriteClick: () -> Unit
 ) {
     val colors = MovieTheme.colors
@@ -99,8 +100,14 @@ fun MovieCatalogueCard(
 
             // Genre
             if (genre.isNotEmpty()) {
+                val showGenre = if (showFilterName.isNullOrEmpty()) {
+                    genre
+                } else {
+                    showFilterName
+                }
+
                 GenreBadge(
-                    text = genre,
+                    text = showGenre,
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(
