@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.space.movieapp.feature.catalogue.presentation"
+    namespace = "com.space.movieapp.feature.home.presentation"
 }
