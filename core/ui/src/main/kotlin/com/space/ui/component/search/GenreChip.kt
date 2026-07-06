@@ -1,4 +1,4 @@
-package com.space.ui.component.searchAndFilter
+package com.space.ui.component.search
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable

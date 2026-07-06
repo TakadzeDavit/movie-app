@@ -40,7 +40,7 @@ import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.error.NetworkStatusBanner
 import com.space.ui.component.loader.BottomCircularProgress
 import com.space.ui.component.loader.LoadingScreen
-import com.space.ui.component.searchAndFilter.MovieAppSearch
+import com.space.ui.component.search.MovieAppSearch
 import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Spacing
 import org.koin.androidx.compose.koinViewModel

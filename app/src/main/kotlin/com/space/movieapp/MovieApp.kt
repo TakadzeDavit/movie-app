@@ -2,6 +2,10 @@ package com.space.movieapp
 
 import android.app.Application
 import com.space.core.database.di.databaseModule
+import com.space.feature.details.data.di.detailsApiServiceModule
+import com.space.feature.details.data.di.detailsMapperModule
+import com.space.feature.details.data.di.detailsRepositoryModule
+import com.space.feature.details.presentation.di.detailsUseCaseModule
 import com.space.feature.details.presentation.di.detailsViewModelModule
 import com.space.movie.feature.home.data.di.apiServiceModule
 import com.space.movie.feature.home.data.di.homeDataMapperModule
@@ -29,6 +33,11 @@ class MovieApp : Application() {
                 repositoryModule,
                 useCaseModule,
                 viewModelModule,
+                detailsViewModelModule,
+                detailsRepositoryModule,
+                detailsMapperModule,
+                detailsApiServiceModule,
+                detailsUseCaseModule,
                 detailsViewModelModule
             )
         }
