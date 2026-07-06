@@ -1,0 +1,58 @@
+package com.space.movieapp.feature.favorites.presentation.screen
+
+import androidx.lifecycle.viewModelScope
+import com.space.common.api_result.NetworkError
+import com.space.feature.favorites.domain.usecase.DeleteByIdUseCase
+import com.space.feature.favorites.domain.usecase.GetAllFavoritesUseCase
+import com.space.movie.core.presentation.common.BaseViewModel
+import com.space.movie.core.presentation.common.DataState
+import com.space.movie.core.presentation.common.EmptySideEffect
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
+
+class FavoritesViewModel(
+    private val getAllFavoritesUseCase: GetAllFavoritesUseCase,
+    private val deleteByIdUseCase: DeleteByIdUseCase
+) : BaseViewModel<FavoritesState, FavoritesEvent, EmptySideEffect>(
+    FavoritesState()
+) {
+    init {
+        getMovies()
+    }
+
+    override fun onEvent(event: FavoritesEvent) {
+        when (event) {
+            is FavoritesEvent.RemoveFromFavorites -> deleteUserById(event.movieId)
+            is FavoritesEvent.OnRefreshClick -> getMovies()
+        }
+    }
+
+    private fun deleteUserById(movieId: Int) {
+        viewModelScope.launch {
+            deleteByIdUseCase.invoke(movieId)
+        }
+    }
+
+    private fun getMovies() {
+        viewModelScope.launch {
+            updateState { copy(favoriteMovies = DataState.Loading) }
+
+            getAllFavoritesUseCase.invoke()
+                .catch { exception ->
+                    updateState {
+                        copy(
+                            favoriteMovies = DataState.Error(
+                                NetworkError.UNKNOWN,
+                                exception.message
+                            )
+                        )
+                    }
+                }
+                .collect { moviesList ->
+                    updateState {
+                        copy(favoriteMovies = DataState.Success(moviesList))
+                    }
+                }
+        }
+    }
+}

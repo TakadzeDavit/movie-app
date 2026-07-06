@@ -7,10 +7,8 @@ import com.space.common.exception.PagingException
 import com.space.core.database.dao.GenreDao
 import com.space.movie.feature.home.data.mapper.PopularMovieDtoMapper
 import com.space.movie.feature.home.data.remote.apiservice.DiscoverApiService
-import com.space.movie.feature.home.data.remote.apiservice.PopularMoviesApiService
 import com.space.movie.feature.home.domain.model.PopularMovie
 import com.space.movieapp.core.network.extension.toNetworkError
-import retrofit2.HttpException
 import java.io.IOException
 
 class FilterMoviesPagingSource(
