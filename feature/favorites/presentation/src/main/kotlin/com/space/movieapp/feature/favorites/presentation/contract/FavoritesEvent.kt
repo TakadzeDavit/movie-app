@@ -1,4 +1,4 @@
-package com.space.movieapp.feature.favorites.presentation.screen
+package com.space.movieapp.feature.favorites.presentation.contract
 
 import com.space.movie.core.presentation.common.UiEvent
 

@@ -1,6 +1,5 @@
 package com.space.movieapp.feature.favorites.presentation.screen
 
-import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,11 +22,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.common.getErrorStrings
 import com.space.movieapp.feature.favorites.presentation.R
+import com.space.movieapp.feature.favorites.presentation.contract.FavoritesEvent
+import com.space.movieapp.feature.favorites.presentation.contract.FavoritesState
+import com.space.movieapp.feature.favorites.presentation.vm.FavoritesViewModel
 import com.space.ui.component.card.MovieCatalogueCard
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.loader.LoadingScreen
