@@ -129,7 +129,7 @@ fun MovieAppSearch(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.icon_search),
-                            contentDescription = "Search Icon",
+                            contentDescription = null,
                             tint = colors.textHint,
                             modifier = Modifier.size(Sizing.size22)
                         )
@@ -151,7 +151,7 @@ fun MovieAppSearch(
 
                 })
 
-            if (isSearchFieldFocused) {
+            if (isSearchFieldFocused || searchQuery.isNotEmpty()) {
                 Text(
                     text = stringResource(R.string.cancel),
                     color = colors.primaryText,
@@ -177,7 +177,7 @@ fun MovieAppSearch(
                         Icon(
                             painter = painterResource(filterIconAsset),
                             tint = Color.Unspecified,
-                            contentDescription = "Filter"
+                            contentDescription = null
                         )
                     }
                 }
@@ -185,7 +185,7 @@ fun MovieAppSearch(
         }
 
         AnimatedVisibility(
-            visible = areFiltersExpanded && !isSearchFieldFocused,
+            visible = areFiltersExpanded && !isSearchFieldFocused && searchQuery.isEmpty(),
         ) {
             Column {
                 Spacer(modifier = Modifier.height(Spacing.spacing12))

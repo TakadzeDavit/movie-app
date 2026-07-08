@@ -8,4 +8,5 @@ dependencies {
     // modules
     implementation(projects.core.common)
     implementation(projects.core.model)
+    implementation(projects.core.domain)
 }

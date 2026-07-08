@@ -166,11 +166,11 @@ private fun HomeContent(
                             MovieCatalogueCard(
                                 imgUrl = movie.posterPath ?: "",
                                 genre = movie.genre,
-                                showFilterName = state.showFilterName,
+                                showFilterName = state.showFilterNameOnCard,
                                 title = movie.title,
                                 isFavorite = movie.isFavorite,
                                 year = movie.releaseDate.toYear(),
-                                onFavoriteClick = { onEvent(OnFavoriteClick(movie.id)) },
+                                onFavoriteClick = { onEvent(OnFavoriteClick(movie)) },
                                 onCardClick = { onNavigateDetails(movie.id) }
                             )
                         }

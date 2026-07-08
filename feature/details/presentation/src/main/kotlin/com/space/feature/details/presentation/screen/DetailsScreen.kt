@@ -16,6 +16,7 @@ import com.space.feature.details.presentation.R
 import com.space.feature.details.presentation.component.description.MovieDescriptionSection
 import com.space.feature.details.presentation.component.details.MovieInfoSection
 import com.space.feature.details.presentation.component.poster.MoviePosterSection
+import com.space.feature.details.presentation.contract.DetailsEvent
 import com.space.feature.details.presentation.contract.DetailsState
 import com.space.feature.details.presentation.vm.DetailsViewModel
 import com.space.movie.core.presentation.common.DataState
@@ -36,6 +37,7 @@ fun DetailsScreen(
     DetailsContent(
         state = state,
         onBackClick = onBackClick,
+        onEvent = viewModel::onEvent
     )
 }
 
@@ -43,6 +45,7 @@ fun DetailsScreen(
 private fun DetailsContent(
     state: DetailsState,
     onBackClick: () -> Unit,
+    onEvent: (DetailsEvent) -> Unit,
     onTrailerClick: () -> Unit = {}
 ) {
     val colors = MovieTheme.colors
@@ -85,7 +88,9 @@ private fun DetailsContent(
                                 duration = movieData.duration,
                                 year = movieData.year,
                                 isFavorite = movieData.isFavorite,
-                                onFavoriteClick = {}
+                                onFavoriteClick = {
+                                    onEvent(DetailsEvent.OnFavoriteClick)
+                                }
                             )
                         }
 

@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.movie.android.library)
+    alias(libs.plugins.movie.android.koin)
 }
 
 android {
@@ -8,6 +9,7 @@ android {
 
 dependencies {
     implementation(projects.core.common)
+    implementation(projects.core.domain)
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 }

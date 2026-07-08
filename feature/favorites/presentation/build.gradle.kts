@@ -7,6 +7,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.feature.favorites.domain)
     implementation(projects.core.model)
+    implementation(projects.core.domain)
+    implementation(projects.core.presentation)
 }

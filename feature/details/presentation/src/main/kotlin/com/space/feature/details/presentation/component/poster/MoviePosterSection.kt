@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -17,6 +18,7 @@ import coil.compose.SubcomposeAsyncImage
 import com.space.feature.details.presentation.R
 import com.space.ui.component.button.ButtonTrailer
 import com.space.ui.component.shimmer.shimmerEffect
+import com.space.ui.theme.Radius
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 
@@ -30,6 +32,7 @@ fun MoviePosterSection(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(0.76f)
+            .clip(Radius.radius16)
     ) {
         SubcomposeAsyncImage(
             model = posterUrl,

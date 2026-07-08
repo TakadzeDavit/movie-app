@@ -13,7 +13,4 @@ interface GenreDao {
 
     @Query("SELECT * FROM genres")
     suspend fun getAllGenres(): List<GenreEntity>
-
-    @Query("SELECT COUNT(*) FROM genres")
-    suspend fun getCount(): Int
 }

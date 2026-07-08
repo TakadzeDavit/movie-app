@@ -5,6 +5,5 @@ import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.common.UiState
 
 data class DetailsState (
-     val loading: Boolean = false,
      val movieState: DataState<MovieDetails> = DataState.Loading
 ) : UiState

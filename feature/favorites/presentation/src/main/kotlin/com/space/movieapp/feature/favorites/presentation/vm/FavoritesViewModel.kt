@@ -2,8 +2,8 @@ package com.space.movieapp.feature.favorites.presentation.vm
 
 import androidx.lifecycle.viewModelScope
 import com.space.common.api_result.NetworkError
-import com.space.feature.favorites.domain.usecase.DeleteByIdUseCase
-import com.space.feature.favorites.domain.usecase.GetAllFavoritesUseCase
+import com.space.core.domain.usecase.DeleteByIdUseCase
+import com.space.core.domain.usecase.GetAllFavoritesUseCase
 import com.space.movie.core.presentation.common.BaseViewModel
 import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.common.EmptySideEffect

@@ -9,6 +9,6 @@ data class HomeState(
     val genresLoaded: Boolean = false,
     val selectedGenreId: Int? = null,
     val areFiltersExpanded: Boolean = false,
-    val showFilterName: String? = null,
+    val showFilterNameOnCard: String? = null,
     val isOnline: Boolean = true
 ) : UiState

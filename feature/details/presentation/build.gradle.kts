@@ -10,4 +10,6 @@ android {
 dependencies {
     implementation(projects.feature.details.domain)
     implementation(projects.core.model)
+    implementation(projects.core.presentation)
+    implementation(projects.core.domain)
 }

@@ -3,7 +3,6 @@ package com.space.movie.feature.home.data.di
 import com.space.movie.feature.home.data.remote.apiservice.DiscoverApiService
 import com.space.movie.feature.home.data.remote.apiservice.GenresApiService
 import com.space.movie.feature.home.data.remote.apiservice.PopularMoviesApiService
-import com.space.movie.feature.home.domain.usecase.GetGenresUseCase
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
