@@ -44,6 +44,10 @@ class DetailsViewModel(
     override fun onEvent(event: DetailsEvent) {
         when (event) {
             DetailsEvent.OnFavoriteClick -> toggleFavorite()
+            DetailsEvent.OnRefreshClick -> {
+                fetchMovieDetails()
+                observeFavoriteStatus()
+            }
         }
     }
 
@@ -61,6 +65,8 @@ class DetailsViewModel(
 
     private fun fetchMovieDetails() {
         viewModelScope.launch {
+            updateState { copy(movieState = DataState.Loading) }
+
             getMovieDetailsUseCase.invoke(movieId = movieId).handleApiResult(
                 onSuccess = { apiResult ->
                     updateState { copy(movieState = DataState.Success(apiResult)) }

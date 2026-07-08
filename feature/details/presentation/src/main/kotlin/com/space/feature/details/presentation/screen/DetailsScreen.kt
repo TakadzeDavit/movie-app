@@ -6,9 +6,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -57,7 +59,13 @@ private fun DetailsContent(
     ) {
         when (val currentMovieState = state.movieState) {
             is DataState.Loading -> {
-                LoadingScreen()
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LoadingScreen()
+                }
             }
 
             is DataState.Success -> {
@@ -107,7 +115,9 @@ private fun DetailsContent(
                     ErrorScreen(
                         title = stringResource(R.string.something_went_wrong),
                         description = stringResource(R.string.please_try_again),
-                        onRefreshClick = { }
+                        onRefreshClick = {
+                            onEvent(DetailsEvent.OnRefreshClick)
+                        }
                     )
                 }
             }
