@@ -87,7 +87,7 @@ private fun DetailsContent(
                                 genre = movieData.genre,
                                 duration = movieData.duration,
                                 year = movieData.year,
-                                isFavorite = movieData.isFavorite,
+                                isFavorite = state.isFavorite,
                                 onFavoriteClick = {
                                     onEvent(DetailsEvent.OnFavoriteClick)
                                 }

@@ -38,6 +38,7 @@ class DetailsViewModel(
 
     init {
         fetchMovieDetails()
+        observeFavoriteStatus()
     }
 
     override fun onEvent(event: DetailsEvent) {
@@ -50,8 +51,8 @@ class DetailsViewModel(
         val currentMovie = (state.value.movieState as? DataState.Success)?.data ?: return
 
         viewModelScope.launch {
-            if (currentMovie.isFavorite) {
-                deleteByIdUseCase(currentMovie.id)
+            if (state.value.isFavorite) {
+                deleteByIdUseCase(movieId)
             } else {
                 insertFavoriteUseCase(movie = movieDetailsDomainMapper.map(currentMovie))
             }
@@ -59,58 +60,28 @@ class DetailsViewModel(
     }
 
     private fun fetchMovieDetails() {
-        val favoriteIdsFlow = getFavoriteIdsUseCase.invoke()
-            .map { it.toSet() }
-            .distinctUntilChanged()
-
-        val movieDetailsFlow = getMovieDetailsUseCase.invoke(movieId = movieId)
-
         viewModelScope.launch {
-            combine(movieDetailsFlow, favoriteIdsFlow) { apiResult, favoriteIds ->
-                apiResult to favoriteIds
-            }.collect { (apiResult, favoriteIds) ->
-                when (apiResult) {
-                    is ApiResult.Error -> {
-                        updateState {
-                            copy(
-                                movieState = DataState.Error(
-                                    errorType = apiResult.errorType,
-                                    message = apiResult.message
-                                )
-                            )
-                        }
-                    }
-
-                    is ApiResult.Loading -> Unit
-                    is ApiResult.Success -> {
-                        updateState {
-                            copy(
-                                movieState = DataState.Success(
-                                    apiResult.data.copy(isFavorite = favoriteIds.contains(movieId))
-                                )
-                            )
-                        }
+            getMovieDetailsUseCase.invoke(movieId = movieId).handleApiResult(
+                onSuccess = { apiResult ->
+                    updateState { copy(movieState = DataState.Success(apiResult)) }
+                },
+                onError = { networkError, message ->
+                    updateState {
+                        copy(movieState = DataState.Error(errorType = networkError, message = message))
                     }
                 }
-            }
+            )
         }
+    }
 
-//        viewModelScope.launch {
-//            getMovieDetailsUseCase.invoke(movieId = movieId).handleApiResult(
-//                onSuccess = { apiResult ->
-//                    updateState { copy(movieState = DataState.Success(apiResult)) }
-//                },
-//                onError = { networkError, message ->
-//                    updateState {
-//                        copy(
-//                            movieState = DataState.Error(
-//                                errorType = networkError,
-//                                message = message
-//                            )
-//                        )
-//                    }
-//                }
-//            )
-//        }
+    private fun observeFavoriteStatus() {
+        viewModelScope.launch {
+            getFavoriteIdsUseCase.invoke()
+                .map { it.toSet() }
+                .distinctUntilChanged()
+                .collect { favoriteIds ->
+                    updateState { copy(isFavorite = favoriteIds.contains(movieId)) }
+                }
+        }
     }
 }
