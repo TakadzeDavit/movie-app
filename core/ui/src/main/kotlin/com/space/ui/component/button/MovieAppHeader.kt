@@ -31,7 +31,7 @@ fun MovieAppHeader(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(Sizing.size40)
+            .height(Sizing.size48)
             .padding(horizontal = Spacing.spacing16)
             .background(colors.background),
         contentAlignment = Alignment.CenterStart

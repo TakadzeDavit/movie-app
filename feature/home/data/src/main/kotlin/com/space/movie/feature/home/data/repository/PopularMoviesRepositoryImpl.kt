@@ -7,14 +7,15 @@ import com.space.core.database.dao.GenreDao
 import com.space.core.domain.model.PopularMovie
 import com.space.movie.feature.home.data.mapper.PopularMovieDtoMapper
 import com.space.movie.feature.home.data.remote.apiservice.PopularMoviesApiService
-import com.space.movie.feature.home.data.remote.paging.movie.PopularMoviesPagingSource
+import com.space.movie.feature.home.data.paging.movie.PopularMoviesPagingSource
+import com.space.movie.feature.home.data.remote.datasource.movie.PopularMovieRemoteDataSource
 import com.space.movie.feature.home.domain.repository.PopularMoviesRepository
 import kotlinx.coroutines.flow.Flow
 
 class PopularMoviesRepositoryImpl(
-    private val popularMoviesApi: PopularMoviesApiService,
     private val popularMovieDtoMapper: PopularMovieDtoMapper,
-    private val genreDao: GenreDao
+    private val genreDao: GenreDao,
+    private val popularMovieRemoteDataSource: PopularMovieRemoteDataSource
 ) : PopularMoviesRepository {
     override fun getMovies(): Flow<PagingData<PopularMovie>> {
         return Pager(
@@ -25,7 +26,7 @@ class PopularMoviesRepositoryImpl(
             ),
             pagingSourceFactory = {
                 PopularMoviesPagingSource(
-                    popularMoviesApi = popularMoviesApi,
+                    remoteDataSource = popularMovieRemoteDataSource,
                     popularMovieDtoMapper = popularMovieDtoMapper,
                     genreDao = genreDao
                 )

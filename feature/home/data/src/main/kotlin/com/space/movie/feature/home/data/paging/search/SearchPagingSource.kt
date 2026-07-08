@@ -1,4 +1,4 @@
-package com.space.movie.feature.home.data.remote.paging.filter
+package com.space.movie.feature.home.data.paging.search
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -7,41 +7,42 @@ import com.space.common.exception.PagingException
 import com.space.core.database.dao.GenreDao
 import com.space.core.domain.model.PopularMovie
 import com.space.movie.feature.home.data.mapper.PopularMovieDtoMapper
-import com.space.movie.feature.home.data.remote.apiservice.DiscoverApiService
+import com.space.movie.feature.home.data.remote.datasource.search.SearchRemoteDataSource
 import com.space.movieapp.core.network.extension.toNetworkError
 import java.io.IOException
 
-class FilterMoviesPagingSource(
-    private val apiService: DiscoverApiService,
-    private val genreId: Int,
+class SearchPagingSource(
+    private val remoteDataSource: SearchRemoteDataSource,
+    private val query: String,
     private val genreDao: GenreDao,
     private val dtoMapper: PopularMovieDtoMapper
 ) : PagingSource<Int, PopularMovie>() {
-    private var cachedGenreMap: Map<Int, String>? = null
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PopularMovie> {
+        if (query.isBlank()) {
+            return LoadResult.Page(
+                data = emptyList(),
+                prevKey = null,
+                nextKey = null
+            )
+        }
+
         return try {
             val currentPage = params.key ?: 1
-            val response = apiService.filterMovies(genreId = genreId, page = currentPage)
+            val response = remoteDataSource.searchMovies(query = query, page = currentPage)
 
             if (response.isSuccessful) {
                 val dtoMovies = response.body()?.results ?: emptyList()
-
-                if (cachedGenreMap == null) {
-                    val cachedGenres = genreDao.getAllGenres()
-                    cachedGenreMap = cachedGenres.associate { it.id to it.name }
-                }
-
-                val currentGenreMap = cachedGenreMap ?: emptyMap()
+                val cachedGenres = genreDao.getAllGenres()
+                val genreMap: Map<Int, String> = cachedGenres.associate { it.id to it.name }
 
                 val domainMovies = dtoMovies.map { dto ->
-                    dtoMapper.mapWithGenres(dto, currentGenreMap)
+                    dtoMapper.mapWithGenres(dto, genreMap)
                 }
 
                 LoadResult.Page(
                     data = domainMovies,
                     prevKey = if (currentPage == 1) null else currentPage - 1,
-                    nextKey = if (dtoMovies.isEmpty() || dtoMovies.size < params.loadSize) null else currentPage + 1
+                    nextKey = if (domainMovies.isEmpty()) null else currentPage + 1
                 )
             } else {
                 LoadResult.Error(
@@ -56,14 +57,19 @@ class FilterMoviesPagingSource(
                 is IOException -> NetworkError.NO_INTERNET
                 else -> NetworkError.UNKNOWN
             }
-            LoadResult.Error(PagingException(errorType = errorType, message = e.message))
+
+            LoadResult.Error(
+                PagingException(
+                    errorType = errorType, message = e.message
+                )
+            )
         }
     }
 
     override fun getRefreshKey(state: PagingState<Int, PopularMovie>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
+        return state.anchorPosition?.let {
+            state.closestPageToPosition(it)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.space.movie.feature.home.data.remote.apiservice
 
-import com.space.movie.feature.home.data.remote.model.movie.PopularMovieDto
-import com.space.movie.feature.home.data.remote.model.movie.PopularMovieResponseDto
+import com.space.movie.feature.home.data.model.movie.PopularMovieResponseDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

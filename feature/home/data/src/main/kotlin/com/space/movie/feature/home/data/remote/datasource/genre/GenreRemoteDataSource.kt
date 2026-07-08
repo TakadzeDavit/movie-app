@@ -1,10 +1,8 @@
-package com.space.movie.feature.home.data.remote.apiservice
+package com.space.movie.feature.home.data.remote.datasource.genre
 
 import com.space.movie.feature.home.data.model.genre.GenreListResponseDto
 import retrofit2.Response
-import retrofit2.http.GET
 
-interface GenresApiService {
-    @GET("genre/movie/list")
+interface GenreRemoteDataSource {
     suspend fun getGenres() : Response<GenreListResponseDto>
 }

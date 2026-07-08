@@ -7,14 +7,16 @@ import com.space.core.database.dao.GenreDao
 import com.space.core.domain.model.PopularMovie
 import com.space.movie.feature.home.data.mapper.PopularMovieDtoMapper
 import com.space.movie.feature.home.data.remote.apiservice.DiscoverApiService
-import com.space.movie.feature.home.data.remote.paging.filter.FilterMoviesPagingSource
+import com.space.movie.feature.home.data.paging.filter.FilterMoviesPagingSource
+import com.space.movie.feature.home.data.remote.datasource.filter.FilterMoviesRemoteDataSource
+import com.space.movie.feature.home.data.remote.datasource.movie.PopularMovieRemoteDataSourceImpl
 import com.space.movie.feature.home.domain.repository.FilterMoviesRepository
 import kotlinx.coroutines.flow.Flow
 
 class FilterMoviesRepositoryImpl(
-    private val apiService: DiscoverApiService,
     private val dtoMapper: PopularMovieDtoMapper,
-    private val genreDao: GenreDao
+    private val genreDao: GenreDao,
+    private val filterRemoteDataSource: FilterMoviesRemoteDataSource
 ) : FilterMoviesRepository {
     override fun getFilteredMovies(genreId: Int): Flow<PagingData<PopularMovie>> {
         return Pager(
@@ -24,7 +26,7 @@ class FilterMoviesRepositoryImpl(
             ),
             pagingSourceFactory = {
                 FilterMoviesPagingSource(
-                    apiService = apiService,
+                    remoteDataSource = filterRemoteDataSource,
                     genreId = genreId,
                     genreDao = genreDao,
                     dtoMapper = dtoMapper

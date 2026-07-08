@@ -13,37 +13,8 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single<PopularMoviesRepository> {
-        PopularMoviesRepositoryImpl(
-            popularMoviesApi = get(),
-            popularMovieDtoMapper = get(),
-            genreDao = get()
-        )
-    }
-
-    single<GenresRepository> {
-        GenresRepositoryImpl(
-            responseHandler = get(),
-            genresApiService = get(),
-            genreEntityMapper = get(),
-            entityToDomainMapper = get(),
-            genreDao = get(),
-        )
-    }
-    
-    single<SearchMoviesRepository> {
-        SearchMoviesRepositoryImpl(
-            apiService = get(),
-            popularMovieDtoMapper = get(),
-            genreDao = get(),
-        )
-    }
-
-    single<FilterMoviesRepository> {
-        FilterMoviesRepositoryImpl(
-            apiService = get(),
-            dtoMapper = get(),
-            genreDao = get()
-        )
-    }
+    singleOf(::PopularMoviesRepositoryImpl) bind PopularMoviesRepository::class
+    singleOf(::GenresRepositoryImpl) bind GenresRepository::class
+    singleOf(::SearchMoviesRepositoryImpl) bind SearchMoviesRepository::class
+    singleOf(::FilterMoviesRepositoryImpl) bind FilterMoviesRepository::class
 }
