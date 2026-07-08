@@ -39,8 +39,8 @@ class HomeViewModel(
     private val popularMovieUiMapper: PopularMovieUiMapper,
     private val searchMoviesUseCase: SearchMoviesUseCase,
     private val filterMoviesUseCase: FilterMoviesUseCase,
-    private val networkObserver: NetworkObserver,
     private val deleteByIdUseCase: DeleteByIdUseCase,
+    private val networkObserver: NetworkObserver,
     private val getFavoriteIdsUseCase: GetFavoriteIdsUseCase,
     private val insertFavoriteUseCase: InsertFavoriteUseCase,
     private val movieDomainMapper: MovieDomainMapper
