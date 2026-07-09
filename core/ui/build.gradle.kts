@@ -8,8 +8,5 @@ android {
 }
 
 dependencies {
-    // coil
     implementation(libs.bundles.coil)
-
-    implementation(projects.core.model)
 }
