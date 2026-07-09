@@ -147,6 +147,19 @@ fun MovieAppSearch(
 
                             innerTextField()
                         }
+
+                        if (searchQuery.isNotEmpty()) {
+                            Icon(
+                                painter = painterResource(R.drawable.icon_delete),
+                                contentDescription = null,
+                                tint = colors.textHint,
+                                modifier = Modifier
+                                    .size(Sizing.size18)
+                                    .clickable {
+                                        onSearchQueryChange(searchQuery.dropLast(1))
+                                    }
+                            )
+                        }
                     }
 
                 })
