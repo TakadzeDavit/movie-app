@@ -127,6 +127,7 @@ private fun FavoritesContent(
                     ) {
                         items(movieState.data, key = { it.id }) { movie ->
                             MovieCatalogueCard(
+                                modifier = Modifier.animateItem(),
                                 imgUrl = movie.posterPath ?: "",
                                 genre = movie.genre,
                                 title = movie.title,
