@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class PopularMovieDto(
+data class PopularMovieDto(
     val id: Int,
     val title: String,
     @SerialName("genre_ids")
