@@ -5,10 +5,9 @@ import com.space.common.mapper.mapApiResult
 import com.space.core.database.dao.GenreDao
 import com.space.movie.feature.home.data.mapper.EntityToDomainMapper
 import com.space.movie.feature.home.data.mapper.GenreEntityMapper
-import com.space.movie.feature.home.data.remote.apiservice.GenresApiService
 import com.space.movie.feature.home.data.remote.datasource.genre.GenreRemoteDataSource
 import com.space.movie.feature.home.domain.repository.GenresRepository
-import com.space.movieapp.core.model.Genre
+import com.space.core.domain.model.Genre
 import com.space.movieapp.core.network.apicall.ResponseHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -1,7 +1,7 @@
 package com.space.movieapp.feature.home.presentation.contract
 
 import com.space.movie.core.presentation.common.UiState
-import com.space.movieapp.core.model.Genre
+import com.space.core.domain.model.Genre
 
 data class HomeState(
     val filters: List<Genre> = emptyList(),

@@ -17,5 +17,4 @@ dependencies {
     implementation(projects.core.common)
     implementation(projects.core.domain)
     implementation(projects.feature.home.domain)
-    implementation(projects.core.model)
 }
