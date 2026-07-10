@@ -4,6 +4,6 @@ import com.space.movie.feature.home.data.remote.apiservice.PopularMoviesApiServi
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
-val ApiServiceModule = module {
-    single <PopularMoviesApiService>{ get<Retrofit>().create(PopularMoviesApiService::class.java) }
+val apiServiceModule = module {
+    single<PopularMoviesApiService> { get<Retrofit>().create(PopularMoviesApiService::class.java) }
 }

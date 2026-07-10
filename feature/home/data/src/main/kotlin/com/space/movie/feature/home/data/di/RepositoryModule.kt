@@ -8,7 +8,8 @@ val repositoryModule = module {
     single<PopularMoviesRepository> {
         PopularMoviesRepositoryImpl(
             responseHandler = get(),
-            popularMoviesApi = get()
+            popularMoviesApi = get(),
+            popularMoviePageMapper = get(),
         )
     }
 }

@@ -1,7 +1,8 @@
 plugins {
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.movie.android.application)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.movie.android.compose)
+    alias(libs.plugins.movie.android.koin)
 }
 android {
     namespace = "com.space.movieapp"
@@ -12,6 +13,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.kotlinx.serialization.json)
+
     // splash
     implementation(libs.androidx.core.splashscreen)
 
@@ -27,6 +30,10 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:network"))
+    implementation(project(":core:presentation"))
     implementation(project(":feature:home:presentation"))
+    implementation(project(":feature:home:data"))
+    implementation(project(":feature:home:domain"))
     implementation(project(":feature:favorites:presentation"))
 }

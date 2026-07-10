@@ -9,4 +9,8 @@ object Spacing {
     val spacing12 = Dimensions.dimension12
     val spacing16 = Dimensions.dimension16
     val spacing18 = Dimensions.dimension18
+    val spacing22 = Dimensions.dimension22
+    val spacing28 = Dimensions.dimension28
+    val spacing64 = Dimensions.dimension64
+    val spacing110 = Dimensions.dimension110
 }
