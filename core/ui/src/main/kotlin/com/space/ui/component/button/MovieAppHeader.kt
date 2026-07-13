@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.space.movieapp.core.ui.R
+import com.space.ui.component.debounce.rememberDebouncedClick
 import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
@@ -27,6 +28,7 @@ fun MovieAppHeader(
 ) {
     val colors = MovieTheme.colors
     val typography = MovieTheme.typography
+    val debouncedBackClick = rememberDebouncedClick(onClick = onBackClick)
 
     Box(
         modifier = modifier
@@ -36,7 +38,7 @@ fun MovieAppHeader(
             .background(colors.background),
         contentAlignment = Alignment.CenterStart
     ) {
-        IconButton(onClick = onBackClick) {
+        IconButton(onClick = debouncedBackClick) {
             Icon(
                 modifier = Modifier.size(Sizing.size24),
                 painter = painterResource(id = R.drawable.icon_back_arrow),

@@ -20,6 +20,23 @@ import com.space.ui.component.button.ButtonRefresh
 import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Spacing
 
+/**
+ * A full-screen error placeholder view designed to handle and display application failures.
+ *
+ * This component acts as a user-friendly error state screen, providing:
+ * - A prominent error visual/icon to signal that something went wrong.
+ * - A bold, descriptive title summarizing the nature of the error.
+ * - A secondary description offering more context or troubleshooting steps.
+ * - An actionable refresh button at the bottom to let users retry the failed operation.
+ *
+ * It takes full control of the screen space using [Modifier.fillMaxSize] and centers its
+ * content vertically and horizontally for maximum visual balance.
+ *
+ * @param title The primary short headline of the error (e.g., "Connection Error").
+ * @param description A more detailed explanation of the error or a helpful hint for the user.
+ * @param onRefreshClick Lambda block executed when the user taps the refresh/retry button.
+ */
+
 @Composable
 fun ErrorScreen(
     title: String,

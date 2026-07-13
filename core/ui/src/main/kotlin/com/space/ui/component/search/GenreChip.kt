@@ -17,6 +17,21 @@ import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 
+/**
+ * A custom chip component used to display movie genres or filter categories.
+ *
+ * This component supports two visual states:
+ * - **Selected**: Filled with the theme's primary color and displays text in the `onPrimary` color.
+ * - **Unselected**: Transparent background with a thin border using the `primaryText` color.
+ *
+ * It is built on top of [Surface] with a [CircleShape] to ensure consistent rounding and
+ * handles click events seamlessly.
+ *
+ * @param title The text label to be displayed inside the chip (e.g., "Action", "Comedy").
+ * @param isSelected Controls the visual state of the chip, indicating whether it is active/selected.
+ * @param onChipClick Lambda expression invoked when the user clicks on the chip.
+ */
+
 @Composable
 fun GenreChip(
     title: String,
