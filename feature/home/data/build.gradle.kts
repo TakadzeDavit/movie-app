@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.movie.android.library)
     alias(libs.plugins.movie.android.network)
     alias(libs.plugins.kotlin.serialization)
-
 }
 
 android {

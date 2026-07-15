@@ -1,3 +1,4 @@
+@file:OptIn(InternalSerializationApi::class)
 package com.space.movieapp.navigation.navhost
 
 import androidx.compose.animation.core.tween
@@ -7,9 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.space.feature.details.presentation.navigation.detailsNavGraph
 import com.space.movieapp.core.navigation.Route
 import com.space.movieapp.feature.favorites.presentation.navGraph.favoritesNavGraph
 import com.space.movieapp.feature.home.presentation.navGraph.homeNavGraph
+import kotlinx.serialization.InternalSerializationApi
 
 @Composable
 fun MovieNavigation(
@@ -24,7 +27,18 @@ fun MovieNavigation(
         enterTransition = { fadeIn(animationSpec = tween(300)) },
         exitTransition = { fadeOut(animationSpec = tween(30)) }
     ) {
-        homeNavGraph()
+        homeNavGraph(
+            onNavigateToDetails = { movieId ->
+                navController.navigate(Route.Details(movieId = movieId))
+            }
+        )
+
         favoritesNavGraph()
+
+        detailsNavGraph(
+            onBackClick = {
+                navController.navigateUp()
+            }
+        )
     }
 }

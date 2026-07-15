@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Radius
+import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 
 @Composable
@@ -34,8 +35,8 @@ fun ButtonRefresh(
 
     Box(
         modifier = Modifier
-            .width(134.dp)
-            .height(44.dp)
+            .width(Sizing.size134)
+            .height(Sizing.size44)
             .clip(Radius.radius16)
             .background(colors.primary)
             .clickable(onClick = onClick),
@@ -56,7 +57,7 @@ fun ButtonRefresh(
 
             Icon(
                 painter = painterResource(iconRes),
-                contentDescription = "Refresh",
+                contentDescription = null,
                 tint = colors.onPrimary
             )
         }

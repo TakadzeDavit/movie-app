@@ -4,7 +4,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.space.movieapp.core.navigation.Route
 import com.space.movieapp.feature.favorites.presentation.screen.FavoritesScreen
+import kotlinx.serialization.InternalSerializationApi
 
+@OptIn(InternalSerializationApi::class)
 fun NavGraphBuilder.favoritesNavGraph() {
     composable<Route.Favorites> {
         FavoritesScreen()

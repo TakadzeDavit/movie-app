@@ -5,8 +5,12 @@ import androidx.navigation.compose.composable
 import com.space.movieapp.core.navigation.Route
 import com.space.movieapp.feature.home.presentation.screen.HomeScreen
 
-fun NavGraphBuilder.homeNavGraph() {
+fun NavGraphBuilder.homeNavGraph(
+    onNavigateToDetails: (Int) -> Unit
+) {
     composable<Route.Home> {
-        HomeScreen()
+        HomeScreen(
+            onNavigateDetails = onNavigateToDetails
+        )
     }
 }
