@@ -12,7 +12,7 @@ val databaseModule = module {
             androidContext(),
             AppDatabase::class.java,
             "movie_app_database"
-        ).build()
+        ).fallbackToDestructiveMigration(false).build()
     }
 
     single { get<AppDatabase>().genreDao() }
