@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -38,7 +36,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import com.space.movieapp.core.model.Genre
 import com.space.movieapp.core.ui.R
 import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Sizing
@@ -60,9 +57,6 @@ import com.space.ui.theme.Spacing
  * @param onSearchQueryChange Callback lambda invoked when the input text changes.
  * @param onFilterClick Callback lambda invoked when the filter toggle button is clicked.
  * @param areFiltersExpanded Controls the visibility state of the expandable filter chip section.
- * @param filterOptions A list of strings representing the titles of available filter choices (genres).
- * @param selectedOptionId The index of the currently active filter option, or null if none is selected.
- * @param onOptionSelected Callback lambda invoked when a specific filter chip is clicked, passing its index.
  * @param modifier The [Modifier] to be applied to the outermost container layout ([Column]).
  */
 
@@ -72,10 +66,8 @@ fun MovieAppSearch(
     onSearchQueryChange: (String) -> Unit,
     onFilterClick: () -> Unit,
     areFiltersExpanded: Boolean,
-    filterOptions: List<Genre>,
-    selectedOptionId: Int?,
-    onOptionSelected: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    filterContent: @Composable () -> Unit
 ) {
     val colors = MovieTheme.colors
     val typography = MovieTheme.typography
@@ -202,24 +194,7 @@ fun MovieAppSearch(
         ) {
             Column {
                 Spacer(modifier = Modifier.height(Spacing.spacing12))
-
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.spacing08),
-                    contentPadding = PaddingValues(horizontal = Spacing.spacing16)
-                ) {
-                    items(
-                        items = filterOptions,
-                        key = { it.id }
-                    ) { genre ->
-                        val isSelected = genre.id == selectedOptionId
-
-                        GenreChip(
-                            title = genre.name,
-                            isSelected = isSelected,
-                            onChipClick = { onOptionSelected(genre.id) }
-                        )
-                    }
-                }
+                filterContent()
             }
         }
     }

@@ -23,6 +23,20 @@ import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 
+/**
+ * A placeholder view displayed when a search query yields no results.
+ *
+ * This component provides clear, centered visual feedback to the user, consisting of:
+ * - A circular background containing a search magnifier icon.
+ * - A primary bold text indicating that no results were found.
+ * - A secondary helper text suggesting the user try their search again with different keywords.
+ *
+ * It utilizes standard project layout tokens ([Spacing], [Sizing]) and tints to maintain
+ * absolute visual consistency with the application's overall design system.
+ *
+ * @param modifier The [Modifier] to be applied to the root [Column] for custom positioning or sizing within the screen.
+ */
+
 @Composable
 fun EmptyResultView(
     modifier: Modifier = Modifier

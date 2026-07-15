@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells.Fixed
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,6 +42,7 @@ import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.error.NetworkStatusBanner
 import com.space.ui.component.loader.BottomCircularProgress
 import com.space.ui.component.loader.LoadingScreen
+import com.space.ui.component.search.GenreChip
 import com.space.ui.component.search.MovieAppSearch
 import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Spacing
@@ -108,12 +111,25 @@ private fun HomeContent(
             onSearchQueryChange = { onEvent(OnSearchQueryChange(it)) },
             onFilterClick = { onEvent(HomeEvent.OnFilterIconClick) },
             areFiltersExpanded = state.areFiltersExpanded,
-            filterOptions = state.filters,
-            selectedOptionId = state.selectedGenreId,
-            onOptionSelected = { genreId ->
-                onEvent(OnFilterClick(genreId))
-            },
-        )
+        ) {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(Spacing.spacing08),
+                contentPadding = PaddingValues(horizontal = Spacing.spacing16)
+            ) {
+                items(
+                    items = state.filters,
+                    key = { it.id }
+                ) { genre ->
+                    val isSelected = genre.id == state.selectedGenreId
+
+                    GenreChip(
+                        title = genre.name,
+                        isSelected = isSelected,
+                        onChipClick = { onEvent(OnFilterClick(genre.id)) }
+                    )
+                }
+            }
+        }
 
         when (lazyPagingItems.loadState.refresh) {
             is LoadState.Loading -> {
