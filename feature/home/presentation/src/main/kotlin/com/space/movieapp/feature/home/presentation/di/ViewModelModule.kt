@@ -9,5 +9,7 @@ val viewModelModule = module {
         getPopularMoviesUseCase = get(),
         popularMovieUiMapper = get(),
         networkObserver = get(),
+        getGenresUseCase = get(),
+        searchMoviesUseCase = get(),
     ) }
 }

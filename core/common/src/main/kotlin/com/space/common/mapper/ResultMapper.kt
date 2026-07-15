@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 fun <Dto, Domain> Flow<ApiResult<Dto>>.mapApiResult(
-    onSuccess: (Dto) -> Domain,
+    onSuccess: suspend (Dto) -> Domain,
 ): Flow<ApiResult<Domain>> {
     return this.map { result ->
         when (result) {

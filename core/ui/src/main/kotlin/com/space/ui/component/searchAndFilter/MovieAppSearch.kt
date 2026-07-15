@@ -153,7 +153,7 @@ fun MovieAppSearch(
             if (isSearchFieldFocused) {
                 Text(
                     text = stringResource(R.string.cancel),
-                    color = colors.textSecondary,
+                    color = colors.primaryText,
                     style = typography.bodyMedium,
                     modifier = Modifier
                         .clickable {
@@ -161,20 +161,17 @@ fun MovieAppSearch(
                             focusManager.clearFocus()
                         }
                         .padding(
-                            horizontal = Spacing.spacing04,
-                            vertical = Spacing.spacing08
+                            horizontal = Spacing.spacing04, vertical = Spacing.spacing08
                         ))
             } else {
                 Box(
                     modifier = Modifier
                         .size(Sizing.size48)
                         .clip(CircleShape)
-                        .background(colors.background),
-                    contentAlignment = Alignment.Center
+                        .background(colors.background), contentAlignment = Alignment.Center
                 ) {
                     IconButton(
-                        onClick = onFilterClick,
-                        modifier = Modifier.size(Sizing.size36)
+                        onClick = onFilterClick, modifier = Modifier.size(Sizing.size36)
                     ) {
                         Icon(
                             painter = painterResource(filterIconAsset),
@@ -187,9 +184,7 @@ fun MovieAppSearch(
         }
 
         AnimatedVisibility(
-            visible = areFiltersExpanded,
-            enter = fadeIn(),
-            exit = fadeOut()
+            visible = areFiltersExpanded && !isSearchFieldFocused,
         ) {
             Column {
                 Spacer(modifier = Modifier.height(Spacing.spacing12))
@@ -200,7 +195,7 @@ fun MovieAppSearch(
                 ) {
                     itemsIndexed(
                         items = filterOptions,
-                        key = { index, optionTitle -> optionTitle }
+                        key = { _, optionTitle -> optionTitle }
                     ) { index, optionTitle ->
                         val isSelected = index == selectedOptionIndex
 

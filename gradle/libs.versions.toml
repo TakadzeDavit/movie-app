@@ -20,8 +20,13 @@ navigationCompose = "2.9.6"
 coreSplashscreen = "1.2.0"
 jetbrainsKotlinJvm = "2.2.21"
 coil = "2.7.0"
+ksp = "2.2.10-2.0.2"
+room = "2.8.4"
 
 [libraries]
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "pagingCompose" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
 kotlin-serialization-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
@@ -75,9 +80,9 @@ movie-android-application = { id = "movieapp.android.application", version = "un
 movie-android-feature = { id = "movieapp.android.feature", version = "unspecified" }
 movieapp-jvm-library = { id = "movieapp.jvm.library", version = "unspecified" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
-
 coil = [
     "coil",
     "coil-svg",
