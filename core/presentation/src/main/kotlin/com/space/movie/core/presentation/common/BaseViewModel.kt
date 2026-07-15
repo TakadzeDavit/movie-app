@@ -18,7 +18,7 @@ interface UiState
 
 object EmptySideEffect : UiSideEffect
 
-abstract class BaseViewModel<State: UiState, Event : UiEvent ,SideEffect : UiSideEffect>( // check
+abstract class BaseViewModel<State: UiState, Event : UiEvent ,SideEffect : UiSideEffect>(
     initialState: State
 ) : ViewModel() {
     private val _state = MutableStateFlow(initialState)

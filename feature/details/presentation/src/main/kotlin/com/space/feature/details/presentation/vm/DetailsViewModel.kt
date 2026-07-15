@@ -7,6 +7,7 @@ import com.space.common.api_result.ApiResult
 import com.space.core.domain.usecase.DeleteByIdUseCase
 import com.space.core.domain.usecase.GetFavoriteIdsUseCase
 import com.space.core.domain.usecase.InsertFavoriteUseCase
+import com.space.core.domain.usecase.IsFavoriteUseCase
 import com.space.feature.details.domain.usecase.GetMovieDetailsUseCase
 import com.space.feature.details.presentation.contract.DetailsEvent
 import com.space.feature.details.presentation.contract.DetailsState
@@ -29,8 +30,8 @@ class DetailsViewModel(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val insertFavoriteUseCase: InsertFavoriteUseCase,
     private val deleteByIdUseCase: DeleteByIdUseCase,
-    private val getFavoriteIdsUseCase: GetFavoriteIdsUseCase,
     private val movieDetailsDomainMapper: MovieDetailsDomainMapper,
+    private val isMovieFavoriteUseCase: IsFavoriteUseCase
 ) : BaseViewModel<DetailsState, DetailsEvent, EmptySideEffect>(DetailsState()) {
 
     private val detailsArgs = savedStateHandle.toRoute<Route.Details>()
@@ -86,11 +87,9 @@ class DetailsViewModel(
 
     private fun observeFavoriteStatus() {
         viewModelScope.launch {
-            getFavoriteIdsUseCase.invoke()
-                .map { it.toSet() }
-                .collect { favoriteIds ->
-                    updateState { copy(isFavorite = favoriteIds.contains(movieId)) }
-                }
+            isMovieFavoriteUseCase.invoke(movieId = movieId).collect { isFavorite ->
+                updateState { copy(isFavorite = isFavorite) }
+            }
         }
     }
 }
