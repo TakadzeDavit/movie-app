@@ -1,4 +1,4 @@
-package com.space.movie.feature.home.domain.model
+package com.space.movieapp.core.model
 
 data class Genre (
     val id: Int,

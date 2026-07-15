@@ -1,6 +1,5 @@
 package com.space.movieapp.feature.home.presentation.screen
 
-import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,42 +10,46 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridCells.*
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells.Fixed
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemKey
 import com.space.common.api_result.NetworkError
 import com.space.common.exception.PagingException
 import com.space.common.exception.toYear
 import com.space.movie.core.presentation.common.getErrorStrings
 import com.space.movieapp.feature.home.presentation.R
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent
-import com.space.movieapp.feature.home.presentation.contract.HomeEvent.*
+import com.space.movieapp.feature.home.presentation.contract.HomeEvent.OnFavoriteClick
+import com.space.movieapp.feature.home.presentation.contract.HomeEvent.OnFilterClick
+import com.space.movieapp.feature.home.presentation.contract.HomeEvent.OnSearchQueryChange
 import com.space.movieapp.feature.home.presentation.contract.HomeState
 import com.space.movieapp.feature.home.presentation.model.PopularMovieUI
 import com.space.movieapp.feature.home.presentation.vm.HomeViewModel
 import com.space.ui.component.card.MovieCatalogueCard
+import com.space.ui.component.error.EmptyResultView
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.error.NetworkStatusBanner
 import com.space.ui.component.loader.BottomCircularProgress
 import com.space.ui.component.loader.LoadingScreen
 import com.space.ui.component.searchAndFilter.MovieAppSearch
 import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 import org.koin.androidx.compose.koinViewModel
 
@@ -72,7 +75,10 @@ fun HomeScreen(
             ErrorScreen(
                 title = stringResource(title),
                 description = stringResource(description),
-                onRefreshClick = { lazyPagingItems.retry() }
+                onRefreshClick = {
+                    viewModel.onEvent(HomeEvent.ResetSearch)
+                    lazyPagingItems.retry()
+                }
             )
         }
     } else {
@@ -91,24 +97,27 @@ private fun HomeContent(
     onEvent: (HomeEvent) -> Unit
 ) {
     LaunchedEffect(state.isOnline) {
-        if (state.isOnline && lazyPagingItems.loadState.append is LoadState.Error) {
-            lazyPagingItems.retry()
+        if (state.isOnline) {
+            val refreshFailed = lazyPagingItems.loadState.refresh is LoadState.Error
+            val appendFailed = lazyPagingItems.loadState.append is LoadState.Error
+            if (refreshFailed || appendFailed) {
+                lazyPagingItems.retry()
+            }
         }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        val filterNames: List<String> by remember(state.filters) {
-            derivedStateOf { state.filters.map { it.name } }
-        }
 
         MovieAppSearch(
             searchQuery = state.searchQuery,
             onSearchQueryChange = { onEvent(OnSearchQueryChange(it)) },
-            onFilterClick = { onEvent(OnFilterClick) },
+            onFilterClick = { onEvent(HomeEvent.OnFilterIconClick) },
             areFiltersExpanded = state.areFiltersExpanded,
-            filterOptions = filterNames,
-            selectedOptionIndex = state.selectedGenreId,
-            onOptionSelected = {},
+            filterOptions = state.filters,
+            selectedOptionId = state.selectedGenreId,
+            onOptionSelected = { genreId ->
+                onEvent(OnFilterClick(genreId))
+            },
         )
 
         when (lazyPagingItems.loadState.refresh) {
@@ -134,13 +143,23 @@ private fun HomeContent(
                     contentPadding = PaddingValues(Spacing.spacing16)
                 ) {
                     item(span = { GridItemSpan(maxLineSpan) }) {
-                        Text(
-                            text = stringResource(R.string.movies),
-                            style = MovieTheme.typography.headlineSmall,
-                            color = MovieTheme.colors.primary
-                        )
+                        Column(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.movies),
+                                style = MovieTheme.typography.headlineSmall,
+                                color = MovieTheme.colors.primary
+                            )
 
-                        Spacer(modifier = Modifier.height(Spacing.spacing16))
+                            Spacer(modifier = Modifier.height(Spacing.spacing16))
+
+                            val isLoading = lazyPagingItems.loadState.refresh is LoadState.Loading
+
+                            if (lazyPagingItems.itemCount == 0 && !isLoading) {
+                                EmptyResultView()
+                            }
+                        }
                     }
 
                     items(
@@ -152,6 +171,7 @@ private fun HomeContent(
                             MovieCatalogueCard(
                                 imgUrl = movie.posterPath ?: "",
                                 genre = movie.genre,
+                                showFilterName = state.showFilterName,
                                 title = movie.title,
                                 isFavorite = movie.isFavorite,
                                 year = movie.releaseDate.toYear(),

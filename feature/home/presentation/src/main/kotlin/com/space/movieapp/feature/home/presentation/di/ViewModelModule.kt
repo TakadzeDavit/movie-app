@@ -11,5 +11,6 @@ val viewModelModule = module {
         networkObserver = get(),
         getGenresUseCase = get(),
         searchMoviesUseCase = get(),
+        filterMoviesUseCase = get(),
     ) }
 }

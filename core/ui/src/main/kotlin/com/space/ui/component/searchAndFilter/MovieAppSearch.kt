@@ -1,8 +1,6 @@
 package com.space.ui.component.searchAndFilter
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
@@ -40,6 +39,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import com.space.movieapp.core.model.Genre
 import com.space.movieapp.core.ui.R
 import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Sizing
@@ -62,7 +62,7 @@ import com.space.ui.theme.Spacing
  * @param onFilterClick Callback lambda invoked when the filter toggle button is clicked.
  * @param areFiltersExpanded Controls the visibility state of the expandable filter chip section.
  * @param filterOptions A list of strings representing the titles of available filter choices (genres).
- * @param selectedOptionIndex The index of the currently active filter option, or null if none is selected.
+ * @param selectedOptionId The index of the currently active filter option, or null if none is selected.
  * @param onOptionSelected Callback lambda invoked when a specific filter chip is clicked, passing its index.
  * @param modifier The [Modifier] to be applied to the outermost container layout ([Column]).
  */
@@ -70,13 +70,13 @@ import com.space.ui.theme.Spacing
 @Composable
 fun MovieAppSearch(
     searchQuery: String,
-    areFiltersExpanded: Boolean,
-    selectedOptionIndex: Int?,
-    filterOptions: List<String>,
-    modifier: Modifier = Modifier,
     onSearchQueryChange: (String) -> Unit,
     onFilterClick: () -> Unit,
-    onOptionSelected: (Int) -> Unit
+    areFiltersExpanded: Boolean,
+    filterOptions: List<Genre>,
+    selectedOptionId: Int?,
+    onOptionSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val colors = MovieTheme.colors
     val typography = MovieTheme.typography
@@ -130,7 +130,7 @@ fun MovieAppSearch(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.icon_search),
-                            contentDescription = null,
+                            contentDescription = "Search Icon",
                             tint = colors.textHint,
                             modifier = Modifier.size(Sizing.size22)
                         )
@@ -145,9 +145,11 @@ fun MovieAppSearch(
                                     style = typography.bodyMedium
                                 )
                             }
+
                             innerTextField()
                         }
                     }
+
                 })
 
             if (isSearchFieldFocused) {
@@ -176,7 +178,7 @@ fun MovieAppSearch(
                         Icon(
                             painter = painterResource(filterIconAsset),
                             tint = Color.Unspecified,
-                            contentDescription = null
+                            contentDescription = "Filter"
                         )
                     }
                 }
@@ -193,16 +195,16 @@ fun MovieAppSearch(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.spacing08),
                     contentPadding = PaddingValues(horizontal = Spacing.spacing16)
                 ) {
-                    itemsIndexed(
+                    items(
                         items = filterOptions,
-                        key = { _, optionTitle -> optionTitle }
-                    ) { index, optionTitle ->
-                        val isSelected = index == selectedOptionIndex
+                        key = { it.id }
+                    ) { genre ->
+                        val isSelected = genre.id == selectedOptionId
 
                         GenreChip(
-                            title = optionTitle,
+                            title = genre.name,
                             isSelected = isSelected,
-                            onChipClick = { onOptionSelected(index) }
+                            onChipClick = { onOptionSelected(genre.id) }
                         )
                     }
                 }

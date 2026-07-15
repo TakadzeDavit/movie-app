@@ -5,17 +5,12 @@ import com.space.common.mapper.mapApiResult
 import com.space.core.database.dao.GenreDao
 import com.space.movie.feature.home.data.mapper.EntityToDomainMapper
 import com.space.movie.feature.home.data.mapper.GenreEntityMapper
-import com.space.movie.feature.home.data.mapper.GenreMapper
 import com.space.movie.feature.home.data.remote.apiservice.GenresApiService
-import com.space.movie.feature.home.domain.model.Genre
 import com.space.movie.feature.home.domain.repository.GenresRepository
+import com.space.movieapp.core.model.Genre
 import com.space.movieapp.core.network.apicall.ResponseHandler
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 
 class GenresRepositoryImpl(
     private val responseHandler: ResponseHandler,

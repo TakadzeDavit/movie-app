@@ -2,7 +2,7 @@ package com.space.movie.feature.home.data.mapper
 
 import com.space.common.base.BaseMapper
 import com.space.core.database.entity.GenreEntity
-import com.space.movie.feature.home.domain.model.Genre
+import com.space.movieapp.core.model.Genre
 
 class EntityToDomainMapper : BaseMapper<GenreEntity, Genre> {
     override fun map(input: GenreEntity): Genre {
