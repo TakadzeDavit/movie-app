@@ -1,11 +1,18 @@
 package com.space.movieapp.core.network.di
 
+import com.space.common.network.NetworkObserver
 import com.space.movieapp.core.network.interceptor.AuthInterceptor
 import com.space.movieapp.core.network.BuildConfig
+import com.space.movieapp.core.network.apicall.ResponseHandler
+import com.space.movieapp.core.network.apicall.ResponseHandlerImpl
+import com.space.movieapp.core.network.observer.NetworkObserverImpl
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -41,4 +48,10 @@ val networkModule = module {
             .addConverterFactory(get<Json>().asConverterFactory("application/json".toMediaType()))
             .build()
     }
+
+    single<NetworkObserver> {
+        NetworkObserverImpl(context = androidContext())
+    }
+
+    singleOf(::ResponseHandlerImpl) { bind<ResponseHandler>() }
 }

@@ -7,5 +7,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.paging.common)
+    implementation(libs.androidx.paging.compose)
+
+    // modules
     implementation(projects.feature.home.domain)
 }

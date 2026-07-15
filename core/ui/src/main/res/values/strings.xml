@@ -9,4 +9,5 @@
     <string name="romance">Romance</string>
     <string name="horror">Horror</string>
     <string name="science_fiction">Science Fiction</string>
+    <string name="no_internet_connection_you_are_offline">No internet connection. You are offline.</string>
 </resources>

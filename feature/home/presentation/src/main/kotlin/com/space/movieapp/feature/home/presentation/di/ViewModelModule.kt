@@ -7,6 +7,7 @@ import org.koin.dsl.module
 val viewModelModule = module {
     viewModel<HomeViewModel> { HomeViewModel(
         getPopularMoviesUseCase = get(),
-        popularMovieUiMapper = get()
+        popularMovieUiMapper = get(),
+        networkObserver = get(),
     ) }
 }
