@@ -1,4 +1,4 @@
-package com.space.feature.details.data.api_service
+package com.space.feature.details.data.remote.api_service
 
 import com.space.feature.details.data.model.MovieDetailsDto
 import retrofit2.Response

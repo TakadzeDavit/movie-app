@@ -181,14 +181,16 @@ private fun HomeContent(
                             BottomCircularProgress()
                         }
                     }
+
+                    if (!state.isOnline) {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            NetworkStatusBanner(isOnline = state.isOnline)
+                        }
+                    }
                 }
             }
 
             is LoadState.Error -> Unit
         }
-
-        NetworkStatusBanner(
-            isOnline = state.isOnline,
-        )
     }
 }

@@ -1,4 +1,4 @@
-package com.space.movie.feature.home.data.remote.paging.movie
+package com.space.movie.feature.home.data.paging.movie
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -8,11 +8,12 @@ import com.space.core.database.dao.GenreDao
 import com.space.core.domain.model.PopularMovie
 import com.space.movie.feature.home.data.mapper.PopularMovieDtoMapper
 import com.space.movie.feature.home.data.remote.apiservice.PopularMoviesApiService
+import com.space.movie.feature.home.data.remote.datasource.movie.PopularMovieRemoteDataSource
 import com.space.movieapp.core.network.extension.toNetworkError
 import java.io.IOException
 
 class PopularMoviesPagingSource(
-    private val popularMoviesApi: PopularMoviesApiService,
+    private val remoteDataSource: PopularMovieRemoteDataSource,
     private val popularMovieDtoMapper: PopularMovieDtoMapper,
     private val genreDao: GenreDao
 ) : PagingSource<Int, PopularMovie>() {
@@ -20,7 +21,7 @@ class PopularMoviesPagingSource(
         return try {
             val pageNumber = params.key ?: 1
 
-            val response = popularMoviesApi.getPopularMovies(page = pageNumber)
+            val response = remoteDataSource.getPopularMovies(page = pageNumber)
 
             if (response.isSuccessful) {
                 val moviesDto = response.body()?.results ?: emptyList()

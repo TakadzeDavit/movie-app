@@ -15,10 +15,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.space.movieapp.core.ui.R
 import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.Radius
 import com.space.ui.theme.Spacing
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun NetworkStatusBanner(
@@ -37,14 +41,15 @@ fun NetworkStatusBanner(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(colors.surface)
-                .padding(Spacing.spacing16),
+                .background(colors.surface, shape = Radius.radius16)
+                .padding(Spacing.spacing08),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = stringResource(R.string.no_internet_connection_you_are_offline),
                 color = colors.primaryText,
-                style = typography.titleMedium
+                style = typography.titleMedium,
+                textAlign = TextAlign.Center
             )
         }
     }

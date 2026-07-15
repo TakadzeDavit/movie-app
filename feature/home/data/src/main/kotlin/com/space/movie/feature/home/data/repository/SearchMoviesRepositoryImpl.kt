@@ -7,12 +7,13 @@ import com.space.core.database.dao.GenreDao
 import com.space.core.domain.model.PopularMovie
 import com.space.movie.feature.home.data.mapper.PopularMovieDtoMapper
 import com.space.movie.feature.home.data.remote.apiservice.PopularMoviesApiService
-import com.space.movie.feature.home.data.remote.paging.search.SearchPagingSource
+import com.space.movie.feature.home.data.paging.search.SearchPagingSource
+import com.space.movie.feature.home.data.remote.datasource.search.SearchRemoteDataSource
 import com.space.movie.feature.home.domain.repository.SearchMoviesRepository
 import kotlinx.coroutines.flow.Flow
 
 class SearchMoviesRepositoryImpl(
-    private val apiService: PopularMoviesApiService,
+    private val searchRemoteDataSource: SearchRemoteDataSource,
     private val popularMovieDtoMapper: PopularMovieDtoMapper,
     private val genreDao: GenreDao
 ) : SearchMoviesRepository {
@@ -26,7 +27,7 @@ class SearchMoviesRepositoryImpl(
             ),
             pagingSourceFactory = {
                 SearchPagingSource(
-                    apiService = apiService,
+                    remoteDataSource = searchRemoteDataSource,
                     query = query,
                     dtoMapper = popularMovieDtoMapper,
                     genreDao = genreDao,

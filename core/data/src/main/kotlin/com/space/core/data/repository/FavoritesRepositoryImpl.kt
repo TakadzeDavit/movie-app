@@ -1,5 +1,6 @@
 package com.space.core.data.repository
 
+import com.space.core.data.local.datasource.FavoritesLocalDataSourceImpl
 import com.space.core.database.dao.FavoriteDao
 import com.space.core.domain.repository.FavoritesRepository
 import com.space.core.data.mapper.ToDomainMapper
@@ -9,12 +10,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class FavoritesRepositoryImpl(
-    private val favoriteDao: FavoriteDao,
     private val toDomainMapper: ToDomainMapper,
-    private val toEntityMapper: ToEntityMapper
+    private val toEntityMapper: ToEntityMapper,
+    private val favoritesLocalDataSourceImpl: FavoritesLocalDataSourceImpl
 ) : FavoritesRepository {
     override fun getAllFavorites(): Flow<List<PopularMovie>> {
-        return favoriteDao.getAllFavoriteMovies().map { entityList ->
+        return favoritesLocalDataSourceImpl.getAllFavoriteMovies().map { entityList ->
             entityList.map { entity ->
                 toDomainMapper.map(entity)
             }
@@ -22,14 +23,14 @@ class FavoritesRepositoryImpl(
     }
 
     override suspend fun removeFromFavorites(movieId: Int) {
-        favoriteDao.deleteFavoriteById(movieId)
+        favoritesLocalDataSourceImpl.deleteFavoriteById(movieId)
     }
 
     override fun getFavoriteMovieIds(): Flow<List<Int>> {
-        return favoriteDao.getFavoriteMovieIds()
+        return favoritesLocalDataSourceImpl.getFavoriteMovieIds()
     }
 
     override suspend fun insertFavorite(movie: PopularMovie) {
-        favoriteDao.insertFavorite(movie = toEntityMapper.map(movie))
+        favoritesLocalDataSourceImpl.insertFavorite(movie = toEntityMapper.map(movie))
     }
 }

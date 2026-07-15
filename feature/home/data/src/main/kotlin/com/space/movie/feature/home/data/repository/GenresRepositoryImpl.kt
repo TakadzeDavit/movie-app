@@ -6,6 +6,7 @@ import com.space.core.database.dao.GenreDao
 import com.space.movie.feature.home.data.mapper.EntityToDomainMapper
 import com.space.movie.feature.home.data.mapper.GenreEntityMapper
 import com.space.movie.feature.home.data.remote.apiservice.GenresApiService
+import com.space.movie.feature.home.data.remote.datasource.genre.GenreRemoteDataSource
 import com.space.movie.feature.home.domain.repository.GenresRepository
 import com.space.movieapp.core.model.Genre
 import com.space.movieapp.core.network.apicall.ResponseHandler
@@ -14,10 +15,10 @@ import kotlinx.coroutines.flow.flow
 
 class GenresRepositoryImpl(
     private val responseHandler: ResponseHandler,
-    private val genresApiService: GenresApiService,
     private val genreEntityMapper: GenreEntityMapper,
     private val entityToDomainMapper: EntityToDomainMapper,
-    private val genreDao: GenreDao
+    private val genreDao: GenreDao,
+    private val genreRemoteDataSource: GenreRemoteDataSource
 ) : GenresRepository {
     override fun getGenres(): Flow<ApiResult<List<Genre>>> = flow {
         val cached = genreDao.getAllGenres()
@@ -26,7 +27,7 @@ class GenresRepositoryImpl(
             emit(ApiResult.Success(cached.map(entityToDomainMapper::map)))
         } else {
             responseHandler.apiCall {
-                genresApiService.getGenres()
+                genreRemoteDataSource.getGenres()
             }.mapApiResult { dtoGenres ->
                 val entities = dtoGenres.genres.map(genreEntityMapper::map)
                 genreDao.insertGenres(entities)

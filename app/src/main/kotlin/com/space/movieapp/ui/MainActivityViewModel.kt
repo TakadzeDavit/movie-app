@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
-class MainActivityViewModel : ViewModel() {
+class MainActivityViewModel: ViewModel() {
     private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val loading = _isLoading.asStateFlow()
 
@@ -27,5 +27,4 @@ class MainActivityViewModel : ViewModel() {
             _isLoading.update { false }
         }
     }
-
 }
