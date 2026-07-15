@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.core.network)
     implementation(projects.core.database)
     implementation(projects.core.common)
+    implementation(projects.core.domain)
     implementation(projects.feature.home.domain)
     implementation(projects.core.model)
 }

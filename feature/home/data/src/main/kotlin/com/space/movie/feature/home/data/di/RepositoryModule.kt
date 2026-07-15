@@ -8,6 +8,8 @@ import com.space.movie.feature.home.domain.repository.FilterMoviesRepository
 import com.space.movie.feature.home.domain.repository.GenresRepository
 import com.space.movie.feature.home.domain.repository.PopularMoviesRepository
 import com.space.movie.feature.home.domain.repository.SearchMoviesRepository
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val repositoryModule = module {

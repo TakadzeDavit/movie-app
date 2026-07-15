@@ -4,10 +4,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.space.core.database.dao.GenreDao
+import com.space.core.domain.model.PopularMovie
 import com.space.movie.feature.home.data.mapper.PopularMovieDtoMapper
 import com.space.movie.feature.home.data.remote.apiservice.PopularMoviesApiService
 import com.space.movie.feature.home.data.remote.paging.search.SearchPagingSource
-import com.space.movie.feature.home.domain.model.PopularMovie
 import com.space.movie.feature.home.domain.repository.SearchMoviesRepository
 import kotlinx.coroutines.flow.Flow
 

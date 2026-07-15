@@ -5,9 +5,9 @@ import androidx.paging.PagingState
 import com.space.common.api_result.NetworkError
 import com.space.common.exception.PagingException
 import com.space.core.database.dao.GenreDao
+import com.space.core.domain.model.PopularMovie
 import com.space.movie.feature.home.data.mapper.PopularMovieDtoMapper
 import com.space.movie.feature.home.data.remote.apiservice.DiscoverApiService
-import com.space.movie.feature.home.domain.model.PopularMovie
 import com.space.movieapp.core.network.extension.toNetworkError
 import java.io.IOException
 

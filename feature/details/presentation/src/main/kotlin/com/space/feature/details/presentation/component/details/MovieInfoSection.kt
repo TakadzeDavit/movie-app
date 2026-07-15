@@ -49,6 +49,7 @@ fun MovieInfoSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
+                modifier = Modifier.weight(1f),
                 text = title,
                 style = typography.titleLarge,
                 color = colors.primaryText,

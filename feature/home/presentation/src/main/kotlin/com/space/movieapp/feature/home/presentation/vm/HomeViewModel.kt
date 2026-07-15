@@ -8,12 +8,17 @@ import com.space.common.network.NetworkObserver
 import com.space.movie.core.presentation.common.BaseViewModel
 import com.space.movie.core.presentation.common.EmptySideEffect
 import com.space.movie.core.presentation.extension.handleApiResult
-import com.space.movie.feature.home.domain.usecase.FilterMoviesUseCase
-import com.space.movie.feature.home.domain.usecase.GetGenresUseCase
-import com.space.movie.feature.home.domain.usecase.GetPopularMoviesUseCase
-import com.space.movie.feature.home.domain.usecase.SearchMoviesUseCase
+import com.space.core.domain.model.PopularMovie
+import com.space.core.domain.usecase.DeleteByIdUseCase
+import com.space.core.domain.usecase.GetFavoriteIdsUseCase
+import com.space.core.domain.usecase.InsertFavoriteUseCase
+import com.space.movie.feature.home.domain.usecase.genres.FilterMoviesUseCase
+import com.space.movie.feature.home.domain.usecase.genres.GetGenresUseCase
+import com.space.movie.feature.home.domain.usecase.movies.GetPopularMoviesUseCase
+import com.space.movie.feature.home.domain.usecase.movies.SearchMoviesUseCase
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent
 import com.space.movieapp.feature.home.presentation.contract.HomeState
+import com.space.movieapp.feature.home.presentation.mapper.MovieDomainMapper
 import com.space.movieapp.feature.home.presentation.mapper.PopularMovieUiMapper
 import com.space.movieapp.feature.home.presentation.model.PopularMovieUI
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,7 +27,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -35,12 +39,16 @@ class HomeViewModel(
     private val popularMovieUiMapper: PopularMovieUiMapper,
     private val searchMoviesUseCase: SearchMoviesUseCase,
     private val filterMoviesUseCase: FilterMoviesUseCase,
-    private val networkObserver: NetworkObserver
+    private val networkObserver: NetworkObserver,
+    private val deleteByIdUseCase: DeleteByIdUseCase,
+    private val getFavoriteIdsUseCase: GetFavoriteIdsUseCase,
+    private val insertFavoriteUseCase: InsertFavoriteUseCase,
+    private val movieDomainMapper: MovieDomainMapper
 ) : BaseViewModel<HomeState, HomeEvent, EmptySideEffect>(HomeState()) {
 
     override fun onEvent(event: HomeEvent) {
         when (event) {
-            is HomeEvent.OnFavoriteClick -> Unit
+            is HomeEvent.OnFavoriteClick -> toggleFavorite(event.movie)
             is HomeEvent.OnSearchQueryChange -> updateState { copy(searchQuery = event.text) }
             is HomeEvent.OnFilterIconClick -> updateState { copy(areFiltersExpanded = !areFiltersExpanded) }
             is HomeEvent.ResetSearch -> updateState { copy(searchQuery = "") }
@@ -51,6 +59,18 @@ class HomeViewModel(
     init {
         loadGenres()
         observeNetwork()
+    }
+
+    private fun toggleFavorite(movie: PopularMovieUI) {
+        viewModelScope.launch {
+            if (movie.isFavorite) {
+                deleteByIdUseCase.invoke(movie.id)
+            } else {
+                // send model from presentation to data layer and insert in database
+                val domainModel = movieDomainMapper.map(movie)
+                insertFavoriteUseCase(movie = domainModel)
+            }
+        }
     }
 
     @OptIn(FlowPreview::class)
@@ -67,26 +87,33 @@ class HomeViewModel(
         .map { it.genresLoaded }
         .distinctUntilChanged()
 
+    private val favoriteIdsFlow =
+        getFavoriteIdsUseCase.invoke().map { it.toSet() }.distinctUntilChanged()
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    val moviesPagedFlow = combine(
-        flow = genresLoadedFlow,
-        flow2 = debouncedQueryFlow,
-        flow3 = genreIdFlow
+    private val basePagedFlow: Flow<PagingData<PopularMovie>> = combine(
+        genresLoadedFlow, debouncedQueryFlow, genreIdFlow
     ) { genresLoaded, query, genreId ->
         if (genresLoaded) query to genreId else null
     }
         .filterNotNull()
         .distinctUntilChanged()
-        .flatMapLatest { (query, genreId) -> resolveMovies(query, genreId) }
+        .flatMapLatest { (query, genreId) -> resolveMoviesRaw(query, genreId) }
         .cachedIn(viewModelScope)
 
-    private fun resolveMovies(query: String, genreId: Int?): Flow<PagingData<PopularMovieUI>> {
-        val flow = when {
+    val moviesPagedFlow: Flow<PagingData<PopularMovieUI>> = combine(
+        basePagedFlow,
+        favoriteIdsFlow
+    ) { pagingData, favoriteIds ->
+        pagingData.map { movie -> popularMovieUiMapper.map(movie, favoriteIds) }
+    }
+
+    private fun resolveMoviesRaw(query: String, genreId: Int?): Flow<PagingData<PopularMovie>> {
+        return when {
             query.isNotBlank() -> searchMoviesUseCase(query)
             genreId != null -> filterMoviesUseCase(genreId)
             else -> getPopularMoviesUseCase()
         }
-        return flow.map { pagingData -> pagingData.map(popularMovieUiMapper::map) }
     }
 
     private fun onFilterClick(genreId: Int) {
@@ -98,7 +125,7 @@ class HomeViewModel(
 
             copy(
                 selectedGenreId = newGenreId,
-                showFilterName = newFilterName
+                showFilterNameOnCard = newFilterName
             )
         }
     }
@@ -114,7 +141,14 @@ class HomeViewModel(
     private fun loadGenres() {
         viewModelScope.launch {
             getGenresUseCase.invoke().handleApiResult(
-                onSuccess = { genres -> updateState { copy(filters = genres, genresLoaded = true) } },
+                onSuccess = { genres ->
+                    updateState {
+                        copy(
+                            filters = genres,
+                            genresLoaded = true
+                        )
+                    }
+                },
                 onError = { _, _ -> updateState { copy(genresLoaded = true) } }
             )
         }

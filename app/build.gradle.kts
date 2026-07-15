@@ -32,6 +32,8 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:network"))
     implementation(project(":core:database"))
+    implementation(project(":core:data"))
+    implementation(project(":core:domain"))
     implementation(project(":core:presentation"))
     implementation(project(":feature:home:presentation"))
     implementation(project(":feature:home:data"))

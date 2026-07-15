@@ -20,19 +20,21 @@ fun MovieInfoTag(
     val colors = MovieTheme.colors
     val typography = MovieTheme.typography
 
-    Row(
-        modifier = Modifier
-            .background(color = colors.surface, shape = Radius.radius16)
-            .padding(horizontal = Spacing.spacing10, vertical = Spacing.spacing04),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Spacing.spacing04)
-    ) {
-        if (icon != null) icon()
+    if(text.isNotEmpty()) {
+        Row(
+            modifier = Modifier
+                .background(color = colors.surface, shape = Radius.radius16)
+                .padding(horizontal = Spacing.spacing10, vertical = Spacing.spacing04),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Spacing.spacing04)
+        ) {
+            if (icon != null) icon()
 
-        Text(
-            text = text,
-            style = typography.bodyMedium,
-            color = colors.textSecondary
-        )
+            Text(
+                text = text,
+                style = typography.bodyMedium,
+                color = colors.textSecondary
+            )
+        }
     }
 }

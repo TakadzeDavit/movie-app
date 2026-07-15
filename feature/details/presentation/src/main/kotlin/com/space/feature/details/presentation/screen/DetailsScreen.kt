@@ -6,9 +6,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -16,6 +18,7 @@ import com.space.feature.details.presentation.R
 import com.space.feature.details.presentation.component.description.MovieDescriptionSection
 import com.space.feature.details.presentation.component.details.MovieInfoSection
 import com.space.feature.details.presentation.component.poster.MoviePosterSection
+import com.space.feature.details.presentation.contract.DetailsEvent
 import com.space.feature.details.presentation.contract.DetailsState
 import com.space.feature.details.presentation.vm.DetailsViewModel
 import com.space.movie.core.presentation.common.DataState
@@ -36,6 +39,7 @@ fun DetailsScreen(
     DetailsContent(
         state = state,
         onBackClick = onBackClick,
+        onEvent = viewModel::onEvent
     )
 }
 
@@ -43,6 +47,7 @@ fun DetailsScreen(
 private fun DetailsContent(
     state: DetailsState,
     onBackClick: () -> Unit,
+    onEvent: (DetailsEvent) -> Unit,
     onTrailerClick: () -> Unit = {}
 ) {
     val colors = MovieTheme.colors
@@ -54,7 +59,13 @@ private fun DetailsContent(
     ) {
         when (val currentMovieState = state.movieState) {
             is DataState.Loading -> {
-                LoadingScreen()
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LoadingScreen()
+                }
             }
 
             is DataState.Success -> {
@@ -84,8 +95,10 @@ private fun DetailsContent(
                                 genre = movieData.genre,
                                 duration = movieData.duration,
                                 year = movieData.year,
-                                isFavorite = movieData.isFavorite,
-                                onFavoriteClick = {}
+                                isFavorite = state.isFavorite,
+                                onFavoriteClick = {
+                                    onEvent(DetailsEvent.OnFavoriteClick)
+                                }
                             )
                         }
 
@@ -102,7 +115,9 @@ private fun DetailsContent(
                     ErrorScreen(
                         title = stringResource(R.string.something_went_wrong),
                         description = stringResource(R.string.please_try_again),
-                        onRefreshClick = { }
+                        onRefreshClick = {
+                            onEvent(DetailsEvent.OnRefreshClick)
+                        }
                     )
                 }
             }

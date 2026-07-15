@@ -13,4 +13,5 @@ dependencies {
     // modules
     implementation(projects.feature.home.domain)
     implementation(projects.core.model)
+    implementation(projects.core.domain)
 }
