@@ -36,7 +36,8 @@ fun MovieBottomBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(colors.background)
-            .padding(horizontal = Spacing.spacing16, vertical = Spacing.spacing12),
+            .padding(horizontal = Spacing.spacing16, vertical = Spacing.spacing12)
+            .padding(bottom = Spacing.spacing16),
         horizontalArrangement = Arrangement.spacedBy(Spacing.spacing16)
     ) {
         val items = listOf(Screen.Home, Screen.Favorites)

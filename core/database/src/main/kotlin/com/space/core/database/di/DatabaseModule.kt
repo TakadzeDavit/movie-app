@@ -9,11 +9,12 @@ import kotlin.jvm.java
 val databaseModule = module {
     single {
         Room.databaseBuilder(
-            androidContext(),
-            AppDatabase::class.java,
-            "movie_app_database"
-        ).fallbackToDestructiveMigration(false).build()
+                androidContext(),
+                AppDatabase::class.java,
+                "movie_app_database"
+            ).fallbackToDestructiveMigration(false).build()
     }
 
     single { get<AppDatabase>().genreDao() }
+    single { get<AppDatabase>().favoriteDao() }
 }

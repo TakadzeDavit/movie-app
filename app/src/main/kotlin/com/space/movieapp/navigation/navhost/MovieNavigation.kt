@@ -33,7 +33,11 @@ fun MovieNavigation(
             }
         )
 
-        favoritesNavGraph()
+        favoritesNavGraph(
+            navigateOnDetails = { movieId ->
+                navController.navigate(Route.Details(movieId = movieId))
+            }
+        )
 
         detailsNavGraph(
             onBackClick = {

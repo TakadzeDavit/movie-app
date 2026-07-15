@@ -9,7 +9,6 @@ import com.space.movie.feature.home.data.remote.apiservice.PopularMoviesApiServi
 import com.space.movie.feature.home.data.remote.paging.search.SearchPagingSource
 import com.space.movie.feature.home.domain.model.PopularMovie
 import com.space.movie.feature.home.domain.repository.SearchMoviesRepository
-import com.space.movieapp.core.network.apicall.ResponseHandler
 import kotlinx.coroutines.flow.Flow
 
 class SearchMoviesRepositoryImpl(
