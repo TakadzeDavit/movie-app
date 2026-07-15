@@ -26,6 +26,7 @@ import com.space.movieapp.feature.home.presentation.model.PopularMovieUI
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -133,7 +134,7 @@ class HomeViewModel(
 
     private fun observeNetwork() {
         viewModelScope.launch {
-            networkObserver.isConnected.collect { connected ->
+            networkObserver.isConnected.collectLatest { connected ->
                 updateState { copy(isOnline = connected) }
             }
         }

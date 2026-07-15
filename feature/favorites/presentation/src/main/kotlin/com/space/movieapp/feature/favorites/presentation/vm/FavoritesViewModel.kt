@@ -10,6 +10,7 @@ import com.space.movie.core.presentation.common.EmptySideEffect
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesEvent
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesState
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class FavoritesViewModel(
@@ -50,7 +51,7 @@ class FavoritesViewModel(
                         )
                     }
                 }
-                .collect { moviesList ->
+                .collectLatest { moviesList ->
                     updateState {
                         copy(favoriteMovies = DataState.Success(moviesList))
                     }

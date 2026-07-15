@@ -3,9 +3,7 @@ package com.space.feature.details.presentation.vm
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.space.common.api_result.ApiResult
 import com.space.core.domain.usecase.DeleteByIdUseCase
-import com.space.core.domain.usecase.GetFavoriteIdsUseCase
 import com.space.core.domain.usecase.InsertFavoriteUseCase
 import com.space.core.domain.usecase.IsFavoriteUseCase
 import com.space.feature.details.domain.usecase.GetMovieDetailsUseCase
@@ -17,10 +15,7 @@ import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.common.EmptySideEffect
 import com.space.movie.core.presentation.extension.handleApiResult
 import com.space.movieapp.core.navigation.Route
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.serialization.InternalSerializationApi
 
@@ -87,7 +82,7 @@ class DetailsViewModel(
 
     private fun observeFavoriteStatus() {
         viewModelScope.launch {
-            isMovieFavoriteUseCase.invoke(movieId = movieId).collect { isFavorite ->
+            isMovieFavoriteUseCase.invoke(movieId = movieId).collectLatest { isFavorite ->
                 updateState { copy(isFavorite = isFavorite) }
             }
         }
