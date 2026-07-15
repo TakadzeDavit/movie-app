@@ -16,7 +16,7 @@ class MovieDetailsMapper : BaseMapper<MovieDetailsDto, MovieDetails> {
 
         val formattedDuration = "${hours}h ${formattedMinutes}m"
 
-        val firstGenre = input.genres[0].name
+        val firstGenre = input.genres.firstOrNull()?.name.orEmpty()
 
         return MovieDetails(
             id = input.id,
