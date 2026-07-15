@@ -46,7 +46,6 @@ class DetailsViewModel(
             DetailsEvent.OnFavoriteClick -> toggleFavorite()
             DetailsEvent.OnRefreshClick -> {
                 fetchMovieDetails()
-                observeFavoriteStatus()
             }
         }
     }
@@ -73,7 +72,12 @@ class DetailsViewModel(
                 },
                 onError = { networkError, message ->
                     updateState {
-                        copy(movieState = DataState.Error(errorType = networkError, message = message))
+                        copy(
+                            movieState = DataState.Error(
+                                errorType = networkError,
+                                message = message
+                            )
+                        )
                     }
                 }
             )
@@ -84,7 +88,6 @@ class DetailsViewModel(
         viewModelScope.launch {
             getFavoriteIdsUseCase.invoke()
                 .map { it.toSet() }
-                .distinctUntilChanged()
                 .collect { favoriteIds ->
                     updateState { copy(isFavorite = favoriteIds.contains(movieId)) }
                 }

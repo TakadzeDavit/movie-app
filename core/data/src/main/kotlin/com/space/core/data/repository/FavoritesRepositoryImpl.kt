@@ -33,4 +33,8 @@ class FavoritesRepositoryImpl(
     override suspend fun insertFavorite(movie: PopularMovie) {
         favoritesLocalDataSourceImpl.insertFavorite(movie = toEntityMapper.map(movie))
     }
+
+    override fun isMovieFavorite(movieId: Int): Flow<Boolean> {
+        return favoritesLocalDataSourceImpl.isMovieFavorite(movieId)
+    }
 }

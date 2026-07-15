@@ -18,6 +18,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.KeyboardActionHandler
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.clearText
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -53,8 +57,6 @@ import com.space.ui.theme.Spacing
  * * Toggles the filter icon asset state based on whether the filters are expanded.
  * * Uses [AnimatedVisibility] to smoothly fade filter options in and out.
  *
- * @param searchQuery The current text query typed in the search field.
- * @param onSearchQueryChange Callback lambda invoked when the input text changes.
  * @param onFilterClick Callback lambda invoked when the filter toggle button is clicked.
  * @param areFiltersExpanded Controls the visibility state of the expandable filter chip section.
  * @param modifier The [Modifier] to be applied to the outermost container layout ([Column]).
@@ -62,8 +64,7 @@ import com.space.ui.theme.Spacing
 
 @Composable
 fun MovieAppSearch(
-    searchQuery: String,
-    onSearchQueryChange: (String) -> Unit,
+    searchState: TextFieldState,
     onFilterClick: () -> Unit,
     areFiltersExpanded: Boolean,
     modifier: Modifier = Modifier,
@@ -97,8 +98,7 @@ fun MovieAppSearch(
         ) {
 
             BasicTextField(
-                value = searchQuery,
-                onValueChange = onSearchQueryChange,
+                state = searchState,
                 modifier = Modifier
                     .weight(1f)
                     .height(Sizing.size48)
@@ -107,10 +107,13 @@ fun MovieAppSearch(
                     },
                 textStyle = typography.bodyMedium.copy(color = colors.primaryText),
                 cursorBrush = SolidColor(colors.primaryText),
-                singleLine = true,
+                lineLimits = TextFieldLineLimits.SingleLine,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                keyboardActions = KeyboardActions(onSearch = { focusManager.clearFocus() }),
-                decorationBox = { innerTextField ->
+                onKeyboardAction = { performDefaultAction ->
+                    focusManager.clearFocus()
+                    performDefaultAction()
+                },
+                decorator = { innerTextField ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -129,7 +132,7 @@ fun MovieAppSearch(
                         Spacer(modifier = Modifier.width(Spacing.spacing08))
 
                         Box(modifier = Modifier.weight(1f)) {
-                            if (searchQuery.isEmpty()) {
+                            if (searchState.text.isEmpty()) {
                                 Text(
                                     text = stringResource(R.string.search),
                                     color = colors.textHint,
@@ -140,7 +143,7 @@ fun MovieAppSearch(
                             innerTextField()
                         }
 
-                        if (searchQuery.isNotEmpty()) {
+                        if (searchState.text.isNotEmpty()) {
                             Icon(
                                 painter = painterResource(R.drawable.icon_delete),
                                 contentDescription = null,
@@ -148,7 +151,13 @@ fun MovieAppSearch(
                                 modifier = Modifier
                                     .size(Sizing.size18)
                                     .clickable {
-                                        onSearchQueryChange(searchQuery.dropLast(1))
+                                        searchState.edit {
+                                            replace(
+                                                start = 0,
+                                                end = length,
+                                                text = searchState.text.dropLast(1)
+                                            )
+                                        }
                                     }
                             )
                         }
@@ -156,14 +165,14 @@ fun MovieAppSearch(
 
                 })
 
-            if (isSearchFieldFocused || searchQuery.isNotEmpty()) {
+            if (isSearchFieldFocused || searchState.text.isNotEmpty()) {
                 Text(
                     text = stringResource(R.string.cancel),
                     color = colors.primaryText,
                     style = typography.bodyMedium,
                     modifier = Modifier
                         .clickable {
-                            onSearchQueryChange("")
+                            searchState.clearText()
                             focusManager.clearFocus()
                         }
                         .padding(
@@ -190,7 +199,7 @@ fun MovieAppSearch(
         }
 
         AnimatedVisibility(
-            visible = areFiltersExpanded && !isSearchFieldFocused && searchQuery.isEmpty(),
+            visible = areFiltersExpanded && !isSearchFieldFocused && searchState.text.isEmpty(),
         ) {
             Column {
                 Spacer(modifier = Modifier.height(Spacing.spacing12))

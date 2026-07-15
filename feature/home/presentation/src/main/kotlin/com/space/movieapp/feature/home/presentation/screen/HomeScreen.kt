@@ -32,7 +32,6 @@ import com.space.movieapp.feature.home.presentation.R
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent.OnFavoriteClick
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent.OnFilterClick
-import com.space.movieapp.feature.home.presentation.contract.HomeEvent.OnSearchQueryChange
 import com.space.movieapp.feature.home.presentation.contract.HomeState
 import com.space.movieapp.feature.home.presentation.model.PopularMovieUI
 import com.space.movieapp.feature.home.presentation.vm.HomeViewModel
@@ -107,8 +106,7 @@ private fun HomeContent(
     Column(modifier = Modifier.fillMaxSize()) {
 
         MovieAppSearch(
-            searchQuery = state.searchQuery,
-            onSearchQueryChange = { onEvent(OnSearchQueryChange(it)) },
+            searchState = state.searchState,
             onFilterClick = { onEvent(HomeEvent.OnFilterIconClick) },
             areFiltersExpanded = state.areFiltersExpanded,
         ) {

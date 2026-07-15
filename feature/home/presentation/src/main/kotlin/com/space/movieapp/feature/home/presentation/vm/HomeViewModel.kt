@@ -1,5 +1,7 @@
 package com.space.movieapp.feature.home.presentation.vm
 
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -49,9 +51,8 @@ class HomeViewModel(
     override fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.OnFavoriteClick -> toggleFavorite(event.movie)
-            is HomeEvent.OnSearchQueryChange -> updateState { copy(searchQuery = event.text) }
             is HomeEvent.OnFilterIconClick -> updateState { copy(areFiltersExpanded = !areFiltersExpanded) }
-            is HomeEvent.ResetSearch -> updateState { copy(searchQuery = "") }
+            is HomeEvent.ResetSearch -> updateState { copy(searchState = TextFieldState()) }
             is HomeEvent.OnFilterClick -> onFilterClick(event.genreId)
         }
     }
@@ -74,10 +75,10 @@ class HomeViewModel(
     }
 
     @OptIn(FlowPreview::class)
-    private val debouncedQueryFlow = state
-        .map { it.searchQuery }
-        .distinctUntilChanged()
+    val debouncedQueryFlow = snapshotFlow { state.value.searchState.text }
+        .map { it.toString() }
         .debounce(500.milliseconds)
+        .distinctUntilChanged()
 
     private val genreIdFlow = state
         .map { it.selectedGenreId }
