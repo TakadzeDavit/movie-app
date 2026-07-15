@@ -1,4 +1,4 @@
-package com.space.feature.details.data.resporitory
+package com.space.feature.details.data.repository
 
 import com.space.common.api_result.ApiResult
 import com.space.common.mapper.mapApiResult
