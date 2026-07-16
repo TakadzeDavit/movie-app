@@ -53,7 +53,7 @@ fun HomeScreen(
     onNavigateDetails: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val lazyPagingItems = viewModel.moviesPagedFlow.collectAsLazyPagingItems()
+    val lazyPagingItems = state.movies.collectAsLazyPagingItems()
 
     // Show error screen when initial load fails
     if (lazyPagingItems.loadState.refresh is LoadState.Error) {
