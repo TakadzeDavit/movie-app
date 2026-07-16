@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -21,9 +20,10 @@ import com.space.movieapp.core.navigation.Route
 import com.space.movieapp.navigation.bottomNavigation.MovieBottomBar
 import com.space.movieapp.navigation.navhost.MovieNavigation
 import com.space.ui.theme.MovieAppTheme
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainActivityViewModel by viewModels()
+    private val viewModel: MainActivityViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -38,10 +38,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             val isLoading by viewModel.loading.collectAsStateWithLifecycle()
             val startDestination by viewModel.startDestination.collectAsStateWithLifecycle()
+            val isOnline by viewModel.isOnline.collectAsStateWithLifecycle()
 
             MovieAppTheme {
                 if (!isLoading) {
-                    MainScreen(startDestination = startDestination)
+                    MainScreen(
+                        startDestination = startDestination,
+                        isOnline = isOnline
+                    )
                 }
             }
         }
@@ -50,7 +54,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun MainScreen(
-    startDestination: Route
+    startDestination: Route,
+    isOnline: Boolean
 ) {
     val navController = rememberNavController()
 
@@ -66,7 +71,7 @@ private fun MainScreen(
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != null) {
+            if (currentRoute != null && isOnline) {
                 MovieBottomBar(
                     currentRoute = currentRoute,
                     onNavigate = { route ->

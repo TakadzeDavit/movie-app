@@ -17,6 +17,7 @@ import com.space.movie.feature.home.data.di.homeDataMapperModule
 import com.space.movie.feature.home.data.di.homeDataSourceModule
 import com.space.movie.feature.home.data.di.repositoryModule
 import com.space.movieapp.core.network.di.networkModule
+import com.space.movieapp.di.appModule
 import com.space.movieapp.feature.favorites.presentation.di.favoritesViewModelModule
 import com.space.movieapp.feature.home.presentation.di.homeUiModule
 import com.space.movieapp.feature.home.presentation.di.useCaseModule
@@ -32,6 +33,7 @@ class MovieApp : Application() {
             androidContext(this@MovieApp)
 
             modules (
+                appModule,
                 databaseModule,
                 homeUiModule,
                 homeDataMapperModule,
