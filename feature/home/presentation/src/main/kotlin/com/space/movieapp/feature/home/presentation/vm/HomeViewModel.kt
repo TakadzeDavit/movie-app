@@ -60,25 +60,9 @@ class HomeViewModel(
         }
     }
 
-    init {
-        loadGenres()
-        observeNetwork()
-    }
-
-    private fun toggleFavorite(movie: PopularMovieUI) {
-        viewModelScope.launch {
-            if (movie.isFavorite) {
-                deleteByIdUseCase.invoke(movie.id)
-            } else {
-                // send model from presentation to data layer and insert in database
-                val domainModel = movieDomainMapper.map(movie)
-                insertFavoriteUseCase(movie = domainModel)
-            }
-        }
-    }
-
+    // ----------- Properties ----------- //
     @OptIn(FlowPreview::class)
-    val debouncedQueryFlow = snapshotFlow { state.value.searchState.text }
+    private val debouncedQueryFlow = snapshotFlow { state.value.searchState.text }
         .map { it.toString() }
         .debounce(500.milliseconds)
         .distinctUntilChanged()
@@ -113,14 +97,29 @@ class HomeViewModel(
     }
 
     init {
+        loadGenres()
+        observeNetwork()
         updateState { copy(movies = moviesPagedFlow) }
     }
 
+    // ----------- Methods ----------- //
     private fun resolveMoviesRaw(query: String, genreId: Int?): Flow<PagingData<PopularMovie>> {
         return when {
             query.isNotBlank() -> searchMoviesUseCase(query)
             genreId != null -> filterMoviesUseCase(genreId)
             else -> getPopularMoviesUseCase()
+        }
+    }
+
+    private fun toggleFavorite(movie: PopularMovieUI) {
+        viewModelScope.launch {
+            if (movie.isFavorite) {
+                deleteByIdUseCase.invoke(movie.id)
+            } else {
+                // send model from presentation to data layer and insert in database
+                val domainModel = movieDomainMapper.map(movie)
+                insertFavoriteUseCase(movie = domainModel)
+            }
         }
     }
 

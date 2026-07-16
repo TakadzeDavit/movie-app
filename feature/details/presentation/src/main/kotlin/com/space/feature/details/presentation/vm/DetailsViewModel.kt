@@ -68,7 +68,6 @@ class DetailsViewModel(
                     updateState { copy(movieState = DataState.Success(apiResult)) }
                 },
                 onError = { networkError, message ->
-                    Log.d("taya", "$networkError daaa $message")
                     updateState {
                         copy(
                             movieState = DataState.Error(
