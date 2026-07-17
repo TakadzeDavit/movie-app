@@ -1,6 +1,5 @@
 package com.space.movieapp.feature.home.presentation.vm
 
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.viewModelScope
@@ -61,7 +60,6 @@ class HomeViewModel(
         }
     }
 
-    // ----------- Properties ----------- //
     @OptIn(FlowPreview::class)
     private val debouncedQueryFlow = snapshotFlow { state.value.searchState.text }
         .map { it.toString() }
@@ -103,7 +101,6 @@ class HomeViewModel(
         updateState { copy(movies = moviesPagedFlow) }
     }
 
-    // ----------- Methods ----------- //
     private fun resolveMoviesRaw(query: String, genreId: Int?): Flow<PagingData<PopularMovie>> {
         return when {
             query.isNotBlank() -> searchMoviesUseCase(query)
@@ -117,7 +114,6 @@ class HomeViewModel(
             if (movie.isFavorite) {
                 deleteByIdUseCase.invoke(movie.id)
             } else {
-                // send model from presentation to data layer and insert in database
                 val domainModel = movieDomainMapper.map(movie)
                 insertFavoriteUseCase(movie = domainModel)
             }

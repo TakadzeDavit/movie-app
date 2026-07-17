@@ -28,11 +28,7 @@ class MainActivityViewModel(
         observeNetwork()
 
         viewModelScope.launch {
-            // 1. get token
-            // 2. if token is blank, set startDestination to Route.Auth, otherwise to Route.Catalogue
-
             delay(1000.milliseconds)
-
             _isLoading.update { false }
         }
     }

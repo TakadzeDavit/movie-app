@@ -12,4 +12,6 @@ dependencies {
     implementation(projects.core.domain)
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.paging.common)
+    implementation(libs.androidx.paging.compose)
 }
