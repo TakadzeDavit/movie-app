@@ -1,6 +1,7 @@
 package com.space.movieapp.feature.home.presentation.vm
 
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.clearText
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -55,7 +56,7 @@ class HomeViewModel(
             is HomeEvent.OnFilterIconClick ->
                 updateState { copy(areFiltersExpanded = !areFiltersExpanded) }
 
-            is HomeEvent.ResetSearch -> updateState { copy(searchState = TextFieldState()) }
+            is HomeEvent.ResetSearch -> { state.value.searchState.clearText() }
             is HomeEvent.OnFilterClick -> onFilterClick(event.genreId)
         }
     }

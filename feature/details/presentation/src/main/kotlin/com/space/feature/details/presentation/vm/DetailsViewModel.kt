@@ -1,6 +1,5 @@
 package com.space.feature.details.presentation.vm
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute

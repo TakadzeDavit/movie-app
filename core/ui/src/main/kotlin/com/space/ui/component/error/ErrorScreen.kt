@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.space.movieapp.core.ui.R
@@ -79,6 +80,10 @@ fun ErrorScreen(
 
         Spacer(modifier = Modifier.height(Spacing.spacing110))
 
-        ButtonRefresh(text = "Refresh", iconRes = R.drawable.icon_refresh, onClick = onRefreshClick)
+        ButtonRefresh(
+            text = stringResource(R.string.refresh),
+            iconRes = R.drawable.icon_refresh,
+            onClick = onRefreshClick
+        )
     }
 }
