@@ -23,7 +23,7 @@ import com.space.feature.details.presentation.component.details.MovieInfoSection
 import com.space.feature.details.presentation.component.poster.MoviePosterSection
 import com.space.feature.details.presentation.contract.DetailsEvent
 import com.space.feature.details.presentation.contract.DetailsState
-import com.space.feature.details.presentation.vm.DetailsViewModel
+import com.space.feature.details.presentation.vm.DetailsVM
 import com.space.movie.core.presentation.common.DataState
 import com.space.ui.component.button.MovieAppHeader
 import com.space.ui.component.error.ErrorScreen
@@ -34,7 +34,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DetailsScreen(
-    viewModel: DetailsViewModel = koinViewModel(),
+    viewModel: DetailsVM = koinViewModel(),
     onBackClick: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()

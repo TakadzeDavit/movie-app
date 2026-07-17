@@ -19,11 +19,12 @@ import androidx.navigation.compose.rememberNavController
 import com.space.movieapp.core.navigation.Route
 import com.space.movieapp.navigation.bottomNavigation.MovieBottomBar
 import com.space.movieapp.navigation.navhost.MovieNavigation
+import com.space.movieapp.ui.vm.MainVM
 import com.space.ui.theme.MovieAppTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainActivityViewModel by viewModel()
+    private val viewModel: MainVM by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -31,20 +32,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         splashScreen.setKeepOnScreenCondition {
-            viewModel.loading.value
+            viewModel.state.value.isLoading
         }
 
         enableEdgeToEdge()
         setContent {
-            val isLoading by viewModel.loading.collectAsStateWithLifecycle()
-            val startDestination by viewModel.startDestination.collectAsStateWithLifecycle()
-            val isOnline by viewModel.isOnline.collectAsStateWithLifecycle()
+            val state by viewModel.state.collectAsStateWithLifecycle()
 
             MovieAppTheme {
-                if (!isLoading) {
+                if (!state.isLoading) {
                     MainScreen(
-                        startDestination = startDestination,
-                        isOnline = isOnline
+                        startDestination = state.startDestination,
+                        isOnline = state.isOnline
                     )
                 }
             }
@@ -59,7 +58,6 @@ private fun MainScreen(
 ) {
     val navController = rememberNavController()
 
-    // Bottom navigation, current route
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.let { destination ->
         when {

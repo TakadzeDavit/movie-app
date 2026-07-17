@@ -10,7 +10,7 @@ import com.space.feature.details.domain.usecase.GetMovieDetailsUseCase
 import com.space.feature.details.presentation.contract.DetailsEvent
 import com.space.feature.details.presentation.contract.DetailsState
 import com.space.feature.details.presentation.mapper.MovieDetailsDomainMapper
-import com.space.movie.core.presentation.common.BaseViewModel
+import com.space.movie.core.presentation.common.BaseVM
 import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.common.EmptySideEffect
 import com.space.movie.core.presentation.extension.handleApiResult
@@ -20,14 +20,14 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.InternalSerializationApi
 
 @OptIn(InternalSerializationApi::class)
-class DetailsViewModel(
+class DetailsVM(
     private val savedStateHandle: SavedStateHandle,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val insertFavoriteUseCase: InsertFavoriteUseCase,
     private val deleteByIdUseCase: DeleteByIdUseCase,
     private val movieDetailsDomainMapper: MovieDetailsDomainMapper,
     private val isMovieFavoriteUseCase: IsFavoriteUseCase
-) : BaseViewModel<DetailsState, DetailsEvent, EmptySideEffect>(DetailsState()) {
+) : BaseVM<DetailsState, DetailsEvent, EmptySideEffect>(DetailsState()) {
 
     private val detailsArgs = savedStateHandle.toRoute<Route.Details>()
     private val movieId: Int = detailsArgs.movieId

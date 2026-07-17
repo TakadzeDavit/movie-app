@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.space.common.network.NetworkObserver
-import com.space.movie.core.presentation.common.BaseViewModel
+import com.space.movie.core.presentation.common.BaseVM
 import com.space.movie.core.presentation.common.EmptySideEffect
 import com.space.movie.core.presentation.extension.handleApiResult
 import com.space.core.domain.model.PopularMovie
@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
-class HomeViewModel(
+class HomeVM(
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
     private val getGenresUseCase: GetGenresUseCase,
     private val popularMovieUiMapper: PopularMovieUiMapper,
@@ -47,7 +47,7 @@ class HomeViewModel(
     private val getFavoriteIdsUseCase: GetFavoriteIdsUseCase,
     private val insertFavoriteUseCase: InsertFavoriteUseCase,
     private val movieDomainMapper: MovieDomainMapper
-) : BaseViewModel<HomeState, HomeEvent, EmptySideEffect>(HomeState()) {
+) : BaseVM<HomeState, HomeEvent, EmptySideEffect>(HomeState()) {
 
     override fun onEvent(event: HomeEvent) {
         when (event) {

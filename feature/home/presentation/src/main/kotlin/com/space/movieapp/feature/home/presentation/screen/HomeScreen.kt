@@ -25,7 +25,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.space.common.api_result.NetworkError
-import com.space.common.exception.PagingException
 import com.space.common.exception.toYear
 import com.space.movie.core.presentation.common.getErrorStrings
 import com.space.movie.core.presentation.extension.isRefreshError
@@ -36,7 +35,7 @@ import com.space.movieapp.feature.home.presentation.contract.HomeEvent.OnFavorit
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent.OnFilterClick
 import com.space.movieapp.feature.home.presentation.contract.HomeState
 import com.space.movieapp.feature.home.presentation.model.PopularMovieUI
-import com.space.movieapp.feature.home.presentation.vm.HomeViewModel
+import com.space.movieapp.feature.home.presentation.vm.HomeVM
 import com.space.ui.component.card.MovieCatalogueCard
 import com.space.ui.component.error.EmptyResultView
 import com.space.ui.component.error.ErrorScreen
@@ -51,7 +50,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = koinViewModel(),
+    viewModel: HomeVM = koinViewModel(),
     onNavigateDetails: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -72,16 +71,6 @@ private fun HomeContent(
     onNavigateDetails: (Int) -> Unit,
     onEvent: (HomeEvent) -> Unit
 ) {
-    LaunchedEffect(state.isOnline) {
-        if (state.isOnline) {
-            val refreshFailed = lazyPagingItems.loadState.refresh is LoadState.Error
-            val appendFailed = lazyPagingItems.loadState.append is LoadState.Error
-            if (refreshFailed || appendFailed) {
-                lazyPagingItems.retry()
-            }
-        }
-    }
-
     if (lazyPagingItems.isRefreshError) {
         val errorType = lazyPagingItems.refreshException?.errorType ?: NetworkError.UNKNOWN
         val (title, description) = getErrorStrings(errorType)
@@ -98,6 +87,15 @@ private fun HomeContent(
         }
     }  else {
         Column(modifier = Modifier.fillMaxSize()) {
+            LaunchedEffect(state.isOnline) {
+                if (state.isOnline) {
+                    val refreshFailed = lazyPagingItems.loadState.refresh is LoadState.Error
+                    val appendFailed = lazyPagingItems.loadState.append is LoadState.Error
+                    if (refreshFailed || appendFailed) {
+                        lazyPagingItems.retry()
+                    }
+                }
+            }
 
             MovieAppSearch(
                 searchState = state.searchState,

@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.space.common.api_result.NetworkError
 import com.space.core.domain.usecase.DeleteByIdUseCase
 import com.space.core.domain.usecase.GetAllFavoritesUseCase
-import com.space.movie.core.presentation.common.BaseViewModel
+import com.space.movie.core.presentation.common.BaseVM
 import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.common.EmptySideEffect
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesEvent
@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class FavoritesViewModel(
+class FavoritesVM(
     private val getAllFavoritesUseCase: GetAllFavoritesUseCase,
     private val deleteByIdUseCase: DeleteByIdUseCase
-) : BaseViewModel<FavoritesState, FavoritesEvent, EmptySideEffect>(
+) : BaseVM<FavoritesState, FavoritesEvent, EmptySideEffect>(
     FavoritesState()
 ) {
     init {

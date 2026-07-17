@@ -1,9 +1,9 @@
-package com.space.movieapp.ui
+package com.space.movieapp.ui.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.space.common.network.NetworkObserver
-import com.space.movieapp.core.navigation.Route
+import com.space.movieapp.ui.contract.MainState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,31 +12,28 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
-class MainActivityViewModel(
+class MainVM(
     private val networkObserver: NetworkObserver
 ) : ViewModel() {
-    private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(true)
-    val loading = _isLoading.asStateFlow()
-
-    private val _startDestination: MutableStateFlow<Route> = MutableStateFlow(Route.Home)
-    val startDestination = _startDestination.asStateFlow()
-
-    private val _isOnline: MutableStateFlow<Boolean> = MutableStateFlow(true)
-    val isOnline = _isOnline.asStateFlow()
+    private val _state : MutableStateFlow<MainState> = MutableStateFlow(MainState())
+    val state = _state.asStateFlow()
 
     init {
         observeNetwork()
+        loadDataAndFinishSplash()
+    }
 
+    private fun loadDataAndFinishSplash() {
         viewModelScope.launch {
-            delay(1000.milliseconds)
-            _isLoading.update { false }
+            delay(3000.milliseconds)
+            _state.update { it.copy(isLoading = false) }
         }
     }
 
     private fun observeNetwork() {
         viewModelScope.launch {
             networkObserver.isConnected.collectLatest { connected ->
-                _isOnline.update { connected }
+                _state.update { it.copy(isOnline = connected) }
             }
         }
     }

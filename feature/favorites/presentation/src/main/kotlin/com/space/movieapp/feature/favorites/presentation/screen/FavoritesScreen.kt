@@ -28,7 +28,7 @@ import com.space.movie.core.presentation.common.getErrorStrings
 import com.space.movieapp.feature.favorites.presentation.R
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesEvent
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesState
-import com.space.movieapp.feature.favorites.presentation.vm.FavoritesViewModel
+import com.space.movieapp.feature.favorites.presentation.vm.FavoritesVM
 import com.space.ui.component.card.MovieCatalogueCard
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.loader.LoadingScreen
@@ -38,7 +38,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FavoritesScreen(
-    viewModel: FavoritesViewModel = koinViewModel(),
+    viewModel: FavoritesVM = koinViewModel(),
     onNavigateDetails: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
