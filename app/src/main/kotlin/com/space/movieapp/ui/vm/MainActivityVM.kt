@@ -3,7 +3,7 @@ package com.space.movieapp.ui.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.space.common.network.NetworkObserver
-import com.space.movieapp.ui.contract.MainState
+import com.space.movieapp.ui.contract.MainActivityState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,10 +12,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
-class MainVM(
+class MainActivityVM(
     private val networkObserver: NetworkObserver
 ) : ViewModel() {
-    private val _state : MutableStateFlow<MainState> = MutableStateFlow(MainState())
+    private val _state : MutableStateFlow<MainActivityState> = MutableStateFlow(MainActivityState())
     val state = _state.asStateFlow()
 
     init {
