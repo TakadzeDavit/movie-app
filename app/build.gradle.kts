@@ -23,9 +23,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
 
-    // compose navigation
-    implementation(libs.androidx.navigation.compose)
-
     // modules
     implementation(project(":core:ui"))
     implementation(project(":core:common"))

@@ -14,7 +14,6 @@ import com.space.movie.core.presentation.common.BaseVM
 import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.common.EmptySideEffect
 import com.space.movie.core.presentation.extension.handleApiResult
-import com.space.movieapp.core.navigation.Route
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.serialization.InternalSerializationApi
