@@ -19,12 +19,12 @@ import androidx.navigation.compose.rememberNavController
 import com.space.movieapp.core.navigation.Route
 import com.space.movieapp.navigation.bottomNavigation.MovieBottomBar
 import com.space.movieapp.navigation.navhost.MovieNavigation
-import com.space.movieapp.ui.vm.MainVM
+import com.space.movieapp.ui.vm.MainActivityVM
 import com.space.ui.theme.MovieAppTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainVM by viewModel()
+    private val viewModel: MainActivityVM by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
