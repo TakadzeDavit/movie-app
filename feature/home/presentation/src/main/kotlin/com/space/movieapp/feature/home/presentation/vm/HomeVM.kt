@@ -60,6 +60,11 @@ class HomeVM(
         }
     }
 
+    init {
+        loadGenres()
+        observeNetwork()
+    }
+
     @OptIn(FlowPreview::class)
     private val debouncedQueryFlow = snapshotFlow { state.value.searchState.text }
         .map { it.toString() }
@@ -88,17 +93,12 @@ class HomeVM(
         .flatMapLatest { (query, genreId) -> getMoviesUseCase(query, genreId) }
         .cachedIn(viewModelScope)
 
-    private val moviesPagedFlow: Flow<PagingData<PopularMovieUI>> = combine(
+
+    val moviesPagedFlow: Flow<PagingData<PopularMovieUI>> = combine(
         basePagedFlow,
         favoriteIdsFlow
     ) { pagingData, favoriteIds ->
         pagingData.map { movie -> popularMovieUiMapper.map(movie, favoriteIds) }
-    }
-
-    init {
-        loadGenres()
-        observeNetwork()
-        updateState { copy(movies = moviesPagedFlow) }
     }
 
     /**

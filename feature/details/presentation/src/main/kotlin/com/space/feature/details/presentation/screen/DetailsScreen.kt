@@ -1,5 +1,3 @@
-@file:OptIn(InternalSerializationApi::class)
-
 package com.space.feature.details.presentation.screen
 
 import androidx.compose.foundation.background
@@ -28,6 +26,7 @@ import com.space.ui.component.button.MovieAppHeader
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.loader.LoadingScreen
 import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.Spacing
 import kotlinx.serialization.InternalSerializationApi
 import org.koin.core.parameter.parametersOf
 
@@ -80,7 +79,7 @@ private fun DetailsContent(
                         }
                     )
 
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(Spacing.spacing04))
 
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
 

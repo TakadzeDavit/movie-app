@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 
 data class HomeState(
-    val movies: Flow<PagingData<PopularMovieUI>> = emptyFlow(),
     val filters: List<Genre> = emptyList(),
     val searchState: TextFieldState = TextFieldState(),
     val genresLoaded: Boolean = false,

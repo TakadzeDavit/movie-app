@@ -1,5 +1,7 @@
-package com.space.movieapp.navigation.bottomNavigation
+package com.space.movieapp.navigation
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +21,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation3.runtime.NavKey
+import com.space.feature.favorites.api.FavoritesFeatureKey
+import com.space.feature.home.api.HomeFeatureKey
+import com.space.movieapp.R
 import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Radius
 import com.space.ui.theme.Sizing
@@ -72,4 +77,9 @@ fun MovieBottomBar(
             }
         }
     }
+}
+
+sealed class Screen(val route: NavKey, @param:StringRes val title: Int, @param:DrawableRes val icon: Int) {
+    data object HomeScreen : Screen(route = HomeFeatureKey, title = R.string.home, R.drawable.icon_home)
+    data object FavoritesScreen : Screen(route = FavoritesFeatureKey, title = R.string.favorites, R.drawable.icon_favorite)
 }

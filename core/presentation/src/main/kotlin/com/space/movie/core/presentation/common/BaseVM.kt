@@ -21,7 +21,7 @@ abstract class BaseVM<State: UiState, Event : UiEvent>(
         extraBufferCapacity = 64
     )
 
-    fun updateState(update: State.() -> State) {
+    protected fun updateState(update: State.() -> State) {
         _state.update { currentState ->
             currentState.update()
         }

@@ -34,6 +34,14 @@ class Navigator(val backStack: NavBackStack<NavKey>) {
     fun replaceLast(navKey: NavKey) {
         backStack[backStack.lastIndex] = navKey
     }
+
+    fun bringToFront(key: NavKey) {
+        if (backStack.remove(key)) {
+            backStack.add(key)
+        } else {
+            backStack.add(key)
+        }
+    }
 }
 
 @Composable

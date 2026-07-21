@@ -16,11 +16,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -51,11 +49,12 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen() {
+    val vm = koinViewModel<HomeVM>()
+    val lazyPagingItems = vm.moviesPagedFlow.collectAsLazyPagingItems()
+
     BaseScreen(
         vmClass = HomeVM::class,
         content = { state, onEvent ->
-            val lazyPagingItems = state.movies.collectAsLazyPagingItems()
-
             HomeContent(
                 lazyPagingItems = lazyPagingItems,
                 state = state,

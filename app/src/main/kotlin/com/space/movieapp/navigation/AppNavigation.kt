@@ -18,7 +18,6 @@ import com.space.movieapp.core.navigation.featureTransitionSpec
 import com.space.movieapp.core.navigation.rememberNavigator
 import com.space.movieapp.feature.favorites.presentation.navigator.favoritesEntry
 import com.space.movieapp.feature.home.presentation.navigator.homeEntry
-import com.space.movieapp.navigation.bottomNavigation.MovieBottomBar
 import com.space.movieapp.ui.MainActivity
 
 @Composable
@@ -37,13 +36,7 @@ fun MainActivity.MovieAppContainer(
                     MovieBottomBar(
                         currentRoute = currentRoute,
                         onNavigate = { targetRoute ->
-                            while (navigator.backStack.size > 1) {
-                                navigator.pop()
-                            }
-
-                            if (startDestination != targetRoute) {
-                                navigator.push(targetRoute)
-                            }
+                            navigator.bringToFront(targetRoute)
                         }
                     )
                 }
