@@ -4,9 +4,10 @@ import androidx.lifecycle.viewModelScope
 import com.space.common.api_result.NetworkError
 import com.space.core.domain.usecase.DeleteByIdUseCase
 import com.space.core.domain.usecase.GetAllFavoritesUseCase
+import com.space.feature.details.api.DetailsFeatureKey
 import com.space.movie.core.presentation.common.BaseVM
 import com.space.movie.core.presentation.common.DataState
-import com.space.movie.core.presentation.common.EmptySideEffect
+import com.space.movie.core.presentation.extension.globalNavigator
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesEvent
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesState
 import kotlinx.coroutines.flow.catch
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 class FavoritesVM(
     private val getAllFavoritesUseCase: GetAllFavoritesUseCase,
     private val deleteByIdUseCase: DeleteByIdUseCase
-) : BaseVM<FavoritesState, FavoritesEvent, EmptySideEffect>(
+) : BaseVM<FavoritesState, FavoritesEvent>(
     FavoritesState()
 ) {
     init {
@@ -27,6 +28,11 @@ class FavoritesVM(
         when (event) {
             is FavoritesEvent.RemoveFromFavorites -> deleteUserById(event.movieId)
             is FavoritesEvent.OnRefreshClick -> getMovies()
+            is FavoritesEvent.OnNavigateDetails -> {
+                globalNavigator {
+                    push(DetailsFeatureKey(event.movieId))
+                }
+            }
         }
     }
 

@@ -26,6 +26,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.space.common.api_result.NetworkError
 import com.space.common.exception.toYear
+import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.getErrorStrings
 import com.space.movie.core.presentation.extension.isRefreshError
 import com.space.movie.core.presentation.extension.refreshException
@@ -49,18 +50,18 @@ import com.space.ui.theme.Spacing
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun HomeScreen(
-    viewModel: HomeVM = koinViewModel(),
-    onNavigateDetails: (Int) -> Unit
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val lazyPagingItems = state.movies.collectAsLazyPagingItems()
+fun HomeScreen() {
+    BaseScreen(
+        vmClass = HomeVM::class,
+        content = { state, onEvent ->
+            val lazyPagingItems = state.movies.collectAsLazyPagingItems()
 
-    HomeContent(
-        lazyPagingItems = lazyPagingItems,
-        state = state,
-        onEvent = viewModel::onEvent,
-        onNavigateDetails = { onNavigateDetails(it) }
+            HomeContent(
+                lazyPagingItems = lazyPagingItems,
+                state = state,
+                onEvent = onEvent
+            )
+        }
     )
 }
 
@@ -68,7 +69,6 @@ fun HomeScreen(
 private fun HomeContent(
     lazyPagingItems: LazyPagingItems<PopularMovieUI>,
     state: HomeState,
-    onNavigateDetails: (Int) -> Unit,
     onEvent: (HomeEvent) -> Unit
 ) {
     if (lazyPagingItems.isRefreshError) {
@@ -85,7 +85,7 @@ private fun HomeContent(
                 }
             )
         }
-    }  else {
+    } else {
         Column(modifier = Modifier.fillMaxSize()) {
             LaunchedEffect(state.isOnline) {
                 if (state.isOnline) {
@@ -178,7 +178,7 @@ private fun HomeContent(
                                     isFavorite = movie.isFavorite,
                                     year = movie.releaseDate.toYear(),
                                     onFavoriteClick = { onEvent(OnFavoriteClick(movie)) },
-                                    onCardClick = { onNavigateDetails(movie.id) }
+                                    onCardClick = { onEvent(HomeEvent.OnNavigateDetails(movie.id)) }
                                 )
                             }
                         }

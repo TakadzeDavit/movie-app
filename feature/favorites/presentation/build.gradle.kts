@@ -9,4 +9,7 @@ android {
 dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.presentation)
+    implementation(projects.feature.favorites.api)
+    implementation(projects.feature.home.api)
+    implementation(projects.feature.details.api)
 }

@@ -11,12 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.space.feature.details.presentation.R
 import com.space.feature.details.presentation.component.description.MovieDescriptionSection
 import com.space.feature.details.presentation.component.details.MovieInfoSection
@@ -24,34 +22,33 @@ import com.space.feature.details.presentation.component.poster.MoviePosterSectio
 import com.space.feature.details.presentation.contract.DetailsEvent
 import com.space.feature.details.presentation.contract.DetailsState
 import com.space.feature.details.presentation.vm.DetailsVM
+import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.DataState
 import com.space.ui.component.button.MovieAppHeader
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.loader.LoadingScreen
 import com.space.ui.theme.MovieTheme
 import kotlinx.serialization.InternalSerializationApi
-import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
-fun DetailsScreen(
-    viewModel: DetailsVM = koinViewModel(),
-    onBackClick: () -> Unit
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-
-    DetailsContent(
-        state = state,
-        onBackClick = onBackClick,
-        onEvent = viewModel::onEvent
+fun DetailsScreen(movieId: Int) {
+    BaseScreen(
+        vmClass = DetailsVM::class,
+        parameters = { parametersOf(movieId) },
+        content = { state, onEvent ->
+            DetailsContent(
+                state = state,
+                onEvent = onEvent
+            )
+        }
     )
 }
 
 @Composable
 private fun DetailsContent(
     state: DetailsState,
-    onBackClick: () -> Unit,
     onEvent: (DetailsEvent) -> Unit,
-    onTrailerClick: () -> Unit = {}
 ) {
     val colors = MovieTheme.colors
 
@@ -78,7 +75,9 @@ private fun DetailsContent(
                     // Header
                     MovieAppHeader(
                         title = stringResource(R.string.details),
-                        onBackClick = onBackClick
+                        onBackClick = {
+                            onEvent(DetailsEvent.OnBackClick)
+                        }
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
@@ -88,7 +87,7 @@ private fun DetailsContent(
                         // Poster card
                         item {
                             MoviePosterSection(
-                                posterUrl = movieData.posterUrl, onTrailerClick = onTrailerClick
+                                posterUrl = movieData.posterUrl, onTrailerClick = {}
                             )
                         }
 

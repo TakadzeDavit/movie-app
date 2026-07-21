@@ -16,13 +16,12 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.common.getErrorStrings
 import com.space.movieapp.feature.favorites.presentation.R
@@ -34,27 +33,24 @@ import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.loader.LoadingScreen
 import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Spacing
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun FavoritesScreen(
-    viewModel: FavoritesVM = koinViewModel(),
-    onNavigateDetails: (Int) -> Unit
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-
-    FavoritesContent(
-        state = state,
-        onEvent = viewModel::onEvent,
-        onMovieClick = { onNavigateDetails(it) }
+fun FavoritesScreen() {
+    BaseScreen(
+        vmClass = FavoritesVM::class,
+        content = { state, onEvent ->
+            FavoritesContent(
+                state = state,
+                onEvent = onEvent
+            )
+        }
     )
 }
 
 @Composable
 private fun FavoritesContent(
     state: FavoritesState,
-    onEvent: (FavoritesEvent) -> Unit,
-    onMovieClick: (Int) -> Unit
+    onEvent: (FavoritesEvent) -> Unit
 ) {
     val colors = MovieTheme.colors
     val typography = MovieTheme.typography
@@ -137,7 +133,9 @@ private fun FavoritesContent(
                                 onFavoriteClick = {
                                     onEvent(FavoritesEvent.RemoveFromFavorites(movie.id))
                                 },
-                                onCardClick = { onMovieClick(movie.id) }
+                                onCardClick = {
+                                    onEvent(FavoritesEvent.OnNavigateDetails(movie.id))
+                                }
                             )
                         }
                     }

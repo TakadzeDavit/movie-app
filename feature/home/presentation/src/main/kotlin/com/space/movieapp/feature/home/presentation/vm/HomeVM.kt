@@ -11,8 +11,9 @@ import com.space.core.domain.model.PopularMovie
 import com.space.core.domain.usecase.DeleteByIdUseCase
 import com.space.core.domain.usecase.GetFavoriteIdsUseCase
 import com.space.core.domain.usecase.InsertFavoriteUseCase
+import com.space.feature.details.api.DetailsFeatureKey
 import com.space.movie.core.presentation.common.BaseVM
-import com.space.movie.core.presentation.common.EmptySideEffect
+import com.space.movie.core.presentation.extension.globalNavigator
 import com.space.movie.core.presentation.extension.handleApiResult
 import com.space.movie.feature.home.domain.usecase.genres.GetGenresUseCase
 import com.space.movie.feature.home.domain.usecase.movies.GetMoviesUseCase
@@ -43,16 +44,19 @@ class HomeVM(
     private val insertFavoriteUseCase: InsertFavoriteUseCase,
     private val movieDomainMapper: MovieDomainMapper,
     private val getMoviesUseCase: GetMoviesUseCase
-) : BaseVM<HomeState, HomeEvent, EmptySideEffect>(HomeState()) {
+) : BaseVM<HomeState, HomeEvent>(HomeState()) {
 
     override fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.OnFavoriteClick -> toggleFavorite(event.movie)
-            is HomeEvent.OnFilterIconClick ->
-                updateState { copy(areFiltersExpanded = !areFiltersExpanded) }
-
+            is HomeEvent.OnFilterIconClick -> updateState {
+                copy(areFiltersExpanded = !areFiltersExpanded)
+            }
             is HomeEvent.ResetSearch -> { state.value.searchState.clearText() }
             is HomeEvent.OnFilterClick -> onFilterClick(event.genreId)
+            is HomeEvent.OnNavigateDetails -> {
+                globalNavigator { push(DetailsFeatureKey(event.movieId)) }
+            }
         }
     }
 

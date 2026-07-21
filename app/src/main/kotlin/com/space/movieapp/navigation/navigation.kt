@@ -10,8 +10,14 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.space.feature.details.presentation.navigator.detailsEntry
 import com.space.movieapp.core.navigation.LocalGlobalNavigator
+import com.space.movieapp.core.navigation.featurePopTransitionSpec
+import com.space.movieapp.core.navigation.featurePredictivePopTransitionSpec
+import com.space.movieapp.core.navigation.featureTransitionSpec
 import com.space.movieapp.core.navigation.rememberNavigator
+import com.space.movieapp.feature.favorites.presentation.navigator.favoritesEntry
+import com.space.movieapp.feature.home.presentation.navigator.homeEntry
 import com.space.movieapp.navigation.bottomNavigation.MovieBottomBar
 import com.space.movieapp.ui.MainActivity
 
@@ -53,8 +59,13 @@ fun MainActivity.MovieAppContainer(
                 onBack = {
                     if (navigator.backStack.size > 1) navigator.pop() else finishAffinity()
                 } ,
+                transitionSpec = featureTransitionSpec(),
+                popTransitionSpec = featurePopTransitionSpec(),
+                predictivePopTransitionSpec = featurePredictivePopTransitionSpec(),
                 entryProvider = entryProvider {
-
+                    homeEntry()
+                    detailsEntry()
+                    favoritesEntry()
                 },
             )
         }

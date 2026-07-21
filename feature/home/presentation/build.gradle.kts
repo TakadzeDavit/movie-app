@@ -12,5 +12,8 @@ dependencies {
 
     // modules
     implementation(projects.feature.home.domain)
+    implementation(projects.feature.home.api)
+    implementation(projects.feature.details.api)
+    implementation(projects.feature.favorites.api)
     implementation(projects.core.domain)
 }
