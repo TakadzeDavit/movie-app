@@ -9,9 +9,9 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 val useCaseModule = module {
-    factory { GetPopularMoviesUseCase(repository = get()) }
-    factory { GetGenresUseCase(genresRepository = get()) }
-    factory { SearchMoviesUseCase(repository = get()) }
-    factory { FilterMoviesUseCase(filterMoviesRepository = get()) }
+    single { GetPopularMoviesUseCase(repository = get()) }
+    single { GetGenresUseCase(genresRepository = get()) }
+    single { SearchMoviesUseCase(repository = get()) }
+    single { FilterMoviesUseCase(filterMoviesRepository = get()) }
     factoryOf(::GetMoviesUseCase)
 }

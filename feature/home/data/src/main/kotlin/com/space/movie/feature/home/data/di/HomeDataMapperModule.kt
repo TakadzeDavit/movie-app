@@ -7,8 +7,8 @@ import com.space.movie.feature.home.data.mapper.PopularMovieDtoMapper
 import org.koin.dsl.module
 
 val homeDataMapperModule = module {
-    factory { PopularMovieDtoMapper() }
-    factory { GenreMapper() }
-    factory { GenreEntityMapper() }
-    factory { EntityToDomainMapper() }
+    single { PopularMovieDtoMapper() }
+    single { GenreMapper() }
+    single { GenreEntityMapper() }
+    single { EntityToDomainMapper() }
 }
