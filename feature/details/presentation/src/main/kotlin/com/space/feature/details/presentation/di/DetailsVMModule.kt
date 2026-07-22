@@ -6,6 +6,7 @@ import com.space.feature.details.presentation.mapper.MovieDetailsDomainMapper
 import com.space.feature.details.presentation.vm.DetailsVM
 import kotlinx.serialization.InternalSerializationApi
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -21,5 +22,5 @@ val detailsVMModule = module {
         )
     }
 
-    factoryOf(::MovieDetailsDomainMapper)
+    singleOf(::MovieDetailsDomainMapper)
 }

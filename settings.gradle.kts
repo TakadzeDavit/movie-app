@@ -41,16 +41,4 @@ fun includeAllModules(vararg groupDirs: String) {
     }
 }
 
-includeAllModules( "feature")
-include(":core")
-include(":core:common")
-include(":core:data")
-include(":core:domain")
-include(":core:database")
-include(":core:navigation")
-include(":core:network")
-include(":core:presentation")
-include(":core:ui")
-include(":feature:details:api")
-include(":feature:favorites:api")
-include(":feature:home:api")
+includeAllModules( "feature", "core")

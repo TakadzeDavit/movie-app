@@ -31,11 +31,11 @@ fun MainActivity.MovieAppContainer(
 
     CompositionLocalProvider(LocalGlobalNavigator provides navigator) {
         val currentRoute = navigator.backStack.lastOrNull()
-        val shouldShowBottomBar = currentRoute is HomeFeatureKey || currentRoute is FavoritesFeatureKey
+        val showBottomBar = currentRoute is HomeFeatureKey || currentRoute is FavoritesFeatureKey
 
         Scaffold(
             bottomBar = {
-                if (shouldShowBottomBar && isOnline) {
+                if (showBottomBar && isOnline) {
                     MovieBottomBar(
                         currentRoute = currentRoute,
                         onNavigate = { targetRoute ->
