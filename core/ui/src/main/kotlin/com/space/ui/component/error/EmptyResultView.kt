@@ -18,8 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import com.space.movieapp.core.ui.R
+import com.space.ui.theme.MovieAppTheme
 import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieTheme.colors
+import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 
@@ -41,9 +45,6 @@ import com.space.ui.theme.Spacing
 fun EmptyResultView(
     modifier: Modifier = Modifier
 ) {
-    val colors = MovieTheme.colors
-    val typography = MovieTheme.typography
-
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -83,5 +84,19 @@ fun EmptyResultView(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = Spacing.spacing28)
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EmptyResultViewPreview() {
+    MovieAppTheme {
+        Column(
+            modifier = Modifier
+                .background(colors.background)
+                .padding(Spacing.spacing16)
+        ) {
+            EmptyResultView()
+        }
     }
 }

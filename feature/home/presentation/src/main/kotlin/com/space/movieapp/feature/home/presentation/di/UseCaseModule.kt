@@ -6,12 +6,13 @@ import com.space.movie.feature.home.domain.usecase.movies.GetPopularMoviesUseCas
 import com.space.movie.feature.home.domain.usecase.movies.SearchMoviesUseCase
 import com.space.movie.feature.home.domain.usecase.movies.GetMoviesUseCase
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val useCaseModule = module {
-    factory { GetPopularMoviesUseCase(repository = get()) }
-    factory { GetGenresUseCase(genresRepository = get()) }
-    factory { SearchMoviesUseCase(repository = get()) }
-    factory { FilterMoviesUseCase(filterMoviesRepository = get()) }
-    factoryOf(::GetMoviesUseCase)
+    single { GetPopularMoviesUseCase(repository = get()) }
+    single { GetGenresUseCase(genresRepository = get()) }
+    single { SearchMoviesUseCase(repository = get()) }
+    single { FilterMoviesUseCase(filterMoviesRepository = get()) }
+    singleOf(::GetMoviesUseCase)
 }
