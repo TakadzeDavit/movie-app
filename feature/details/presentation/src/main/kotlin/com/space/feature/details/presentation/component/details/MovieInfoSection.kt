@@ -19,7 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.space.feature.details.presentation.R
-import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieTheme.colors
+import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 
@@ -34,9 +35,6 @@ fun MovieInfoSection(
     modifier: Modifier = Modifier,
     onFavoriteClick: () -> Unit
 ) {
-    val colors = MovieTheme.colors
-    val typography = MovieTheme.typography
-
     Column(
         modifier = modifier
             .fillMaxWidth()

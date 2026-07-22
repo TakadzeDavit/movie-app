@@ -18,7 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieTheme.colors
+import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Radius
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
@@ -30,9 +31,6 @@ fun ButtonTrailer(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    val typography = MovieTheme.typography
-    val colors = MovieTheme.colors
-
     Box(
         modifier = modifier
             .width(Sizing.size108)

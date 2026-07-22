@@ -9,7 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.space.feature.details.presentation.R
-import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieTheme.colors
+import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Spacing
 
 @Composable
@@ -17,9 +18,6 @@ fun MovieDescriptionSection(
     description: String,
     modifier: Modifier = Modifier
 ) {
-    val typography = MovieTheme.typography
-    val colors = MovieTheme.colors
-
     Column(
         modifier = modifier
             .fillMaxWidth()

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -38,8 +39,11 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import com.space.movieapp.core.ui.R
-import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieAppTheme
+import com.space.ui.theme.MovieTheme.colors
+import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 
@@ -68,9 +72,6 @@ fun MovieAppSearch(
     modifier: Modifier = Modifier,
     filterContent: @Composable () -> Unit
 ) {
-    val colors = MovieTheme.colors
-    val typography = MovieTheme.typography
-
     val filterIconAsset = if (areFiltersExpanded) {
         R.drawable.icon_filter_filled
     } else {
@@ -203,6 +204,35 @@ fun MovieAppSearch(
                 Spacer(modifier = Modifier.height(Spacing.spacing12))
                 filterContent()
             }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MovieAppSearchPreview() {
+    MovieAppTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.background)
+                .padding(Spacing.spacing16),
+            verticalArrangement = Arrangement.spacedBy(Spacing.spacing16)
+        ) {
+            MovieAppSearch(
+                searchState = TextFieldState(initialText = "me var beso"),
+                onFilterClick = {},
+                areFiltersExpanded = true,
+                filterContent = {
+                }
+            )
+
+            MovieAppSearch(
+                searchState = TextFieldState(initialText = ""),
+                onFilterClick = {},
+                areFiltersExpanded = false,
+                filterContent = {}
+            )
         }
     }
 }

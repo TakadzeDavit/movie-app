@@ -26,7 +26,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.space.common.api_result.NetworkError
 import com.space.common.exception.toYear
-import com.space.movie.core.presentation.common.getErrorStrings
+import com.space.movie.core.presentation.common.toUiModel
 import com.space.movie.core.presentation.extension.isRefreshError
 import com.space.movie.core.presentation.extension.refreshException
 import com.space.movieapp.feature.home.presentation.R
@@ -73,12 +73,12 @@ private fun HomeContent(
 ) {
     if (lazyPagingItems.isRefreshError) {
         val errorType = lazyPagingItems.refreshException?.errorType ?: NetworkError.UNKNOWN
-        val (title, description) = getErrorStrings(errorType)
+        val errorUiModel = errorType.toUiModel()
 
         Box(modifier = Modifier.fillMaxSize()) {
             ErrorScreen(
-                title = stringResource(title),
-                description = stringResource(description),
+                title = stringResource(errorUiModel.titleResId),
+                description = stringResource(errorUiModel.descriptionResId),
                 onRefreshClick = {
                     onEvent(HomeEvent.ResetSearch)
                     lazyPagingItems.retry()

@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieTheme.colors
+import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Radius
 import com.space.ui.theme.Spacing
 
@@ -17,9 +19,6 @@ fun MovieInfoTag(
     text: String,
     icon: (@Composable () -> Unit)? = null
 ) {
-    val colors = MovieTheme.colors
-    val typography = MovieTheme.typography
-
     if(text.isNotEmpty()) {
         Row(
             modifier = Modifier
