@@ -1,5 +1,6 @@
 package com.space.movieapp.feature.home.presentation.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,17 +14,22 @@ import androidx.compose.foundation.lazy.grid.GridCells.Fixed
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.space.common.api_result.NetworkError
 import com.space.common.exception.toYear
+import com.space.core.domain.model.Genre
 import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.toUiModel
 import com.space.movie.core.presentation.extension.isRefreshError
@@ -43,8 +49,11 @@ import com.space.ui.component.loader.BottomCircularProgress
 import com.space.ui.component.loader.LoadingScreen
 import com.space.ui.component.search.GenreChip
 import com.space.ui.component.search.MovieAppSearch
-import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieAppTheme
+import com.space.ui.theme.MovieTheme.colors
+import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Spacing
+import kotlinx.coroutines.flow.flowOf
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -148,8 +157,8 @@ private fun HomeContent(
                             ) {
                                 Text(
                                     text = stringResource(R.string.movies),
-                                    style = MovieTheme.typography.headlineSmall,
-                                    color = MovieTheme.colors.primary
+                                    style = typography.headlineSmall,
+                                    color = colors.primary
                                 )
 
                                 Spacer(modifier = Modifier.height(Spacing.spacing16))
@@ -198,6 +207,65 @@ private fun HomeContent(
 
                 is LoadState.Error -> Unit
             }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HomeContentSuccessPreview() {
+    val sampleMovies = listOf(
+        PopularMovieUI(
+            id = 1,
+            title = "Inception",
+            posterPath = "",
+            genre = "Sci-Fi",
+            isFavorite = true,
+            releaseDate = "2010-07-16"
+        ),
+        PopularMovieUI(
+            id = 2,
+            title = "Spider-Man: Across the Spider-Verse",
+            posterPath = "",
+            genre = "Action",
+            isFavorite = false,
+            releaseDate = "2023-06-02"
+        )
+    )
+
+    MovieAppTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.background)
+        ) {
+            val lazyPagingItems = flowOf(
+                PagingData.from(
+                    data = sampleMovies,
+                    sourceLoadStates = LoadStates(
+                        refresh = LoadState.NotLoading(endOfPaginationReached = false),
+                        prepend = LoadState.NotLoading(endOfPaginationReached = true),
+                        append = LoadState.NotLoading(endOfPaginationReached = false)
+                    )
+                )
+            ).collectAsLazyPagingItems()
+
+            HomeContent(
+                lazyPagingItems = lazyPagingItems,
+                state = HomeState(
+                    searchState = TextFieldState(),
+                    isOnline = true,
+                    areFiltersExpanded = true,
+                    selectedGenreId = 1,
+                    filters = listOf(
+                        Genre(id = 1, name = "Action"),
+                        Genre(id = 2, name = "Comedy"),
+                        Genre(id = 3, name = "Sci-Fi")
+                    ),
+                    genresLoaded = true
+                ),
+                onEvent = {}
+            )
         }
     }
 }

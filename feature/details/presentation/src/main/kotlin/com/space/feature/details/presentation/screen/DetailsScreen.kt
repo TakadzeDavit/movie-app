@@ -12,7 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
+import com.space.feature.details.domain.model.MovieDetails
 import com.space.feature.details.presentation.R
 import com.space.feature.details.presentation.component.description.MovieDescriptionSection
 import com.space.feature.details.presentation.component.details.MovieInfoSection
@@ -25,9 +26,9 @@ import com.space.movie.core.presentation.common.DataState
 import com.space.ui.component.button.MovieAppHeader
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.loader.LoadingScreen
-import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieAppTheme
+import com.space.ui.theme.MovieTheme.colors
 import com.space.ui.theme.Spacing
-import kotlinx.serialization.InternalSerializationApi
 import org.koin.core.parameter.parametersOf
 
 @Composable
@@ -49,8 +50,6 @@ private fun DetailsContent(
     state: DetailsState,
     onEvent: (DetailsEvent) -> Unit,
 ) {
-    val colors = MovieTheme.colors
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -124,6 +123,38 @@ private fun DetailsContent(
                     )
                 }
             }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailsContentSuccessPreview() {
+    MovieAppTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.background)
+        ) {
+            DetailsContent(
+                state = DetailsState(
+                    movieState = DataState.Success(
+                        data = MovieDetails(
+                            posterUrl = "",
+                            title = "Inception",
+                            rating = 8.8,
+                            genre = "Sci-Fi",
+                            duration = "2h 28m",
+                            year = 2010,
+                            overview = "Example Example Example Example Example Example Example",
+                            id = 21,
+                            isFavorite = true,
+                        )
+                    ),
+                    isFavorite = true
+                ),
+                onEvent = {}
+            )
         }
     }
 }

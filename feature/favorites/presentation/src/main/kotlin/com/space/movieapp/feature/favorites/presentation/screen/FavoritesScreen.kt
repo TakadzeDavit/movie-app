@@ -4,38 +4,31 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.tooling.preview.Preview
+import com.space.core.domain.model.PopularMovie
 import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.common.toUiModel
-import com.space.movieapp.feature.favorites.presentation.R
+import com.space.movieapp.feature.favorites.presentation.component.EmptyFavoriteScreen
+import com.space.movieapp.feature.favorites.presentation.component.FavoritesHeader
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesEvent
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesState
 import com.space.movieapp.feature.favorites.presentation.vm.FavoritesVM
 import com.space.ui.component.card.MovieCatalogueCard
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.loader.LoadingScreen
-import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieAppTheme
+import com.space.ui.theme.MovieTheme.colors
 import com.space.ui.theme.Spacing
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FavoritesScreen() {
@@ -55,27 +48,13 @@ private fun FavoritesContent(
     state: FavoritesState,
     onEvent: (FavoritesEvent) -> Unit
 ) {
-    val colors = MovieTheme.colors
-    val typography = MovieTheme.typography
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(colors.background)
             .statusBarsPadding()
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = Spacing.spacing10),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = stringResource(R.string.favorite_movies),
-                color = colors.primaryText,
-                style = typography.titleMedium
-            )
-        }
+        FavoritesHeader()
 
         when (val movieState = state.favoriteMovies) {
             is DataState.Error -> {
@@ -96,25 +75,8 @@ private fun FavoritesContent(
 
             is DataState.Success -> {
                 if (movieState.data.isEmpty()) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.icon_no_results),
-                            tint = Color.Unspecified,
-                            contentDescription = null
-                        )
+                    EmptyFavoriteScreen()
 
-                        Spacer(modifier = Modifier.height(Spacing.spacing26))
-
-                        Text(
-                            text = stringResource(R.string.no_movies_added_yet),
-                            color = colors.textSecondary,
-                            style = typography.titleMedium
-                        )
-                    }
                 } else {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
@@ -144,6 +106,46 @@ private fun FavoritesContent(
                     }
                 }
             }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun FavoritesContentSuccessPreview() {
+    val sampleFavoriteMovies = listOf(
+        PopularMovie(
+            id = 1,
+            title = "Inception",
+            posterPath = "",
+            genre = "Sci-Fi",
+            isFavorite = true,
+            releaseDate = "2010",
+            genreIds = emptyList(),
+        ),
+        PopularMovie(
+            id = 2,
+            title = "The Dark Knight",
+            posterPath = "",
+            genre = "Action",
+            isFavorite = true,
+            releaseDate = "2008",
+            genreIds = emptyList(),
+        )
+    )
+
+    MovieAppTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.background)
+        ) {
+            FavoritesContent(
+                state = FavoritesState(
+                    favoriteMovies = DataState.Success(sampleFavoriteMovies)
+                ),
+                onEvent = {}
+            )
         }
     }
 }

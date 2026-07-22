@@ -25,6 +25,8 @@ import com.space.feature.favorites.api.FavoritesFeatureKey
 import com.space.feature.home.api.HomeFeatureKey
 import com.space.movieapp.R
 import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieTheme.colors
+import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Radius
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
@@ -34,9 +36,6 @@ fun MovieBottomBar(
     currentRoute: NavKey?,
     onNavigate: (NavKey) -> Unit
 ) {
-    val colors = MovieTheme.colors
-    val typography = MovieTheme.typography
-
     Row(
         modifier = Modifier
             .fillMaxWidth()

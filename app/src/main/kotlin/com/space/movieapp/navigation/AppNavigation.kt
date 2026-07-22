@@ -11,6 +11,8 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.space.feature.details.presentation.navigator.detailsEntry
+import com.space.feature.favorites.api.FavoritesFeatureKey
+import com.space.feature.home.api.HomeFeatureKey
 import com.space.movieapp.core.navigation.LocalGlobalNavigator
 import com.space.movieapp.core.navigation.featurePopTransitionSpec
 import com.space.movieapp.core.navigation.featurePredictivePopTransitionSpec
@@ -29,10 +31,11 @@ fun MainActivity.MovieAppContainer(
 
     CompositionLocalProvider(LocalGlobalNavigator provides navigator) {
         val currentRoute = navigator.backStack.lastOrNull()
+        val shouldShowBottomBar = currentRoute is HomeFeatureKey || currentRoute is FavoritesFeatureKey
 
         Scaffold(
             bottomBar = {
-                if (currentRoute != null && isOnline) {
+                if (shouldShowBottomBar && isOnline) {
                     MovieBottomBar(
                         currentRoute = currentRoute,
                         onNavigate = { targetRoute ->
