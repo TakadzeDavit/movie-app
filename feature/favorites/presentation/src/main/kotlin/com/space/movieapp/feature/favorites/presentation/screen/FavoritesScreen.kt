@@ -16,14 +16,16 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.DataState
-import com.space.movie.core.presentation.common.getErrorStrings
+import com.space.movie.core.presentation.common.toUiModel
 import com.space.movieapp.feature.favorites.presentation.R
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesEvent
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesState
@@ -33,6 +35,7 @@ import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.loader.LoadingScreen
 import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.Spacing
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FavoritesScreen() {
@@ -76,11 +79,11 @@ private fun FavoritesContent(
 
         when (val movieState = state.favoriteMovies) {
             is DataState.Error -> {
-                val (title, description) = getErrorStrings(movieState.errorType)
+                val errorUiModel = movieState.errorType.toUiModel()
 
                 ErrorScreen(
-                    title = stringResource(title),
-                    description = stringResource(description),
+                    title = stringResource(errorUiModel.titleResId),
+                    description = stringResource(errorUiModel.descriptionResId),
                     onRefreshClick = {
                         onEvent(FavoritesEvent.OnRefreshClick)
                     }
