@@ -1,6 +1,7 @@
 package com.space.movie.core.presentation.common
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.space.movie.core.presentation.extension.NavCommands
 import com.space.movie.core.presentation.extension.VmClass
@@ -14,7 +15,7 @@ fun <UIState : UiState, UIEvent : UiEvent> BaseScreen(
     content: @Composable (state: UIState, onEvent: (UIEvent) -> Unit) -> Unit
 ) {
     val viewModel = koinViewModel(vmClass, parameters)
-    val state = viewModel.state.collectAsStateWithLifecycle().value
+    val state by viewModel.state.collectAsStateWithLifecycle()
     NavCommands(viewModel.navigationCommands)
     content(state, viewModel::onEvent)
 }
