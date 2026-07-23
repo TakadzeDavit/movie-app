@@ -3,5 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.androidx.paging.common)
+
     implementation(projects.core.common)
 }

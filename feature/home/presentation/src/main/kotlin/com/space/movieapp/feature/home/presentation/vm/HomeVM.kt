@@ -8,6 +8,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.space.common.network.NetworkObserver
 import com.space.core.domain.model.PopularMovie
+import com.space.core.domain.repository.PagedViewModel
 import com.space.core.domain.usecase.DeleteByIdUseCase
 import com.space.core.domain.usecase.GetFavoriteIdsUseCase
 import com.space.core.domain.usecase.InsertFavoriteUseCase
@@ -44,7 +45,7 @@ class HomeVM(
     private val insertFavoriteUseCase: InsertFavoriteUseCase,
     private val movieDomainMapper: MovieDomainMapper,
     private val getMoviesUseCase: GetMoviesUseCase
-) : BaseVM<HomeState, HomeEvent>(HomeState()) {
+) : BaseVM<HomeState, HomeEvent>(HomeState()), PagedViewModel<PopularMovieUI> {
 
     override fun onEvent(event: HomeEvent) {
         when (event) {
@@ -52,7 +53,11 @@ class HomeVM(
             is HomeEvent.OnFilterIconClick -> updateState {
                 copy(areFiltersExpanded = !areFiltersExpanded)
             }
-            is HomeEvent.ResetSearch -> { state.value.searchState.clearText() }
+
+            is HomeEvent.ResetSearch -> {
+                state.value.searchState.clearText()
+            }
+
             is HomeEvent.OnFilterClick -> onFilterClick(event.genreId)
             is HomeEvent.OnNavigateDetails -> {
                 globalNavigator { push(DetailsFeatureKey(event.movieId)) }
@@ -94,7 +99,7 @@ class HomeVM(
         .cachedIn(viewModelScope)
 
 
-    val moviesPagedFlow: Flow<PagingData<PopularMovieUI>> = combine(
+    override val pagingFlow: Flow<PagingData<PopularMovieUI>> = combine(
         basePagedFlow,
         favoriteIdsFlow
     ) { pagingData, favoriteIds ->

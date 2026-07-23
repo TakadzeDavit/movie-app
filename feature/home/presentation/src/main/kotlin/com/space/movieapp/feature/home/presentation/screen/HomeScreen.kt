@@ -30,7 +30,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.space.common.api_result.NetworkError
 import com.space.common.exception.toYear
 import com.space.core.domain.model.Genre
-import com.space.movie.core.presentation.common.BaseScreen
+import com.space.movie.core.presentation.common.BasePagedScreen
 import com.space.movie.core.presentation.common.toUiModel
 import com.space.movie.core.presentation.extension.isRefreshError
 import com.space.movie.core.presentation.extension.refreshException
@@ -54,16 +54,13 @@ import com.space.ui.theme.MovieTheme.colors
 import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Spacing
 import kotlinx.coroutines.flow.flowOf
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen() {
-    val vm = koinViewModel<HomeVM>()
-    val lazyPagingItems = vm.moviesPagedFlow.collectAsLazyPagingItems()
-
-    BaseScreen(
+    BasePagedScreen (
         vmClass = HomeVM::class,
-        content = { state, onEvent ->
+        getPagingFlow = { it.pagingFlow },
+        content = { lazyPagingItems, state, onEvent ->
             HomeContent(
                 lazyPagingItems = lazyPagingItems,
                 state = state,
