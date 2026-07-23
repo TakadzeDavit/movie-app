@@ -22,5 +22,5 @@ val detailsVMModule = module {
         )
     }
 
-    singleOf(::MovieDetailsDomainMapper)
+    factoryOf(::MovieDetailsDomainMapper)
 }
