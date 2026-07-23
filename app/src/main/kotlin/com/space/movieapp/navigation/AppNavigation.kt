@@ -33,12 +33,13 @@ fun MainActivity.MovieAppContainer(
     val navigator = rememberNavigator(startDestination)
 
     CompositionLocalProvider(LocalGlobalNavigator provides navigator) {
-        val currentRoute = navigator.backStack.lastOrNull()
+        val currentRoute by remember {
+            derivedStateOf { navigator.backStack.lastOrNull() }
+        }
 
         val showBottomBar by remember {
             derivedStateOf {
-                val route = navigator.backStack.lastOrNull()
-                route is HomeFeatureKey || route is FavoritesFeatureKey
+                currentRoute is HomeFeatureKey || currentRoute is FavoritesFeatureKey
             }
         }
 
