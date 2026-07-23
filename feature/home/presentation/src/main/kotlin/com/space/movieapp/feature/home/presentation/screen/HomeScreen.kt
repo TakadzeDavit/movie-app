@@ -25,17 +25,17 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.space.common.api_result.NetworkError
-import com.space.common.exception.PagingException
 import com.space.common.exception.toYear
-import com.space.movie.core.presentation.common.getErrorStrings
+import com.space.movie.core.presentation.common.toUiModel
+import com.space.movie.core.presentation.extension.isRefreshError
+import com.space.movie.core.presentation.extension.refreshException
 import com.space.movieapp.feature.home.presentation.R
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent.OnFavoriteClick
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent.OnFilterClick
-import com.space.movieapp.feature.home.presentation.contract.HomeEvent.OnSearchQueryChange
 import com.space.movieapp.feature.home.presentation.contract.HomeState
 import com.space.movieapp.feature.home.presentation.model.PopularMovieUI
-import com.space.movieapp.feature.home.presentation.vm.HomeViewModel
+import com.space.movieapp.feature.home.presentation.vm.HomeVM
 import com.space.ui.component.card.MovieCatalogueCard
 import com.space.ui.component.error.EmptyResultView
 import com.space.ui.component.error.ErrorScreen
@@ -50,41 +50,18 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = koinViewModel(),
+    viewModel: HomeVM = koinViewModel(),
     onNavigateDetails: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val lazyPagingItems = viewModel.moviesPagedFlow.collectAsLazyPagingItems()
+    val lazyPagingItems = state.movies.collectAsLazyPagingItems()
 
-    // Show error screen when initial load fails
-    if (lazyPagingItems.loadState.refresh is LoadState.Error) {
-        // Get custom PagingException from error state
-        val exception =
-            (lazyPagingItems.loadState.refresh as LoadState.Error).error as? PagingException
-
-        // Map error type to user-facing title and description strings
-        val (title, description) = getErrorStrings(
-            exception?.errorType ?: NetworkError.UNKNOWN
-        )
-
-        Box(modifier = Modifier.fillMaxSize()) {
-            ErrorScreen(
-                title = stringResource(title),
-                description = stringResource(description),
-                onRefreshClick = {
-                    viewModel.onEvent(HomeEvent.ResetSearch)
-                    lazyPagingItems.retry()
-                }
-            )
-        }
-    } else {
-        HomeContent(
-            lazyPagingItems = lazyPagingItems,
-            state = state,
-            onEvent = viewModel::onEvent,
-            onNavigateDetails = { onNavigateDetails(it) }
-        )
-    }
+    HomeContent(
+        lazyPagingItems = lazyPagingItems,
+        state = state,
+        onEvent = viewModel::onEvent,
+        onNavigateDetails = { onNavigateDetails(it) }
+    )
 }
 
 @Composable
@@ -94,119 +71,134 @@ private fun HomeContent(
     onNavigateDetails: (Int) -> Unit,
     onEvent: (HomeEvent) -> Unit
 ) {
-    LaunchedEffect(state.isOnline) {
-        if (state.isOnline) {
-            val refreshFailed = lazyPagingItems.loadState.refresh is LoadState.Error
-            val appendFailed = lazyPagingItems.loadState.append is LoadState.Error
-            if (refreshFailed || appendFailed) {
-                lazyPagingItems.retry()
-            }
+    if (lazyPagingItems.isRefreshError) {
+        val errorType = lazyPagingItems.refreshException?.errorType ?: NetworkError.UNKNOWN
+        val errorUiModel = errorType.toUiModel()
+
+        Box(modifier = Modifier.fillMaxSize()) {
+            ErrorScreen(
+                title = stringResource(errorUiModel.titleResId),
+                description = stringResource(errorUiModel.descriptionResId),
+                onRefreshClick = {
+                    onEvent(HomeEvent.ResetSearch)
+                    lazyPagingItems.retry()
+                }
+            )
         }
-    }
+    }  else {
+        Column(modifier = Modifier.fillMaxSize()) {
+            LaunchedEffect(state.isOnline) {
+                if (state.isOnline) {
+                    val refreshFailed = lazyPagingItems.loadState.refresh is LoadState.Error
+                    val appendFailed = lazyPagingItems.loadState.append is LoadState.Error
+                    if (refreshFailed || appendFailed) {
+                        lazyPagingItems.retry()
+                    }
+                }
+            }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-
-        MovieAppSearch(
-            searchQuery = state.searchQuery,
-            onSearchQueryChange = { onEvent(OnSearchQueryChange(it)) },
-            onFilterClick = { onEvent(HomeEvent.OnFilterIconClick) },
-            areFiltersExpanded = state.areFiltersExpanded,
-        ) {
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(Spacing.spacing08),
-                contentPadding = PaddingValues(horizontal = Spacing.spacing16)
+            MovieAppSearch(
+                searchState = state.searchState,
+                onFilterClick = { onEvent(HomeEvent.OnFilterIconClick) },
+                areFiltersExpanded = state.areFiltersExpanded,
             ) {
-                items(
-                    items = state.filters,
-                    key = { it.id }
-                ) { genre ->
-                    val isSelected = genre.id == state.selectedGenreId
-
-                    GenreChip(
-                        title = genre.name,
-                        isSelected = isSelected,
-                        onChipClick = { onEvent(OnFilterClick(genre.id)) }
-                    )
-                }
-            }
-        }
-
-        when (lazyPagingItems.loadState.refresh) {
-            is LoadState.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.spacing08),
+                    contentPadding = PaddingValues(horizontal = Spacing.spacing16)
                 ) {
-                    LoadingScreen()
+                    items(
+                        items = state.filters,
+                        key = { it.id }
+                    ) { genre ->
+                        val isSelected = genre.id == state.selectedGenreId
+
+                        GenreChip(
+                            title = genre.name,
+                            isSelected = isSelected,
+                            onChipClick = { onEvent(OnFilterClick(genre.id)) }
+                        )
+                    }
                 }
             }
 
-            is LoadState.NotLoading -> {
-                LazyVerticalGrid(
-                    columns = Fixed(2),
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.spacing16),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.spacing16),
-                    contentPadding = PaddingValues(Spacing.spacing16)
-                ) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        Column(
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.movies),
-                                style = MovieTheme.typography.headlineSmall,
-                                color = MovieTheme.colors.primary
-                            )
+            when (lazyPagingItems.loadState.refresh) {
+                is LoadState.Loading -> {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LoadingScreen()
+                    }
+                }
 
-                            Spacer(modifier = Modifier.height(Spacing.spacing16))
+                is LoadState.NotLoading -> {
+                    LazyVerticalGrid(
+                        columns = Fixed(2),
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.spacing16),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.spacing16),
+                        contentPadding = PaddingValues(Spacing.spacing16)
+                    ) {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            Column(
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.movies),
+                                    style = MovieTheme.typography.headlineSmall,
+                                    color = MovieTheme.colors.primary
+                                )
 
-                            val isLoading = lazyPagingItems.loadState.refresh is LoadState.Loading
+                                Spacer(modifier = Modifier.height(Spacing.spacing16))
 
-                            if (lazyPagingItems.itemCount == 0 && !isLoading) {
-                                EmptyResultView()
+                                val isLoading =
+                                    lazyPagingItems.loadState.refresh is LoadState.Loading
+
+                                if (lazyPagingItems.itemCount == 0 && !isLoading) {
+                                    EmptyResultView()
+                                }
+                            }
+                        }
+
+                        items(
+                            count = lazyPagingItems.itemCount
+                        ) { index ->
+                            val movie = lazyPagingItems[index]
+
+                            if (movie != null) {
+                                MovieCatalogueCard(
+                                    imgUrl = movie.posterPath ?: "",
+                                    genre = movie.genre,
+                                    showFilterName = state.showFilterNameOnCard,
+                                    title = movie.title,
+                                    isFavorite = movie.isFavorite,
+                                    year = movie.releaseDate.toYear(),
+                                    onFavoriteClick = { onEvent(OnFavoriteClick(movie)) },
+                                    onCardClick = { onNavigateDetails(movie.id) }
+                                )
+                            }
+                        }
+
+                        if (lazyPagingItems.loadState.append is LoadState.Loading) {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
+                                BottomCircularProgress()
+                            }
+                        }
+
+                        if (!state.isOnline) {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
+                                NetworkStatusBanner(isOnline = state.isOnline)
                             }
                         }
                     }
-
-                    items(
-                        count = lazyPagingItems.itemCount
-                    ) { index ->
-                        val movie = lazyPagingItems[index]
-
-                        if (movie != null) {
-                            MovieCatalogueCard(
-                                imgUrl = movie.posterPath ?: "",
-                                genre = movie.genre,
-                                showFilterName = state.showFilterNameOnCard,
-                                title = movie.title,
-                                isFavorite = movie.isFavorite,
-                                year = movie.releaseDate.toYear(),
-                                onFavoriteClick = { onEvent(OnFavoriteClick(movie)) },
-                                onCardClick = { onNavigateDetails(movie.id) }
-                            )
-                        }
-                    }
-
-                    if (lazyPagingItems.loadState.append is LoadState.Loading) {
-                        item(span = { GridItemSpan(maxLineSpan) }) {
-                            BottomCircularProgress()
-                        }
-                    }
-
-                    if (!state.isOnline) {
-                        item(span = { GridItemSpan(maxLineSpan) }) {
-                            NetworkStatusBanner(isOnline = state.isOnline)
-                        }
-                    }
                 }
-            }
 
-            is LoadState.Error -> Unit
+                is LoadState.Error -> Unit
+            }
         }
     }
 }

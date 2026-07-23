@@ -11,4 +11,6 @@ interface FavoritesLocalDataSource {
     suspend fun insertFavorite(movie: FavoriteMovieEntity)
 
     suspend fun deleteFavoriteById(movieId: Int)
+
+    fun isMovieFavorite(movieId: Int): Flow<Boolean>
 }

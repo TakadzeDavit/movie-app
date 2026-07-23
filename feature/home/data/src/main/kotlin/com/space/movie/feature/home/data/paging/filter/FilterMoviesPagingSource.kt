@@ -42,7 +42,8 @@ class FilterMoviesPagingSource(
                 LoadResult.Page(
                     data = domainMovies,
                     prevKey = if (currentPage == 1) null else currentPage - 1,
-                    nextKey = if (dtoMovies.isEmpty() || dtoMovies.size < params.loadSize) null else currentPage + 1
+                    nextKey = if (dtoMovies.isEmpty() || dtoMovies.size < params.loadSize)
+                        null else currentPage + 1
                 )
             } else {
                 LoadResult.Error(

@@ -1,7 +1,9 @@
 package com.space.ui.component.button
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,10 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import com.space.movieapp.core.ui.R
 import com.space.ui.component.debounce.rememberDebouncedClick
-import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieAppTheme
+import com.space.ui.theme.MovieTheme.colors
+import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 
@@ -26,8 +30,6 @@ fun MovieAppHeader(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val colors = MovieTheme.colors
-    val typography = MovieTheme.typography
     val debouncedBackClick = rememberDebouncedClick(onClick = onBackClick)
 
     Box(
@@ -53,5 +55,22 @@ fun MovieAppHeader(
             color = colors.primaryText,
             modifier = Modifier.align(Alignment.Center)
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MovieAppHeaderVariantsPreview() {
+    MovieAppTheme {
+        Column(
+            modifier = Modifier
+                .background(colors.background),
+            verticalArrangement = Arrangement.spacedBy(Spacing.spacing16)
+        ) {
+            MovieAppHeader(
+                title = "Settings",
+                onBackClick = {}
+            )
+        }
     }
 }

@@ -15,26 +15,30 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.space.common.api_result.NetworkError
+import com.space.feature.details.domain.model.MovieDetails
 import com.space.feature.details.presentation.R
 import com.space.feature.details.presentation.component.description.MovieDescriptionSection
 import com.space.feature.details.presentation.component.details.MovieInfoSection
 import com.space.feature.details.presentation.component.poster.MoviePosterSection
 import com.space.feature.details.presentation.contract.DetailsEvent
 import com.space.feature.details.presentation.contract.DetailsState
-import com.space.feature.details.presentation.vm.DetailsViewModel
+import com.space.feature.details.presentation.vm.DetailsVM
 import com.space.movie.core.presentation.common.DataState
 import com.space.ui.component.button.MovieAppHeader
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.loader.LoadingScreen
-import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieAppTheme
+import com.space.ui.theme.MovieTheme.colors
 import kotlinx.serialization.InternalSerializationApi
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DetailsScreen(
-    viewModel: DetailsViewModel = koinViewModel(),
+    viewModel: DetailsVM = koinViewModel(),
     onBackClick: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -53,8 +57,6 @@ private fun DetailsContent(
     onEvent: (DetailsEvent) -> Unit,
     onTrailerClick: () -> Unit = {}
 ) {
-    val colors = MovieTheme.colors
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -127,5 +129,62 @@ private fun DetailsContent(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailsContentSuccessPreview() {
+    MovieAppTheme {
+        DetailsContent(
+            state = DetailsState(
+                movieState = DataState.Success(
+                    data = MovieDetails(
+                        posterUrl = "",
+                        title = "Me var beso",
+                        rating = 10.0,
+                        genre = "Comedy",
+                        duration = "2h 28m",
+                        year = 2010,
+                        overview = "Me var beso description Me var beso description ",
+                        id = 2121
+                    )
+                ),
+                isFavorite = true
+            ),
+            onBackClick = {},
+            onEvent = {},
+            onTrailerClick = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailsContentLoadingPreview() {
+    MovieAppTheme {
+        DetailsContent(
+            state = DetailsState(
+                movieState = DataState.Loading
+            ),
+            onBackClick = {},
+            onEvent = {},
+            onTrailerClick = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailsContentErrorPreview() {
+    MovieAppTheme {
+        DetailsContent(
+            state = DetailsState(
+                movieState = DataState.Error(NetworkError.UNKNOWN)
+            ),
+            onBackClick = {},
+            onEvent = {},
+            onTrailerClick = {}
+        )
     }
 }

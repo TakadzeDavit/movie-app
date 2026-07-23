@@ -19,7 +19,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.space.movieapp.core.navigation.Route
-import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieTheme.colors
+import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Radius
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
@@ -29,9 +30,6 @@ fun MovieBottomBar(
     currentRoute: Route?,
     onNavigate: (Route) -> Unit
 ) {
-    val colors = MovieTheme.colors
-    val typography = MovieTheme.typography
-
     Row(
         modifier = Modifier
             .fillMaxWidth()

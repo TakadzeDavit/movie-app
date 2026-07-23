@@ -3,35 +3,31 @@ package com.space.feature.details.presentation.vm
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.space.common.api_result.ApiResult
 import com.space.core.domain.usecase.DeleteByIdUseCase
-import com.space.core.domain.usecase.GetFavoriteIdsUseCase
 import com.space.core.domain.usecase.InsertFavoriteUseCase
+import com.space.core.domain.usecase.IsFavoriteUseCase
 import com.space.feature.details.domain.usecase.GetMovieDetailsUseCase
 import com.space.feature.details.presentation.contract.DetailsEvent
 import com.space.feature.details.presentation.contract.DetailsState
 import com.space.feature.details.presentation.mapper.MovieDetailsDomainMapper
-import com.space.movie.core.presentation.common.BaseViewModel
+import com.space.movie.core.presentation.common.BaseVM
 import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.common.EmptySideEffect
 import com.space.movie.core.presentation.extension.handleApiResult
 import com.space.movieapp.core.navigation.Route
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.serialization.InternalSerializationApi
 
 @OptIn(InternalSerializationApi::class)
-class DetailsViewModel(
+class DetailsVM(
     private val savedStateHandle: SavedStateHandle,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val insertFavoriteUseCase: InsertFavoriteUseCase,
     private val deleteByIdUseCase: DeleteByIdUseCase,
-    private val getFavoriteIdsUseCase: GetFavoriteIdsUseCase,
     private val movieDetailsDomainMapper: MovieDetailsDomainMapper,
-) : BaseViewModel<DetailsState, DetailsEvent, EmptySideEffect>(DetailsState()) {
+    private val isMovieFavoriteUseCase: IsFavoriteUseCase
+) : BaseVM<DetailsState, DetailsEvent, EmptySideEffect>(DetailsState()) {
 
     private val detailsArgs = savedStateHandle.toRoute<Route.Details>()
     private val movieId: Int = detailsArgs.movieId
@@ -46,7 +42,6 @@ class DetailsViewModel(
             DetailsEvent.OnFavoriteClick -> toggleFavorite()
             DetailsEvent.OnRefreshClick -> {
                 fetchMovieDetails()
-                observeFavoriteStatus()
             }
         }
     }
@@ -73,7 +68,12 @@ class DetailsViewModel(
                 },
                 onError = { networkError, message ->
                     updateState {
-                        copy(movieState = DataState.Error(errorType = networkError, message = message))
+                        copy(
+                            movieState = DataState.Error(
+                                errorType = networkError,
+                                message = message
+                            )
+                        )
                     }
                 }
             )
@@ -82,12 +82,9 @@ class DetailsViewModel(
 
     private fun observeFavoriteStatus() {
         viewModelScope.launch {
-            getFavoriteIdsUseCase.invoke()
-                .map { it.toSet() }
-                .distinctUntilChanged()
-                .collect { favoriteIds ->
-                    updateState { copy(isFavorite = favoriteIds.contains(movieId)) }
-                }
+            isMovieFavoriteUseCase.invoke(movieId = movieId).collectLatest { isFavorite ->
+                updateState { copy(isFavorite = isFavorite) }
+            }
         }
     }
 }

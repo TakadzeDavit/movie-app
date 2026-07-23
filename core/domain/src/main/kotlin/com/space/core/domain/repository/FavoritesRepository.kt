@@ -8,4 +8,5 @@ interface FavoritesRepository {
     suspend fun removeFromFavorites(movieId: Int)
     fun getFavoriteMovieIds() : Flow<List<Int>>
     suspend fun insertFavorite(movie: PopularMovie)
+    fun isMovieFavorite(movieId: Int): Flow<Boolean>
 }

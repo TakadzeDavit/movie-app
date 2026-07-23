@@ -10,17 +10,17 @@ import com.space.feature.details.data.di.detailsDataSourceRemote
 import com.space.feature.details.data.di.detailsMapperModule
 import com.space.feature.details.data.di.detailsRepositoryModule
 import com.space.feature.details.presentation.di.detailsUseCaseModule
-import com.space.feature.details.presentation.di.detailsViewModelModule
+import com.space.feature.details.presentation.di.detailsVMModule
 import com.space.movie.core.presentation.di.coreUseCaseModule
 import com.space.movie.feature.home.data.di.apiServiceModule
 import com.space.movie.feature.home.data.di.homeDataMapperModule
 import com.space.movie.feature.home.data.di.homeDataSourceModule
 import com.space.movie.feature.home.data.di.repositoryModule
 import com.space.movieapp.core.network.di.networkModule
-import com.space.movieapp.feature.favorites.presentation.di.favoritesViewModelModule
+import com.space.movieapp.di.appModule
+import com.space.movieapp.feature.favorites.presentation.di.favoritesVMModule
 import com.space.movieapp.feature.home.presentation.di.homeUiModule
 import com.space.movieapp.feature.home.presentation.di.useCaseModule
-import com.space.movieapp.feature.home.presentation.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
@@ -32,6 +32,7 @@ class MovieApp : Application() {
             androidContext(this@MovieApp)
 
             modules (
+                appModule,
                 databaseModule,
                 homeUiModule,
                 homeDataMapperModule,
@@ -42,16 +43,15 @@ class MovieApp : Application() {
                 detailsDataSourceRemote,
                 coreUseCaseModule,
                 useCaseModule,
-                viewModelModule,
-                detailsViewModelModule,
+                detailsVMModule,
                 detailsRepositoryModule,
                 detailsMapperModule,
                 detailsApiServiceModule,
                 detailsUseCaseModule,
-                detailsViewModelModule,
+                detailsVMModule,
                 favoritesRepositoryModule,
                 favoritesMapperModule,
-                favoritesViewModelModule,
+                favoritesVMModule,
                 favoriteDataSourceModule
             )
         }

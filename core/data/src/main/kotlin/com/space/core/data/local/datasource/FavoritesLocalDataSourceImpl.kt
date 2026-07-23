@@ -22,4 +22,8 @@ class FavoritesLocalDataSourceImpl(
     override suspend fun deleteFavoriteById(movieId: Int) {
         return favoriteDao.deleteFavoriteById(movieId = movieId)
     }
+
+    override fun isMovieFavorite(movieId: Int): Flow<Boolean> {
+        return favoriteDao.isFavorite(movieId)
+    }
 }

@@ -1,8 +1,12 @@
 package com.space.ui.component.search
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -12,8 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieAppTheme
+import com.space.ui.theme.MovieTheme.colors
+import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Sizing
 import com.space.ui.theme.Spacing
 
@@ -38,9 +45,6 @@ fun GenreChip(
     isSelected: Boolean,
     onChipClick: () -> Unit
 ) {
-    val colors = MovieTheme.colors
-    val typography = MovieTheme.typography
-
     Surface(
         modifier = Modifier
             .height(Sizing.size22)
@@ -61,6 +65,41 @@ fun GenreChip(
                 color = if (isSelected) colors.onPrimary else colors.primaryText,
                 style = typography.labelSmall
             )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun GenreChipPreview() {
+    MovieAppTheme {
+        Column(
+            modifier = Modifier
+                .background(colors.background)
+                .padding(Spacing.spacing16),
+            verticalArrangement = Arrangement.spacedBy(Spacing.spacing16)
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(Spacing.spacing08)
+            ) {
+                GenreChip(
+                    title = "Action",
+                    isSelected = true,
+                    onChipClick = {}
+                )
+
+                GenreChip(
+                    title = "Comedy",
+                    isSelected = false,
+                    onChipClick = {}
+                )
+
+                GenreChip(
+                    title = "Drama",
+                    isSelected = false,
+                    onChipClick = {}
+                )
+            }
         }
     }
 }

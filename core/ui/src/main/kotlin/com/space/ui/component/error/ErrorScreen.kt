@@ -1,5 +1,6 @@
 package com.space.ui.component.error
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,11 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import com.space.movieapp.core.ui.R
 import com.space.ui.component.button.ButtonRefresh
-import com.space.ui.theme.MovieTheme
+import com.space.ui.theme.MovieAppTheme
+import com.space.ui.theme.MovieTheme.colors
+import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Spacing
 
 /**
@@ -43,9 +47,6 @@ fun ErrorScreen(
     description: String,
     onRefreshClick: () -> Unit
 ) {
-    val typography = MovieTheme.typography
-    val colors = MovieTheme.colors
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -79,6 +80,28 @@ fun ErrorScreen(
 
         Spacer(modifier = Modifier.height(Spacing.spacing110))
 
-        ButtonRefresh(text = "Refresh", iconRes = R.drawable.icon_refresh, onClick = onRefreshClick)
+        ButtonRefresh(
+            text = stringResource(R.string.refresh),
+            iconRes = R.drawable.icon_refresh,
+            onClick = onRefreshClick
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ErrorScreenPreview() {
+    MovieAppTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.background)
+        ) {
+            ErrorScreen(
+                title = "Something went wrong",
+                description = "Please check your internet connection and try again.",
+                onRefreshClick = {}
+            )
+        }
     }
 }
