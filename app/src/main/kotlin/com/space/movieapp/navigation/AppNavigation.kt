@@ -4,6 +4,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
@@ -31,7 +34,13 @@ fun MainActivity.MovieAppContainer(
 
     CompositionLocalProvider(LocalGlobalNavigator provides navigator) {
         val currentRoute = navigator.backStack.lastOrNull()
-        val showBottomBar = currentRoute is HomeFeatureKey || currentRoute is FavoritesFeatureKey
+
+        val showBottomBar by remember {
+            derivedStateOf {
+                val route = navigator.backStack.lastOrNull()
+                route is HomeFeatureKey || route is FavoritesFeatureKey
+            }
+        }
 
         Scaffold(
             bottomBar = {

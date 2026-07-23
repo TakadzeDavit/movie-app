@@ -9,6 +9,7 @@ import com.space.movie.core.presentation.common.UiState
 import com.space.movieapp.core.navigation.FeatureNavigationHelper
 import com.space.movieapp.core.navigation.NavigationCommand
 import com.space.movieapp.core.navigation.globalNavigator
+import com.space.movieapp.core.navigation.requireGlobalNavigator
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.koin.compose.currentKoinScope
 import org.koin.core.annotation.KoinInternalApi
@@ -37,12 +38,12 @@ internal fun <UIState : UiState, UIEvent : UiEvent> koinViewModel(
 
 @Composable
 internal fun NavCommands(navigationCommands: MutableSharedFlow<NavigationCommand>) {
-    val globalNavigator = globalNavigator()
+    val globalNavigator = requireGlobalNavigator()
 
     LaunchedEffect(Unit) {
         navigationCommands.collect {
             it.execute(
-                globalNavigator!!
+                globalNavigator
             )
         }
     }

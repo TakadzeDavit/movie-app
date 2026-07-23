@@ -36,11 +36,8 @@ class Navigator(val backStack: NavBackStack<NavKey>) {
     }
 
     fun bringToFront(key: NavKey) {
-        if (backStack.remove(key)) {
-            backStack.add(key)
-        } else {
-            backStack.add(key)
-        }
+        backStack.remove(key)
+        backStack.add(key)
     }
 }
 
