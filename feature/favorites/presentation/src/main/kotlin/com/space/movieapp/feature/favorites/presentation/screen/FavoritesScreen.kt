@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.space.core.domain.model.PopularMovie
 import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.DataState
-import com.space.movie.core.presentation.common.toUiModel
+import com.space.movie.core.presentation.extension.toUiModel
 import com.space.movieapp.feature.favorites.presentation.component.EmptyFavoriteScreen
 import com.space.movieapp.feature.favorites.presentation.component.FavoritesHeader
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesEvent

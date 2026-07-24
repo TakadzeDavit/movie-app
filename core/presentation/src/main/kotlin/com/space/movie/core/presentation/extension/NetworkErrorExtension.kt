@@ -1,4 +1,4 @@
-package com.space.movie.core.presentation.common
+package com.space.movie.core.presentation.extension
 
 import com.space.common.api_result.NetworkError
 import com.space.movie.core.presentation.R

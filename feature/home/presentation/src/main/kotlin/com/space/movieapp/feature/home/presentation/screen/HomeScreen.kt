@@ -31,7 +31,7 @@ import com.space.common.api_result.NetworkError
 import com.space.common.exception.toYear
 import com.space.core.domain.model.Genre
 import com.space.movie.core.presentation.common.BasePagedScreen
-import com.space.movie.core.presentation.common.toUiModel
+import com.space.movie.core.presentation.extension.toUiModel
 import com.space.movie.core.presentation.extension.isRefreshError
 import com.space.movie.core.presentation.extension.refreshException
 import com.space.movieapp.feature.home.presentation.R
