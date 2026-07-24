@@ -8,7 +8,6 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.space.common.network.NetworkObserver
 import com.space.core.domain.model.PopularMovie
-import com.space.core.domain.repository.PagedViewModel
 import com.space.core.domain.usecase.DeleteByIdUseCase
 import com.space.core.domain.usecase.GetFavoriteIdsUseCase
 import com.space.core.domain.usecase.InsertFavoriteUseCase
@@ -45,7 +44,7 @@ class HomeVM(
     private val insertFavoriteUseCase: InsertFavoriteUseCase,
     private val movieDomainMapper: MovieDomainMapper,
     private val getMoviesUseCase: GetMoviesUseCase
-) : BaseVM<HomeState, HomeEvent>(HomeState()), PagedViewModel<PopularMovieUI> {
+) : BaseVM<HomeState, HomeEvent>(HomeState()) {
 
     override fun onEvent(event: HomeEvent) {
         when (event) {
@@ -99,7 +98,7 @@ class HomeVM(
         .cachedIn(viewModelScope)
 
 
-    override val pagingFlow: Flow<PagingData<PopularMovieUI>> = combine(
+    val pagingFlow: Flow<PagingData<PopularMovieUI>> = combine(
         basePagedFlow,
         favoriteIdsFlow
     ) { pagingData, favoriteIds ->
