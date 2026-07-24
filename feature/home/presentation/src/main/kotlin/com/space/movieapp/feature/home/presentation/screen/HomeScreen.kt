@@ -55,29 +55,7 @@ private fun HomeContent(
     state: HomeState,
     onEvent: (HomeEvent) -> Unit
 ) {
-    AutoRetryOnNetworkRestore(
-        isOnline = state.isOnline,
-        lazyPagingItems = lazyPagingItems
-    )
-
-    if (lazyPagingItems.isRefreshError) {
-        HomeErrorScreen(
-            lazyPagingItems = lazyPagingItems,
-            resetSearch = { onEvent(HomeEvent.ResetSearch) }
-        )
-        return
-    }
-
     Column(modifier = Modifier.fillMaxSize()) {
-        HomeHeaderSection(
-            searchState = state.searchState,
-            areFiltersExpanded = state.areFiltersExpanded,
-            filters = state.filters,
-            selectedGenreId = state.selectedGenreId,
-            onFilterClick = { onEvent(OnFilterClick(it)) },
-            onFilterIconClick = { onEvent(HomeEvent.OnFilterIconClick) }
-        )
-
         when (lazyPagingItems.loadState.refresh) {
             is LoadState.Loading -> {
                 Box(
@@ -91,10 +69,21 @@ private fun HomeContent(
             }
 
             is LoadState.NotLoading -> {
-                val isLoading =
-                    lazyPagingItems.loadState.refresh is LoadState.Loading
+                HomeHeaderSection(
+                    searchState = state.searchState,
+                    areFiltersExpanded = state.areFiltersExpanded,
+                    filters = state.filters,
+                    selectedGenreId = state.selectedGenreId,
+                    onFilterClick = { onEvent(OnFilterClick(it)) },
+                    onFilterIconClick = { onEvent(HomeEvent.OnFilterIconClick) }
+                )
 
-                if (lazyPagingItems.itemCount == 0 && !isLoading) {
+                AutoRetryOnNetworkRestore(
+                    isOnline = state.isOnline,
+                    lazyPagingItems = lazyPagingItems
+                )
+
+                if (lazyPagingItems.itemCount == 0) {
                     EmptyResultView()
                 } else {
                     MovieGridSection(
@@ -107,7 +96,12 @@ private fun HomeContent(
                 }
             }
 
-            else -> Unit
+            is LoadState.Error -> {
+                HomeErrorScreen(
+                    lazyPagingItems = lazyPagingItems,
+                    resetSearch = { onEvent(HomeEvent.ResetSearch) }
+                )
+            }
         }
     }
 }

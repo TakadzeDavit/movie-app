@@ -97,6 +97,7 @@ class HomeVM(
         .filterNotNull()
         .distinctUntilChanged()
         .flatMapLatest { (query, genreId) -> getMoviesUseCase(query, genreId) }
+        .cachedIn(viewModelScope)
 
 
     val pagingFlow: Flow<PagingData<PopularMovieUI>> = combine(
@@ -104,7 +105,7 @@ class HomeVM(
         favoriteIdsFlow
     ) { pagingData, favoriteIds ->
         pagingData.map { movie -> popularMovieUiMapper.map(movie, favoriteIds) }
-    }.cachedIn(viewModelScope)
+    }
 
     /**
      * Adds or removes movie from favorites based on current [PopularMovieUI.isFavorite] flag.
