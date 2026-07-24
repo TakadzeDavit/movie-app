@@ -10,6 +10,11 @@ android {
     defaultConfig {
         applicationId = "com.space.movieapp"
     }
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("debug")
+        }
+    }
 }
 
 dependencies {
