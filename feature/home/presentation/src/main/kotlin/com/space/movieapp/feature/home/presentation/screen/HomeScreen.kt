@@ -17,7 +17,6 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.space.core.domain.model.Genre
 import com.space.movie.core.presentation.common.BasePagedScreen
-import com.space.movie.core.presentation.extension.isRefreshError
 import com.space.movieapp.feature.home.presentation.component.AutoRetryOnNetworkRestore
 import com.space.movieapp.feature.home.presentation.component.HomeErrorScreen
 import com.space.movieapp.feature.home.presentation.component.HomeHeaderSection
@@ -69,6 +68,11 @@ private fun HomeContent(
             }
 
             is LoadState.NotLoading -> {
+                AutoRetryOnNetworkRestore(
+                    isOnline = state.isOnline,
+                    lazyPagingItems = lazyPagingItems
+                )
+
                 HomeHeaderSection(
                     searchState = state.searchState,
                     areFiltersExpanded = state.areFiltersExpanded,
@@ -76,11 +80,6 @@ private fun HomeContent(
                     selectedGenreId = state.selectedGenreId,
                     onFilterClick = { onEvent(OnFilterClick(it)) },
                     onFilterIconClick = { onEvent(HomeEvent.OnFilterIconClick) }
-                )
-
-                AutoRetryOnNetworkRestore(
-                    isOnline = state.isOnline,
-                    lazyPagingItems = lazyPagingItems
                 )
 
                 if (lazyPagingItems.itemCount == 0) {
