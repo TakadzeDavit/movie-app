@@ -15,6 +15,8 @@ import com.space.feature.details.api.DetailsFeatureKey
 import com.space.movie.core.presentation.common.BaseVM
 import com.space.movie.core.presentation.extension.globalNavigator
 import com.space.movie.core.presentation.extension.handleApiResult
+import com.space.movie.core.presentation.extension.hideLoader
+import com.space.movie.core.presentation.extension.showLoader
 import com.space.movie.feature.home.domain.usecase.genres.GetGenresUseCase
 import com.space.movie.feature.home.domain.usecase.movies.GetMoviesUseCase
 import com.space.movieapp.feature.home.presentation.contract.HomeEvent
@@ -33,6 +35,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.milliseconds
@@ -156,7 +159,7 @@ class HomeVM(
      * Fetches genres on startup. Movies paging starts only after genres are cached in DB.
      */
     private fun loadGenres() {
-        viewModelScope.launch {
+        launchWithLoader {
             getGenresUseCase.invoke().handleApiResult(
                 onSuccess = { genres ->
                     updateState {

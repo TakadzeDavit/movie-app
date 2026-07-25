@@ -55,6 +55,15 @@ private fun HomeContent(
     onEvent: (HomeEvent) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
+        HomeHeaderSection(
+            searchState = state.searchState,
+            areFiltersExpanded = state.areFiltersExpanded,
+            filters = state.filters,
+            selectedGenreId = state.selectedGenreId,
+            onFilterClick = { onEvent(OnFilterClick(it)) },
+            onFilterIconClick = { onEvent(HomeEvent.OnFilterIconClick) }
+        )
+
         when (lazyPagingItems.loadState.refresh) {
             is LoadState.Loading -> {
                 Box(
@@ -71,15 +80,6 @@ private fun HomeContent(
                 AutoRetryOnNetworkRestore(
                     isOnline = state.isOnline,
                     lazyPagingItems = lazyPagingItems
-                )
-
-                HomeHeaderSection(
-                    searchState = state.searchState,
-                    areFiltersExpanded = state.areFiltersExpanded,
-                    filters = state.filters,
-                    selectedGenreId = state.selectedGenreId,
-                    onFilterClick = { onEvent(OnFilterClick(it)) },
-                    onFilterIconClick = { onEvent(HomeEvent.OnFilterIconClick) }
                 )
 
                 if (lazyPagingItems.itemCount == 0) {

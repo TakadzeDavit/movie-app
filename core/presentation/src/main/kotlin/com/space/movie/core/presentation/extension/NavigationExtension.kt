@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import org.koin.compose.currentKoinScope
 import org.koin.core.annotation.KoinInternalApi
 import org.koin.core.parameter.ParametersDefinition
+import org.koin.core.qualifier.Qualifier
+import org.koin.java.KoinJavaComponent
 import org.koin.viewmodel.defaultExtras
 import org.koin.viewmodel.resolveViewModel
 import kotlin.reflect.KClass
@@ -49,8 +51,19 @@ internal fun NavCommands(navigationCommands: MutableSharedFlow<NavigationCommand
     }
 }
 
+inline fun <reified T : Any> inject(qualifier: Qualifier? = null) =
+    KoinJavaComponent.inject<T>(clazz = T::class.java, qualifier = qualifier)
+
 fun BaseVM<*, *>.globalNavigator(navigation: FeatureNavigationHelper.() -> NavigationCommand) {
     navigationCommands.tryEmit(
         FeatureNavigationHelper.navigation()
     )
+}
+
+fun BaseVM<*, *>.showLoader() {
+    globalLoader.showLoader()
+}
+
+fun BaseVM<*, *>.hideLoader() {
+    globalLoader.hideLoader()
 }
