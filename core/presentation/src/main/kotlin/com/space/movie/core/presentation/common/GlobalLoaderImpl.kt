@@ -1,6 +1,5 @@
-package com.space.movieapp.loader
+package com.space.movie.core.presentation.common
 
-import com.space.movie.core.presentation.common.GlobalLoader
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -8,6 +8,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -16,6 +17,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.space.feature.details.presentation.navigator.detailsEntry
 import com.space.feature.favorites.api.FavoritesFeatureKey
 import com.space.feature.home.api.HomeFeatureKey
+import com.space.movie.core.presentation.common.GlobalLoader
 import com.space.movieapp.core.navigation.LocalGlobalNavigator
 import com.space.movieapp.core.navigation.featurePopTransitionSpec
 import com.space.movieapp.core.navigation.featurePredictivePopTransitionSpec
@@ -23,14 +25,18 @@ import com.space.movieapp.core.navigation.featureTransitionSpec
 import com.space.movieapp.core.navigation.rememberNavigator
 import com.space.movieapp.feature.favorites.presentation.navigator.favoritesEntry
 import com.space.movieapp.feature.home.presentation.navigator.homeEntry
+import com.space.ui.component.loader.FullScreenLoader
 import com.space.movieapp.ui.MainActivity
+import org.koin.compose.koinInject
 
 @Composable
 fun MainActivity.MovieAppContainer(
     startDestination: NavKey,
-    isOnline: Boolean
+    isOnline: Boolean,
+    globalLoader: GlobalLoader = koinInject()
 ) {
     val navigator = rememberNavigator(startDestination)
+    val isLoading by globalLoader.isLoading.collectAsStateWithLifecycle()
 
     CompositionLocalProvider(LocalGlobalNavigator provides navigator) {
         val currentRoute by remember {
@@ -75,5 +81,9 @@ fun MainActivity.MovieAppContainer(
                 },
             )
         }
+
+        FullScreenLoader(
+            isLoading = isLoading
+        )
     }
 }

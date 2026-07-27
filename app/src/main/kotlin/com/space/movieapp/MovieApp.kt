@@ -11,7 +11,7 @@ import com.space.feature.details.data.di.detailsMapperModule
 import com.space.feature.details.data.di.detailsRepositoryModule
 import com.space.feature.details.presentation.di.detailsUseCaseModule
 import com.space.feature.details.presentation.di.detailsVMModule
-import com.space.movie.core.presentation.di.coreUseCaseModule
+import com.space.movie.core.presentation.di.corePresentationModule
 import com.space.movie.feature.home.data.di.apiServiceModule
 import com.space.movie.feature.home.data.di.homeDataMapperModule
 import com.space.movie.feature.home.data.di.homeDataSourceModule
@@ -41,7 +41,7 @@ class MovieApp : Application() {
                 repositoryModule,
                 apiServiceModule,
                 detailsDataSourceRemote,
-                coreUseCaseModule,
+                corePresentationModule,
                 useCaseModule,
                 detailsVMModule,
                 detailsRepositoryModule,

@@ -8,10 +8,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.zIndex
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.space.movieapp.loader.FullScreenLoader
 import com.space.movieapp.navigation.MovieAppContainer
 import com.space.movieapp.ui.vm.MainActivityVM
 import com.space.ui.theme.MovieAppTheme
@@ -39,8 +37,6 @@ class MainActivity : ComponentActivity() {
                         startDestination = state.startDestination,
                         isOnline = state.isOnline
                     )
-
-                    FullScreenLoader(modifier = Modifier.zIndex(1f))
                 }
             }
         }

@@ -51,9 +51,6 @@ internal fun NavCommands(navigationCommands: MutableSharedFlow<NavigationCommand
     }
 }
 
-inline fun <reified T : Any> inject(qualifier: Qualifier? = null) =
-    KoinJavaComponent.inject<T>(clazz = T::class.java, qualifier = qualifier)
-
 fun BaseVM<*, *>.globalNavigator(navigation: FeatureNavigationHelper.() -> NavigationCommand) {
     navigationCommands.tryEmit(
         FeatureNavigationHelper.navigation()
