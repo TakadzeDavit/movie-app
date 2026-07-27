@@ -55,7 +55,7 @@ class HomeVM(
         when (event) {
             is HomeEvent.OnFavoriteClick -> toggleFavorite(event.movie)
             is HomeEvent.ResetSearch -> {
-                launchWithLoader { state.value.searchState.clearText() }
+                state.value.searchState.clearText()
             }
 
             is HomeEvent.OnFilterClick -> onFilterClick(event.genreId)
