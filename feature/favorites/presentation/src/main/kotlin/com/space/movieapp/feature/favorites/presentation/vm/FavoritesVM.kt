@@ -8,10 +8,13 @@ import com.space.feature.details.api.DetailsFeatureKey
 import com.space.movie.core.presentation.common.BaseVM
 import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.extension.globalNavigator
+import com.space.movie.core.presentation.extension.hideLoader
+import com.space.movie.core.presentation.extension.showLoader
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesEvent
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesState
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class FavoritesVM(
@@ -44,10 +47,10 @@ class FavoritesVM(
 
     private fun getMovies() {
         viewModelScope.launch {
-            updateState { copy(favoriteMovies = DataState.Loading) }
-
             getAllFavoritesUseCase.invoke()
+                .onStart { showLoader() }
                 .catch { exception ->
+                    hideLoader()
                     updateState {
                         copy(
                             favoriteMovies = DataState.Error(
@@ -58,6 +61,7 @@ class FavoritesVM(
                     }
                 }
                 .collectLatest { moviesList ->
+                    hideLoader()
                     updateState {
                         copy(favoriteMovies = DataState.Success(moviesList))
                     }

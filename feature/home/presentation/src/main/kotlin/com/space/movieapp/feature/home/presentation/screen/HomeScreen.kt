@@ -55,14 +55,16 @@ private fun HomeContent(
     onEvent: (HomeEvent) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        HomeHeaderSection(
-            searchState = state.searchState,
-            areFiltersExpanded = state.areFiltersExpanded,
-            filters = state.filters,
-            selectedGenreId = state.selectedGenreId,
-            onFilterClick = { onEvent(OnFilterClick(it)) },
-            onFilterIconClick = { onEvent(HomeEvent.OnFilterIconClick) }
-        )
+        if (lazyPagingItems.loadState.refresh !is LoadState.Error) {
+            HomeHeaderSection(
+                searchState = state.searchState,
+                areFiltersExpanded = state.areFiltersExpanded,
+                filters = state.filters,
+                selectedGenreId = state.selectedGenreId,
+                onFilterClick = { onEvent(OnFilterClick(it)) },
+                onFilterIconClick = { onEvent(HomeEvent.OnFilterIconClick) }
+            )
+        }
 
         when (lazyPagingItems.loadState.refresh) {
             is LoadState.Loading -> {
@@ -97,9 +99,11 @@ private fun HomeContent(
 
             is LoadState.Error -> {
                 HomeErrorScreen(
-                    lazyPagingItems = lazyPagingItems,
-                    resetSearch = { onEvent(HomeEvent.ResetSearch) }
-                )
+                    lazyPagingItems = lazyPagingItems
+                ) {
+                    onEvent(HomeEvent.ResetSearch)
+                    lazyPagingItems.retry()
+                }
             }
         }
     }

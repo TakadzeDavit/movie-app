@@ -1,6 +1,5 @@
 package com.space.feature.details.presentation.vm
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.space.core.domain.usecase.DeleteByIdUseCase
 import com.space.core.domain.usecase.InsertFavoriteUseCase
@@ -55,9 +54,7 @@ class DetailsVM(
     }
 
     private fun fetchMovieDetails() {
-        viewModelScope.launch {
-            updateState { copy(movieState = DataState.Loading) }
-
+        launchWithLoader {
             getMovieDetailsUseCase.invoke(movieId = movieId).handleApiResult(
                 onSuccess = { apiResult ->
                     updateState { copy(movieState = DataState.Success(apiResult)) }

@@ -56,15 +56,7 @@ private fun DetailsContent(
             .background(colors.background)
     ) {
         when (val currentMovieState = state.movieState) {
-            is DataState.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    LoadingScreen()
-                }
-            }
+            is DataState.Loading -> Unit
 
             is DataState.Success -> {
                 val movieData = currentMovieState.data

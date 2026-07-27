@@ -14,7 +14,7 @@ import com.space.ui.component.error.ErrorScreen
 @Composable
 fun HomeErrorScreen(
     lazyPagingItems: LazyPagingItems<*>,
-    resetSearch: () -> Unit
+    onRefreshClick: () -> Unit
 ) {
     val errorType = lazyPagingItems.refreshException?.errorType ?: NetworkError.UNKNOWN
     val errorUiModel = errorType.toUiModel()
@@ -23,10 +23,7 @@ fun HomeErrorScreen(
         ErrorScreen(
             title = stringResource(errorUiModel.titleResId),
             description = stringResource(errorUiModel.descriptionResId),
-            onRefreshClick = {
-                resetSearch()
-                lazyPagingItems.retry()
-            }
+            onRefreshClick = onRefreshClick
         )
     }
 }
