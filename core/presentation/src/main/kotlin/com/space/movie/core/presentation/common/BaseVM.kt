@@ -1,41 +1,29 @@
 package com.space.movie.core.presentation.common
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
+import com.space.movieapp.core.navigation.NavigationCommand
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 interface UiEvent
-interface UiSideEffect
 interface UiState
 
-object EmptySideEffect : UiSideEffect
-
-abstract class BaseVM<State: UiState, Event : UiEvent ,SideEffect : UiSideEffect>(
+abstract class BaseVM<State: UiState, Event : UiEvent>(
     initialState: State
 ) : ViewModel() {
     private val _state = MutableStateFlow(initialState)
     val state: StateFlow<State> = _state.asStateFlow()
 
-    private val _sideEffect by lazy { Channel<SideEffect>() }
-    val sideEffect: Flow<SideEffect> by lazy { _sideEffect.receiveAsFlow() }
+    internal val navigationCommands = MutableSharedFlow<NavigationCommand>(
+        extraBufferCapacity = 64
+    )
 
-    fun updateState(update: State.() -> State) {
+    protected fun updateState(update: State.() -> State) {
         _state.update { currentState ->
             currentState.update()
-        }
-    }
-
-    protected fun emitSideEffect(sideEffect: SideEffect) {
-        viewModelScope.launch(Dispatchers.Main.immediate) {
-            _sideEffect.send(sideEffect)
         }
     }
 

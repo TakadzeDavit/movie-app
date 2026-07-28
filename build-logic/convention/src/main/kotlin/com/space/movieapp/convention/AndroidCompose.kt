@@ -32,5 +32,10 @@ internal fun Project.configureAndroidCompose(
         add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
         add("debugImplementation", libs.findLibrary("androidx-compose-ui-test-manifest").get())
         add("androidTestImplementation", libs.findLibrary("androidx-compose-ui-test-junit4").get())
+
+        // navigation3
+        add("implementation", libs.findLibrary("androidx-navigation3-runtime").get())
+        add("implementation", libs.findLibrary("androidx-navigation3-ui").get())
+        add("implementation", libs.findLibrary("androidx-lifecycle-viewmodel-navigation3").get())
     }
 }

@@ -1,9 +1,10 @@
 package com.space.movieapp.ui.contract
 
-import com.space.movieapp.core.navigation.Route
+import androidx.navigation3.runtime.NavKey
+import com.space.feature.home.api.HomeFeatureKey
 
 data class MainActivityState (
     val isLoading: Boolean = true,
-    val startDestination: Route = Route.Home,
+    val startDestination: NavKey = HomeFeatureKey,
     val isOnline: Boolean = false
 )

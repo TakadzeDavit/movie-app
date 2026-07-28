@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.movie.android.library)
     alias(libs.plugins.movie.android.koin)
+    alias(libs.plugins.movie.android.compose)
 }
 
 android {
@@ -10,6 +11,7 @@ android {
 dependencies {
     implementation(projects.core.common)
     implementation(projects.core.domain)
+    implementation(projects.core.navigation)
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.paging.common)

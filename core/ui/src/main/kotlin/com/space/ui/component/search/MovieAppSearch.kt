@@ -105,6 +105,7 @@ fun MovieAppSearch(
                         isSearchFieldFocused = focusState.isFocused
                     },
                 textStyle = typography.bodyMedium.copy(color = colors.primaryText),
+                inputTransformation = preventLeadingSpaceTransformation,
                 cursorBrush = SolidColor(colors.primaryText),
                 lineLimits = TextFieldLineLimits.SingleLine,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),

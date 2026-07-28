@@ -2,6 +2,7 @@ package com.space.movieapp.feature.favorites.presentation.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,12 +11,13 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.tooling.preview.Preview
+import com.space.core.domain.model.PopularMovie
+import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.DataState
-import com.space.movie.core.presentation.common.toUiModel
+import com.space.movie.core.presentation.extension.toUiModel
 import com.space.movieapp.feature.favorites.presentation.component.EmptyFavoriteScreen
 import com.space.movieapp.feature.favorites.presentation.component.FavoritesHeader
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesEvent
@@ -24,29 +26,27 @@ import com.space.movieapp.feature.favorites.presentation.vm.FavoritesVM
 import com.space.ui.component.card.MovieCatalogueCard
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.loader.LoadingScreen
+import com.space.ui.theme.MovieAppTheme
 import com.space.ui.theme.MovieTheme.colors
 import com.space.ui.theme.Spacing
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun FavoritesScreen(
-    viewModel: FavoritesVM = koinViewModel(),
-    onNavigateDetails: (Int) -> Unit
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-
-    FavoritesContent(
-        state = state,
-        onEvent = viewModel::onEvent,
-        onMovieClick = { onNavigateDetails(it) }
+fun FavoritesScreen() {
+    BaseScreen(
+        vmClass = FavoritesVM::class,
+        content = { state, onEvent ->
+            FavoritesContent(
+                state = state,
+                onEvent = onEvent
+            )
+        }
     )
 }
 
 @Composable
 private fun FavoritesContent(
     state: FavoritesState,
-    onEvent: (FavoritesEvent) -> Unit,
-    onMovieClick: (Int) -> Unit
+    onEvent: (FavoritesEvent) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -98,12 +98,54 @@ private fun FavoritesContent(
                                 onFavoriteClick = {
                                     onEvent(FavoritesEvent.RemoveFromFavorites(movie.id))
                                 },
-                                onCardClick = { onMovieClick(movie.id) }
+                                onCardClick = {
+                                    onEvent(FavoritesEvent.OnNavigateDetails(movie.id))
+                                }
                             )
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun FavoritesContentSuccessPreview() {
+    val sampleFavoriteMovies = listOf(
+        PopularMovie(
+            id = 1,
+            title = "Inception",
+            posterPath = "",
+            genre = "Sci-Fi",
+            isFavorite = true,
+            releaseDate = "2010",
+            genreIds = emptyList(),
+        ),
+        PopularMovie(
+            id = 2,
+            title = "The Dark Knight",
+            posterPath = "",
+            genre = "Action",
+            isFavorite = true,
+            releaseDate = "2008",
+            genreIds = emptyList(),
+        )
+    )
+
+    MovieAppTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.background)
+        ) {
+            FavoritesContent(
+                state = FavoritesState(
+                    favoriteMovies = DataState.Success(sampleFavoriteMovies)
+                ),
+                onEvent = {}
+            )
         }
     }
 }

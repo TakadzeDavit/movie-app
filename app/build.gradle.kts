@@ -10,6 +10,11 @@ android {
     defaultConfig {
         applicationId = "com.space.movieapp"
     }
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("debug")
+        }
+    }
 }
 
 dependencies {
@@ -23,23 +28,23 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
 
-    // compose navigation
-    implementation(libs.androidx.navigation.compose)
-
     // modules
-    implementation(project(":core:ui"))
-    implementation(project(":core:common"))
-    implementation(project(":core:navigation"))
-    implementation(project(":core:network"))
-    implementation(project(":core:database"))
-    implementation(project(":core:data"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:presentation"))
-    implementation(project(":feature:home:presentation"))
-    implementation(project(":feature:home:data"))
-    implementation(project(":feature:home:domain"))
-    implementation(project(":feature:favorites:presentation"))
-    implementation(project(":feature:details:presentation"))
-    implementation(project(":feature:details:data"))
-    implementation(project(":feature:details:domain"))
+    implementation(projects.core.ui)
+    implementation(projects.core.common)
+    implementation(projects.core.navigation)
+    implementation(projects.core.network)
+    implementation(projects.core.database)
+    implementation(projects.core.data)
+    implementation(projects.core.domain)
+    implementation(projects.core.presentation)
+    implementation(projects.feature.home.presentation)
+    implementation(projects.feature.home.data)
+    implementation(projects.feature.home.domain)
+    implementation(projects.feature.home.api)
+    implementation(projects.feature.favorites.presentation)
+    implementation(projects.feature.favorites.api)
+    implementation(projects.feature.details.presentation)
+    implementation(projects.feature.details.data)
+    implementation(projects.feature.details.domain)
+    implementation(projects.feature.details.api)
 }

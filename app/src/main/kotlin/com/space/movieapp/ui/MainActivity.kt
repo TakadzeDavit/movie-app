@@ -4,21 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.space.movieapp.core.navigation.Route
-import com.space.movieapp.navigation.bottomNavigation.MovieBottomBar
-import com.space.movieapp.navigation.navhost.MovieNavigation
+import com.space.movieapp.navigation.MovieAppContainer
 import com.space.movieapp.ui.vm.MainActivityVM
 import com.space.ui.theme.MovieAppTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,56 +30,12 @@ class MainActivity : ComponentActivity() {
 
             MovieAppTheme {
                 if (!state.isLoading) {
-                    MainScreen(
+                    MovieAppContainer(
                         startDestination = state.startDestination,
                         isOnline = state.isOnline
                     )
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun MainScreen(
-    startDestination: Route,
-    isOnline: Boolean
-) {
-    val navController = rememberNavController()
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.let { destination ->
-        when {
-            destination.hasRoute(Route.Home::class) -> Route.Home
-            destination.hasRoute(Route.Favorites::class) -> Route.Favorites
-            else -> null
-        }
-    }
-
-    Scaffold(
-        bottomBar = {
-            if (currentRoute != null && isOnline) {
-                MovieBottomBar(
-                    currentRoute = currentRoute,
-                    onNavigate = { route ->
-                        navController.navigate(route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
-                )
-            }
-        }
-    ) { paddingValues ->
-        MovieNavigation(
-            navController = navController,
-            startDestination = startDestination,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-        )
     }
 }

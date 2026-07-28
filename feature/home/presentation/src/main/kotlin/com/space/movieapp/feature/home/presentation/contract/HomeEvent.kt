@@ -8,4 +8,5 @@ sealed interface HomeEvent : UiEvent {
     data object OnFilterIconClick : HomeEvent
     data class OnFilterClick(val genreId: Int) : HomeEvent
     data class OnFavoriteClick(val movie: PopularMovieUI): HomeEvent
+    data class OnNavigateDetails(val movieId: Int): HomeEvent
 }

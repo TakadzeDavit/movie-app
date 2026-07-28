@@ -1,5 +1,3 @@
-@file:OptIn(InternalSerializationApi::class)
-
 package com.space.feature.details.presentation.screen
 
 import androidx.compose.foundation.background
@@ -11,14 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.space.common.api_result.NetworkError
 import com.space.feature.details.domain.model.MovieDetails
 import com.space.feature.details.presentation.R
 import com.space.feature.details.presentation.component.description.MovieDescriptionSection
@@ -27,35 +21,34 @@ import com.space.feature.details.presentation.component.poster.MoviePosterSectio
 import com.space.feature.details.presentation.contract.DetailsEvent
 import com.space.feature.details.presentation.contract.DetailsState
 import com.space.feature.details.presentation.vm.DetailsVM
+import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.DataState
 import com.space.ui.component.button.MovieAppHeader
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.component.loader.LoadingScreen
 import com.space.ui.theme.MovieAppTheme
 import com.space.ui.theme.MovieTheme.colors
-import kotlinx.serialization.InternalSerializationApi
-import org.koin.androidx.compose.koinViewModel
+import com.space.ui.theme.Spacing
+import org.koin.core.parameter.parametersOf
 
 @Composable
-fun DetailsScreen(
-    viewModel: DetailsVM = koinViewModel(),
-    onBackClick: () -> Unit
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-
-    DetailsContent(
-        state = state,
-        onBackClick = onBackClick,
-        onEvent = viewModel::onEvent
+fun DetailsScreen(movieId: Int) {
+    BaseScreen(
+        vmClass = DetailsVM::class,
+        parameters = { parametersOf(movieId) },
+        content = { state, onEvent ->
+            DetailsContent(
+                state = state,
+                onEvent = onEvent
+            )
+        }
     )
 }
 
 @Composable
 private fun DetailsContent(
     state: DetailsState,
-    onBackClick: () -> Unit,
     onEvent: (DetailsEvent) -> Unit,
-    onTrailerClick: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -80,17 +73,19 @@ private fun DetailsContent(
                     // Header
                     MovieAppHeader(
                         title = stringResource(R.string.details),
-                        onBackClick = onBackClick
+                        onBackClick = {
+                            onEvent(DetailsEvent.OnBackClick)
+                        }
                     )
 
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(Spacing.spacing04))
 
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
 
                         // Poster card
                         item {
                             MoviePosterSection(
-                                posterUrl = movieData.posterUrl, onTrailerClick = onTrailerClick
+                                posterUrl = movieData.posterUrl, onTrailerClick = {}
                             )
                         }
 
@@ -136,55 +131,30 @@ private fun DetailsContent(
 @Composable
 private fun DetailsContentSuccessPreview() {
     MovieAppTheme {
-        DetailsContent(
-            state = DetailsState(
-                movieState = DataState.Success(
-                    data = MovieDetails(
-                        posterUrl = "",
-                        title = "Me var beso",
-                        rating = 10.0,
-                        genre = "Comedy",
-                        duration = "2h 28m",
-                        year = 2010,
-                        overview = "Me var beso description Me var beso description ",
-                        id = 2121
-                    )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.background)
+        ) {
+            DetailsContent(
+                state = DetailsState(
+                    movieState = DataState.Success(
+                        data = MovieDetails(
+                            posterUrl = "",
+                            title = "Inception",
+                            rating = 8.8,
+                            genre = "Sci-Fi",
+                            duration = "2h 28m",
+                            year = 2010,
+                            overview = "Example Example Example Example Example Example Example",
+                            id = 21,
+                            isFavorite = true,
+                        )
+                    ),
+                    isFavorite = true
                 ),
-                isFavorite = true
-            ),
-            onBackClick = {},
-            onEvent = {},
-            onTrailerClick = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DetailsContentLoadingPreview() {
-    MovieAppTheme {
-        DetailsContent(
-            state = DetailsState(
-                movieState = DataState.Loading
-            ),
-            onBackClick = {},
-            onEvent = {},
-            onTrailerClick = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DetailsContentErrorPreview() {
-    MovieAppTheme {
-        DetailsContent(
-            state = DetailsState(
-                movieState = DataState.Error(NetworkError.UNKNOWN)
-            ),
-            onBackClick = {},
-            onEvent = {},
-            onTrailerClick = {}
-        )
+                onEvent = {}
+            )
+        }
     }
 }
