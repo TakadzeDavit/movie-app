@@ -10,7 +10,6 @@ import com.space.feature.details.presentation.contract.DetailsState
 import com.space.feature.details.presentation.mapper.MovieDetailsDomainMapper
 import com.space.movie.core.presentation.common.BaseVM
 import com.space.movie.core.presentation.common.DataState
-import com.space.movie.core.presentation.extension.globalNavigator
 import com.space.movie.core.presentation.extension.handleApiResult
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

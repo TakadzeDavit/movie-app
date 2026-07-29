@@ -13,7 +13,6 @@ import com.space.core.domain.usecase.GetFavoriteIdsUseCase
 import com.space.core.domain.usecase.InsertFavoriteUseCase
 import com.space.feature.details.api.DetailsFeatureKey
 import com.space.movie.core.presentation.common.BaseVM
-import com.space.movie.core.presentation.extension.globalNavigator
 import com.space.movie.core.presentation.extension.handleApiResult
 import com.space.movie.feature.home.domain.usecase.genres.GetGenresUseCase
 import com.space.movie.feature.home.domain.usecase.movies.GetMoviesUseCase
@@ -51,6 +50,7 @@ class HomeVM(
             is HomeEvent.OnFavoriteClick -> toggleFavorite(event.movie)
             is HomeEvent.ResetSearch -> {
                 state.value.searchState.clearText()
+                loadGenres()
             }
 
             is HomeEvent.OnFilterClick -> onFilterClick(event.genreId)

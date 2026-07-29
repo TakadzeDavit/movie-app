@@ -7,9 +7,6 @@ import com.space.core.domain.usecase.GetAllFavoritesUseCase
 import com.space.feature.details.api.DetailsFeatureKey
 import com.space.movie.core.presentation.common.BaseVM
 import com.space.movie.core.presentation.common.DataState
-import com.space.movie.core.presentation.extension.globalNavigator
-import com.space.movie.core.presentation.extension.hideLoader
-import com.space.movie.core.presentation.extension.showLoader
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesEvent
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesState
 import kotlinx.coroutines.flow.catch

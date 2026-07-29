@@ -86,7 +86,9 @@ private fun HomeContent(
 
                 if (lazyPagingItems.itemCount == 0) {
                     EmptyResultView()
-                } else {
+                }
+
+                if (state.isOnline) {
                     MovieGridSection(
                         lazyPagingItems = lazyPagingItems,
                         state = state,

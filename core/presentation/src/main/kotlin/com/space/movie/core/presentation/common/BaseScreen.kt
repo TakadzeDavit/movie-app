@@ -3,9 +3,6 @@ package com.space.movie.core.presentation.common
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.space.movie.core.presentation.extension.NavCommands
-import com.space.movie.core.presentation.extension.VmClass
-import com.space.movie.core.presentation.extension.koinViewModel
 import org.koin.core.parameter.ParametersDefinition
 
 @Composable

@@ -2,6 +2,7 @@ package com.space.movie.core.presentation.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.space.movieapp.core.navigation.FeatureNavigationHelper
 import com.space.movieapp.core.navigation.NavigationCommand
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,7 +23,7 @@ abstract class BaseVM<State: UiState, Event : UiEvent>(
     private val _state = MutableStateFlow(initialState)
     val state: StateFlow<State> = _state.asStateFlow()
 
-    internal val globalLoader by inject<GlobalLoader>()
+    private val globalLoader by inject<GlobalLoader>()
 
     internal val navigationCommands = MutableSharedFlow<NavigationCommand>(
         extraBufferCapacity = 64
@@ -45,5 +46,19 @@ abstract class BaseVM<State: UiState, Event : UiEvent>(
                 globalLoader.hideLoader()
             }
         }
+    }
+
+    protected fun globalNavigator(navigation: FeatureNavigationHelper.() -> NavigationCommand) {
+        navigationCommands.tryEmit(
+            FeatureNavigationHelper.navigation()
+        )
+    }
+
+    protected fun showLoader() {
+        globalLoader.showLoader()
+    }
+
+    protected fun hideLoader() {
+        globalLoader.hideLoader()
     }
 }
