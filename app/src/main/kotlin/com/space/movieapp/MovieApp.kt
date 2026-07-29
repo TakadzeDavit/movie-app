@@ -48,7 +48,6 @@ class MovieApp : Application() {
                 detailsMapperModule,
                 detailsApiServiceModule,
                 detailsUseCaseModule,
-                detailsVMModule,
                 favoritesRepositoryModule,
                 favoritesMapperModule,
                 favoritesVMModule,
