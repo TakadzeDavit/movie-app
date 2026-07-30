@@ -1,4 +1,4 @@
-package com.space.common.exception
+package com.space.common.extension
 
 fun String.toYear(): String {
     return this.substringBefore("-")

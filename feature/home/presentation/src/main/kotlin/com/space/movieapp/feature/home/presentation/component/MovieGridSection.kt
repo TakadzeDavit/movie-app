@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import com.space.common.exception.toYear
+import com.space.common.extension.toYear
 import com.space.movieapp.feature.home.presentation.R
 import com.space.movieapp.feature.home.presentation.contract.HomeState
 import com.space.movieapp.feature.home.presentation.model.PopularMovieUI

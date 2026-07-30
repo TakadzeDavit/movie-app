@@ -17,6 +17,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.space.core.domain.model.Genre
 import com.space.movie.core.presentation.common.BasePagedScreen
+import com.space.movie.feature.home.domain.di.HomeScope
 import com.space.movieapp.feature.home.presentation.component.AutoRetryOnNetworkRestore
 import com.space.movieapp.feature.home.presentation.component.HomeErrorScreen
 import com.space.movieapp.feature.home.presentation.component.HomeHeaderSection
@@ -32,12 +33,14 @@ import com.space.ui.component.loader.LoadingScreen
 import com.space.ui.theme.MovieAppTheme
 import com.space.ui.theme.MovieTheme.colors
 import kotlinx.coroutines.flow.flowOf
+import org.koin.core.qualifier.named
 
 @Composable
 fun HomeScreen() {
     BasePagedScreen(
         vmClass = HomeVM::class,
         getPagingFlow = { it.pagingFlow },
+        scopeQualifier = named<HomeScope>(),
         content = { lazyPagingItems, state, onEvent ->
             HomeContent(
                 lazyPagingItems = lazyPagingItems,
@@ -88,22 +91,21 @@ private fun HomeContent(
                     EmptyResultView()
                 }
 
-                if (state.isOnline) {
-                    MovieGridSection(
-                        lazyPagingItems = lazyPagingItems,
-                        state = state,
-                        modifier = Modifier.weight(1f),
-                        onCardClick = { onEvent(HomeEvent.OnNavigateDetails(movieId = it)) },
-                        onFavoriteClick = { onEvent(OnFavoriteClick(movie = it)) },
-                    )
-                }
+                MovieGridSection(
+                    lazyPagingItems = lazyPagingItems,
+                    state = state,
+                    modifier = Modifier.weight(1f),
+                    onCardClick = { onEvent(HomeEvent.OnNavigateDetails(movieId = it)) },
+                    onFavoriteClick = { onEvent(OnFavoriteClick(movie = it)) },
+                )
+
             }
 
             is LoadState.Error -> {
                 HomeErrorScreen(
                     lazyPagingItems = lazyPagingItems
                 ) {
-                    onEvent(HomeEvent.ResetSearch)
+                    onEvent(HomeEvent.OnRefreshClick)
                     lazyPagingItems.retry()
                 }
             }

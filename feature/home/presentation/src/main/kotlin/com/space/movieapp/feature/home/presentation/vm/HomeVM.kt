@@ -48,7 +48,7 @@ class HomeVM(
     override fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.OnFavoriteClick -> toggleFavorite(event.movie)
-            is HomeEvent.ResetSearch -> {
+            is HomeEvent.OnRefreshClick -> {
                 state.value.searchState.clearText()
                 loadGenres()
             }

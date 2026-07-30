@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.space.core.domain.usecase.DeleteByIdUseCase
 import com.space.core.domain.usecase.InsertFavoriteUseCase
 import com.space.core.domain.usecase.IsFavoriteUseCase
+import com.space.feature.details.domain.di.DetailsScope
 import com.space.feature.details.domain.usecase.GetMovieDetailsUseCase
 import com.space.feature.details.presentation.contract.DetailsEvent
 import com.space.feature.details.presentation.contract.DetailsState
@@ -14,6 +15,9 @@ import com.space.movie.core.presentation.extension.handleApiResult
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.serialization.InternalSerializationApi
+import org.koin.core.annotation.InjectedParam
+import org.koin.core.component.newScope
+import org.koin.core.scope.Scope
 
 @OptIn(InternalSerializationApi::class)
 class DetailsVM(
@@ -22,6 +26,7 @@ class DetailsVM(
     private val deleteByIdUseCase: DeleteByIdUseCase,
     private val movieDetailsDomainMapper: MovieDetailsDomainMapper,
     private val isMovieFavoriteUseCase: IsFavoriteUseCase,
+    @InjectedParam
     private val movieId: Int
 ) : BaseVM<DetailsState, DetailsEvent>(DetailsState()) {
 
