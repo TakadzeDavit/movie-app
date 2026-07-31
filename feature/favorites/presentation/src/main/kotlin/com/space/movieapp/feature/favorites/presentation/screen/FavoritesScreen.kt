@@ -22,17 +22,20 @@ import com.space.movieapp.feature.favorites.presentation.component.EmptyFavorite
 import com.space.movieapp.feature.favorites.presentation.component.FavoritesHeader
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesEvent
 import com.space.movieapp.feature.favorites.presentation.contract.FavoritesState
+import com.space.movieapp.feature.favorites.presentation.di.FavoriteScope
 import com.space.movieapp.feature.favorites.presentation.vm.FavoritesVM
 import com.space.ui.component.card.MovieCatalogueCard
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.theme.MovieAppTheme
 import com.space.ui.theme.MovieTheme.colors
 import com.space.ui.theme.Spacing
+import org.koin.core.qualifier.named
 
 @Composable
 fun FavoritesScreen() {
     BaseScreen(
         vmClass = FavoritesVM::class,
+        scopeQualifier = named<FavoriteScope>(),
         content = { state, onEvent ->
             FavoritesContent(
                 state = state,
