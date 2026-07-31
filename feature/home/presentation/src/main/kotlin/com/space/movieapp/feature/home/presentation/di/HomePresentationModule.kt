@@ -17,8 +17,8 @@ import org.koin.plugin.module.dsl.viewModel
 val homePresentationModule = module {
     scope<HomeScope> {
         // mapper
-        factory<PopularMovieUiMapper>()
-        factory<MovieDomainMapper>()
+        scoped<PopularMovieUiMapper>()
+        scoped<MovieDomainMapper>()
 
         // use case
         scoped<GetPopularMoviesUseCase>()
