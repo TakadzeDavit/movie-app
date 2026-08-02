@@ -89,16 +89,19 @@ private fun HomeContent(
 
                 if (lazyPagingItems.itemCount == 0) {
                     EmptyResultView()
+                } else {
+                    MovieGridSection(
+                        lazyPagingItems = lazyPagingItems,
+                        state = state,
+                        modifier = Modifier.weight(1f),
+                        onCardClick = { movieId ->
+                            onEvent(HomeEvent.OnNavigateDetails(movieId = movieId))
+                        },
+                        onFavoriteClick = { movie ->
+                            onEvent(OnFavoriteClick(movie = movie))
+                        }
+                    )
                 }
-
-                MovieGridSection(
-                    lazyPagingItems = lazyPagingItems,
-                    state = state,
-                    modifier = Modifier.weight(1f),
-                    onCardClick = { onEvent(HomeEvent.OnNavigateDetails(movieId = it)) },
-                    onFavoriteClick = { onEvent(OnFavoriteClick(movie = it)) },
-                )
-
             }
 
             is LoadState.Error -> {
@@ -106,7 +109,6 @@ private fun HomeContent(
                     lazyPagingItems = lazyPagingItems
                 ) {
                     onEvent(HomeEvent.OnRefreshClick)
-                    lazyPagingItems.retry()
                 }
             }
         }

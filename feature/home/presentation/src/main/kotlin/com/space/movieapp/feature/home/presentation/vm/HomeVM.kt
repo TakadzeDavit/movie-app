@@ -48,10 +48,7 @@ class HomeVM(
     override fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.OnFavoriteClick -> toggleFavorite(event.movie)
-            is HomeEvent.OnRefreshClick -> {
-                state.value.searchState.clearText()
-                loadGenres()
-            }
+            is HomeEvent.OnRefreshClick -> refreshData()
 
             is HomeEvent.OnFilterClick -> onFilterClick(event.genreId)
             is HomeEvent.OnFilterIconClick -> updateState {
@@ -167,5 +164,11 @@ class HomeVM(
                 onError = { _, _ -> updateState { copy(genresLoaded = true) } }
             )
         }
+    }
+
+    private fun refreshData() {
+        updateState { copy(genresLoaded = false) }
+        state.value.searchState.clearText()
+        loadGenres()
     }
 }
