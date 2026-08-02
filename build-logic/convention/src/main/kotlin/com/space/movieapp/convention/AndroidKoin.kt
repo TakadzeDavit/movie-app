@@ -8,14 +8,6 @@ internal fun Project.configureAndroidKoin() {
     pluginManager.apply("io.insert-koin.compiler.plugin")
 
     dependencies {
-        val koinBom = libs.findLibrary("koin-bom").getOrNull()
-        if (koinBom != null) {
-            add(
-                "implementation",
-                platform(koinBom)
-            )
-        }
-
         libs.findLibrary("koin-core").ifPresent {
             add("implementation", it)
         }
