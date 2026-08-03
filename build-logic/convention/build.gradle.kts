@@ -52,5 +52,10 @@ gradlePlugin {
             id = "movieapp.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"
         }
+
+        register("androidFeatureData") {
+            id = "movieapp.android.feature.data"
+            implementationClass = "FeatureDataConventionPlugin"
+        }
     }
 }

@@ -92,6 +92,7 @@ movie-android-koin = { id = "movieapp.android.koin", version = "unspecified" }
 movie-android-network = { id = "movieapp.android.network", version = "unspecified" }
 movie-android-application = { id = "movieapp.android.application", version = "unspecified" }
 movie-android-feature = { id = "movieapp.android.feature", version = "unspecified" }
+movie-android-feature-data = { id = "movieapp.android.feature.data", version = "unspecified" }
 movieapp-jvm-library = { id = "movieapp.jvm.library", version = "unspecified" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
