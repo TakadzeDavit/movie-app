@@ -27,8 +27,10 @@ nav3Core = "1.1.4"
 lifecycleViewmodelNav3 = "2.11.0"
 koin-annotations = "4.2.2"
 koin-plugin = "1.1.0"
+kotzilla = "2.3.2-RC1"
 
 [libraries]
+kotzilla-sdk-compose = { group = "io.kotzilla", name = "kotzilla-sdk-compose", version.ref = "kotzilla" }
 koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations" }
 koin-compiler-plugin = { module = "io.insert-koin:koin-compiler-plugin", version.ref = "koin-plugin" }
 koin-ksp-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-annotations" }
@@ -78,6 +80,7 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 
 [plugins]
+kotzilla = { id = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }

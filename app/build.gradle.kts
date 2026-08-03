@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.movie.android.compose)
     alias(libs.plugins.movie.android.koin)
     alias(libs.plugins.koin.compiler)
+    alias(libs.plugins.kotzilla)
 }
 
 android {
