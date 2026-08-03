@@ -109,6 +109,7 @@ private fun HomeContent(
                     lazyPagingItems = lazyPagingItems
                 ) {
                     onEvent(HomeEvent.OnRefreshClick)
+                    lazyPagingItems.refresh()
                 }
             }
         }
