@@ -70,7 +70,7 @@ fun MainActivity.MovieAppContainer(
                 ),
                 onBack = {
                     if (navigator.backStack.size > 1) navigator.pop() else finishAffinity()
-                } ,
+                },
                 transitionSpec = featureTransitionSpec(),
                 popTransitionSpec = featurePopTransitionSpec(),
                 predictivePopTransitionSpec = featurePredictivePopTransitionSpec(),

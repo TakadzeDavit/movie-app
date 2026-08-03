@@ -21,6 +21,7 @@ import com.space.movieapp.feature.home.presentation.contract.HomeState
 import com.space.movieapp.feature.home.presentation.mapper.MovieDomainMapper
 import com.space.movieapp.feature.home.presentation.mapper.PopularMovieUiMapper
 import com.space.movieapp.feature.home.presentation.model.PopularMovieUI
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -30,6 +31,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
@@ -101,6 +103,7 @@ class HomeVM(
     ) { pagingData, favoriteIds ->
         pagingData.map { movie -> popularMovieUiMapper.map(movie, favoriteIds) }
     }
+        .flowOn(Dispatchers.IO)
 
     /**
      * Adds or removes movie from favorites based on current [PopularMovieUI.isFavorite] flag.
