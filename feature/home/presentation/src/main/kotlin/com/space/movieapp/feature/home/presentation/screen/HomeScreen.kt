@@ -127,7 +127,8 @@ private fun HomeContentSuccessPreview() {
             posterPath = "",
             genre = "Sci-Fi",
             isFavorite = true,
-            releaseDate = "2010-07-16"
+            releaseDate = "2010-07-16",
+            year = "2010"
         ),
         PopularMovieUI(
             id = 2,
@@ -135,7 +136,8 @@ private fun HomeContentSuccessPreview() {
             posterPath = "",
             genre = "Action",
             isFavorite = false,
-            releaseDate = "2023-06-02"
+            releaseDate = "2023-06-02",
+            year = "2023"
         )
     )
 

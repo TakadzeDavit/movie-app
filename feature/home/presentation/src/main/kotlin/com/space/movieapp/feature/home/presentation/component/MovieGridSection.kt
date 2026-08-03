@@ -61,7 +61,7 @@ fun MovieGridSection(
                     showFilterName = state.showFilterNameOnCard,
                     title = movie.title,
                     isFavorite = movie.isFavorite,
-                    year = movie.releaseDate.toYear(),
+                    year = movie.year,
                     onFavoriteClick = { onFavoriteClick(movie) },
                     onCardClick = { onCardClick(movie.id) }
                 )
