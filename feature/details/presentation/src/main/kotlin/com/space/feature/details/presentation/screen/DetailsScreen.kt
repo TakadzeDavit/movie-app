@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +24,6 @@ import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.DataState
 import com.space.movie.core.presentation.debounce.rememberOnClick
 import com.space.movieapp.core.navigation.AutoHideBottomBar
-import com.space.movieapp.core.navigation.requireBottomBarState
 import com.space.ui.component.button.MovieAppHeader
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.theme.MovieAppTheme
