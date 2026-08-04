@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.space.core.domain.model.PopularMovie
 import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.DataState
+import com.space.movie.core.presentation.debounce.rememberOnClick
 import com.space.movie.core.presentation.extension.toUiModel
 import com.space.movieapp.feature.favorites.presentation.component.EmptyFavoriteScreen
 import com.space.movieapp.feature.favorites.presentation.component.FavoritesHeader
@@ -98,7 +99,7 @@ private fun FavoritesContent(
                                 onFavoriteClick = {
                                     onEvent(FavoritesEvent.RemoveFromFavorites(movie.id))
                                 },
-                                onCardClick = {
+                                onCardClick = rememberOnClick {
                                     onEvent(FavoritesEvent.OnNavigateDetails(movie.id))
                                 }
                             )

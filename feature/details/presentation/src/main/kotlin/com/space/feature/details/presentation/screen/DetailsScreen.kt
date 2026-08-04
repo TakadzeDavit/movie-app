@@ -22,6 +22,7 @@ import com.space.feature.details.presentation.contract.DetailsState
 import com.space.feature.details.presentation.vm.DetailsVM
 import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.DataState
+import com.space.movie.core.presentation.debounce.rememberOnClick
 import com.space.ui.component.button.MovieAppHeader
 import com.space.ui.component.error.ErrorScreen
 import com.space.ui.theme.MovieAppTheme
@@ -65,7 +66,7 @@ private fun DetailsContent(
                     // Header
                     MovieAppHeader(
                         title = stringResource(R.string.details),
-                        onBackClick = {
+                        onBackClick = rememberOnClick {
                             onEvent(DetailsEvent.OnBackClick)
                         }
                     )
