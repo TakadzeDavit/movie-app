@@ -8,17 +8,21 @@ internal fun Project.configureAndroidKoin() {
     pluginManager.apply("io.insert-koin.compiler.plugin")
 
     dependencies {
-        libs.findLibrary("koin-core").ifPresent {
-            add("implementation", it)
-        }
-        libs.findLibrary("koin-android").ifPresent {
-            add("implementation", it)
-        }
-        libs.findLibrary("koin-androidx-compose").ifPresent {
-            add("implementation", it)
-        }
-        libs.findLibrary("koin-annotations").ifPresent {
-            add("implementation", it)
-        }
+        add(
+            "implementation",
+            libs.findLibrary("koin-core").get()
+        )
+        add(
+            "implementation",
+            libs.findLibrary("koin-android").get()
+        )
+        add(
+            "implementation",
+            libs.findLibrary("koin-androidx-compose").get()
+        )
+        add(
+            "implementation",
+            libs.findLibrary("koin-annotations").get()
+        )
     }
 }
