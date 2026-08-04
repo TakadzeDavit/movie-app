@@ -18,6 +18,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.space.core.domain.model.Genre
 import com.space.movie.core.presentation.common.BasePagedScreen
 import com.space.movie.feature.home.domain.di.HomeScope
+import com.space.movieapp.core.navigation.AutoHideBottomBar
 import com.space.movieapp.feature.home.presentation.component.AutoRetryOnNetworkRestore
 import com.space.movieapp.feature.home.presentation.component.HomeErrorScreen
 import com.space.movieapp.feature.home.presentation.component.HomeHeaderSection
@@ -105,6 +106,8 @@ private fun HomeContent(
             }
 
             is LoadState.Error -> {
+                AutoHideBottomBar()
+
                 HomeErrorScreen(
                     lazyPagingItems = lazyPagingItems
                 ) {

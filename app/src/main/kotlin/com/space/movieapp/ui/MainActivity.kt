@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.getValue
@@ -13,10 +14,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.space.movieapp.navigation.MovieAppContainer
 import com.space.movieapp.ui.vm.MainActivityVM
 import com.space.ui.theme.MovieAppTheme
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainActivityVM by viewModel()
+    private val viewModel: MainActivityVM by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -34,8 +34,7 @@ class MainActivity : ComponentActivity() {
             MovieAppTheme {
                 Box(modifier = Modifier.fillMaxSize()) {
                     MovieAppContainer(
-                        startDestination = state.startDestination,
-                        isOnline = state.isOnline
+                        startDestination = state.startDestination
                     )
                 }
             }
