@@ -24,7 +24,6 @@ import androidx.navigation3.runtime.NavKey
 import com.space.feature.favorites.api.FavoritesFeatureKey
 import com.space.feature.home.api.HomeFeatureKey
 import com.space.movieapp.R
-import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.MovieTheme.colors
 import com.space.ui.theme.MovieTheme.typography
 import com.space.ui.theme.Radius

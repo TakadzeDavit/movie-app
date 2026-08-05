@@ -9,8 +9,6 @@ import com.space.movie.feature.home.data.di.homeDataModule
 import com.space.movieapp.core.network.di.networkModule
 import com.space.movieapp.feature.favorites.presentation.di.favoritesPresentationModule
 import com.space.movieapp.feature.home.presentation.di.homePresentationModule
-import com.space.movieapp.ui.vm.MainActivityVM
-import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val appModule = module {
