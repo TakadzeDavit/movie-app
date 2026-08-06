@@ -14,6 +14,7 @@ import com.space.movie.core.presentation.extension.handleApiResult
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.serialization.InternalSerializationApi
+import org.koin.core.annotation.InjectedParam
 
 @OptIn(InternalSerializationApi::class)
 class DetailsVM(
@@ -22,6 +23,7 @@ class DetailsVM(
     private val deleteByIdUseCase: DeleteByIdUseCase,
     private val movieDetailsDomainMapper: MovieDetailsDomainMapper,
     private val isMovieFavoriteUseCase: IsFavoriteUseCase,
+    @InjectedParam
     private val movieId: Int
 ) : BaseVM<DetailsState, DetailsEvent>(DetailsState()) {
 

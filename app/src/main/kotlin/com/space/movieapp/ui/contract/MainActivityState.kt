@@ -5,6 +5,5 @@ import com.space.feature.home.api.HomeFeatureKey
 
 data class MainActivityState (
     val isLoading: Boolean = true,
-    val startDestination: NavKey = HomeFeatureKey,
-    val isOnline: Boolean = false
+    val startDestination: NavKey = HomeFeatureKey
 )

@@ -74,7 +74,7 @@ fun MovieCatalogueCard(
                 .fillMaxWidth()
                 .aspectRatio(2f / 3f)
                 .clip(Radius.radius16)
-                .clickable(onClick = { onCardClick() })
+                .clickable(onClick = onCardClick)
         ) {
             SubcomposeAsyncImage(
                 model = imgUrl,

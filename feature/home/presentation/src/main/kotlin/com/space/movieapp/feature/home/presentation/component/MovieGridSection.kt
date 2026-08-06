@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import com.space.common.exception.toYear
+import com.space.movie.core.presentation.debounce.rememberOnClick
 import com.space.movieapp.feature.home.presentation.R
 import com.space.movieapp.feature.home.presentation.contract.HomeState
 import com.space.movieapp.feature.home.presentation.model.PopularMovieUI
@@ -52,18 +52,16 @@ fun MovieGridSection(
         items(
             count = lazyPagingItems.itemCount
         ) { index ->
-            val movie = lazyPagingItems[index]
-
-            if (movie != null) {
+            lazyPagingItems[index]?.let { movie ->
                 MovieCatalogueCard(
                     imgUrl = movie.posterPath ?: "",
                     genre = movie.genre,
                     showFilterName = state.showFilterNameOnCard,
                     title = movie.title,
                     isFavorite = movie.isFavorite,
-                    year = movie.releaseDate.toYear(),
+                    year = movie.year,
                     onFavoriteClick = { onFavoriteClick(movie) },
-                    onCardClick = { onCardClick(movie.id) }
+                    onCardClick = rememberOnClick { onCardClick(movie.id) }
                 )
             }
         }

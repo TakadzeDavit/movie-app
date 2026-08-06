@@ -5,14 +5,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.space.feature.details.domain.di.DetailsScope
 import com.space.feature.details.domain.model.MovieDetails
 import com.space.feature.details.presentation.R
 import com.space.feature.details.presentation.component.description.MovieDescriptionSection
@@ -23,19 +22,22 @@ import com.space.feature.details.presentation.contract.DetailsState
 import com.space.feature.details.presentation.vm.DetailsVM
 import com.space.movie.core.presentation.common.BaseScreen
 import com.space.movie.core.presentation.common.DataState
+import com.space.movie.core.presentation.debounce.rememberOnClick
+import com.space.movieapp.core.navigation.AutoHideBottomBar
 import com.space.ui.component.button.MovieAppHeader
 import com.space.ui.component.error.ErrorScreen
-import com.space.ui.component.loader.LoadingScreen
 import com.space.ui.theme.MovieAppTheme
 import com.space.ui.theme.MovieTheme.colors
 import com.space.ui.theme.Spacing
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 
 @Composable
 fun DetailsScreen(movieId: Int) {
     BaseScreen(
         vmClass = DetailsVM::class,
         parameters = { parametersOf(movieId) },
+        scopeQualifier = named<DetailsScope>(),
         content = { state, onEvent ->
             DetailsContent(
                 state = state,
@@ -43,6 +45,8 @@ fun DetailsScreen(movieId: Int) {
             )
         }
     )
+
+    AutoHideBottomBar()
 }
 
 @Composable
@@ -65,7 +69,7 @@ private fun DetailsContent(
                     // Header
                     MovieAppHeader(
                         title = stringResource(R.string.details),
-                        onBackClick = {
+                        onBackClick = rememberOnClick {
                             onEvent(DetailsEvent.OnBackClick)
                         }
                     )

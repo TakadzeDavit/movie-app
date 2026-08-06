@@ -1,7 +1,7 @@
 package com.space.feature.details.data.mapper
 
 import com.space.common.base.BaseMapper
-import com.space.common.exception.toYear
+import com.space.common.extension.toYear
 import com.space.feature.details.data.model.MovieDetailsDto
 import com.space.feature.details.domain.model.MovieDetails
 import com.space.movieapp.core.network.BuildConfig

@@ -1,6 +1,5 @@
 plugins {
-    alias(libs.plugins.movie.android.library)
-    alias(libs.plugins.movie.android.network)
+    alias(libs.plugins.movie.android.feature.data)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -10,11 +9,4 @@ android {
 
 dependencies {
     implementation(libs.androidx.paging.common)
-
-    // modules
-    implementation(projects.core.network)
-    implementation(projects.core.database)
-    implementation(projects.core.common)
-    implementation(projects.core.domain)
-    implementation(projects.feature.home.domain)
 }

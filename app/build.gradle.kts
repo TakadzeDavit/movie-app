@@ -3,7 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.movie.android.compose)
     alias(libs.plugins.movie.android.koin)
+    alias(libs.plugins.koin.compiler)
+    alias(libs.plugins.kotzilla)
 }
+
 android {
     namespace = "com.space.movieapp"
 
@@ -19,6 +22,8 @@ android {
 
 dependencies {
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.koin.core)
+    implementation(libs.koin.annotations)
 
     // splash
     implementation(libs.androidx.core.splashscreen)

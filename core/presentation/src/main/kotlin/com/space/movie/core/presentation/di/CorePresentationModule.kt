@@ -8,13 +8,15 @@ import com.space.core.domain.usecase.IsFavoriteUseCase
 import com.space.movie.core.presentation.common.GlobalLoader
 import com.space.movie.core.presentation.common.GlobalLoaderImpl
 import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
+import org.koin.plugin.module.dsl.single
 
 val corePresentationModule = module {
-    singleOf(::GetAllFavoritesUseCase)
-    singleOf(::DeleteByIdUseCase)
-    singleOf(::GetFavoriteIdsUseCase)
-    singleOf(::InsertFavoriteUseCase)
-    singleOf(::IsFavoriteUseCase)
-    single<GlobalLoader> { GlobalLoaderImpl() }
+    single<GetAllFavoritesUseCase>()
+    single<DeleteByIdUseCase>()
+    single<GetFavoriteIdsUseCase>()
+    single<InsertFavoriteUseCase>()
+    single<IsFavoriteUseCase>()
+    single<GlobalLoaderImpl>() bind GlobalLoader::class
 }

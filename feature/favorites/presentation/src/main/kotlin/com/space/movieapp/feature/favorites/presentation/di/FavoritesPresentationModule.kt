@@ -1,9 +1,11 @@
 package com.space.movieapp.feature.favorites.presentation.di
 
 import com.space.movieapp.feature.favorites.presentation.vm.FavoritesVM
-import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
+import org.koin.plugin.module.dsl.viewModel
 
-val favoritesVMModule = module {
-    viewModelOf(::FavoritesVM)
+val favoritesPresentationModule = module {
+    scope<FavoriteScope> {
+        viewModel<FavoritesVM>()
+    }
 }

@@ -14,23 +14,12 @@ import kotlin.concurrent.atomics.ExperimentalAtomicApi
 @OptIn(ExperimentalAtomicApi::class)
 class Navigator(val backStack: NavBackStack<NavKey>) {
     private val popResultCallBacks = mutableMapOf<NavKey, (PopResult) -> Unit>()
-    private val lastNavigationTimeMs = AtomicLong(0L)
-    private val debounceIntervalMs = 500L
-
-    private fun canNavigate(): Boolean {
-        val now = SystemClock.elapsedRealtime()
-        val last = lastNavigationTimeMs.get()
-        if (now - last < debounceIntervalMs) return false
-        return lastNavigationTimeMs.compareAndSet(last, now)
-    }
 
     fun push(key: NavKey) {
-        if (!canNavigate()) return
         backStack.add(key)
     }
 
     fun <Result : PopResult> push(key: NavKey, onPopResult: ((Result) -> Unit)? = null) {
-        if (!canNavigate()) return
         if (onPopResult != null) {
             popResultCallBacks[key] = onPopResult as (PopResult) -> Unit
         }

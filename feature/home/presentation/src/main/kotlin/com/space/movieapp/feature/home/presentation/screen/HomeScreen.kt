@@ -17,6 +17,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.space.core.domain.model.Genre
 import com.space.movie.core.presentation.common.BasePagedScreen
+import com.space.movie.feature.home.domain.di.HomeScope
+import com.space.movieapp.core.navigation.AutoHideBottomBar
 import com.space.movieapp.feature.home.presentation.component.AutoRetryOnNetworkRestore
 import com.space.movieapp.feature.home.presentation.component.HomeErrorScreen
 import com.space.movieapp.feature.home.presentation.component.HomeHeaderSection
@@ -32,12 +34,14 @@ import com.space.ui.component.loader.LoadingScreen
 import com.space.ui.theme.MovieAppTheme
 import com.space.ui.theme.MovieTheme.colors
 import kotlinx.coroutines.flow.flowOf
+import org.koin.core.qualifier.named
 
 @Composable
 fun HomeScreen() {
     BasePagedScreen(
         vmClass = HomeVM::class,
         getPagingFlow = { it.pagingFlow },
+        scopeQualifier = named<HomeScope>(),
         content = { lazyPagingItems, state, onEvent ->
             HomeContent(
                 lazyPagingItems = lazyPagingItems,
@@ -86,25 +90,29 @@ private fun HomeContent(
 
                 if (lazyPagingItems.itemCount == 0) {
                     EmptyResultView()
-                }
-
-                if (state.isOnline) {
+                } else {
                     MovieGridSection(
                         lazyPagingItems = lazyPagingItems,
                         state = state,
                         modifier = Modifier.weight(1f),
-                        onCardClick = { onEvent(HomeEvent.OnNavigateDetails(movieId = it)) },
-                        onFavoriteClick = { onEvent(OnFavoriteClick(movie = it)) },
+                        onCardClick = { movieId ->
+                            onEvent(HomeEvent.OnNavigateDetails(movieId = movieId))
+                        },
+                        onFavoriteClick = { movie ->
+                            onEvent(OnFavoriteClick(movie = movie))
+                        }
                     )
                 }
             }
 
             is LoadState.Error -> {
+                AutoHideBottomBar()
+
                 HomeErrorScreen(
                     lazyPagingItems = lazyPagingItems
                 ) {
-                    onEvent(HomeEvent.ResetSearch)
-                    lazyPagingItems.retry()
+                    onEvent(HomeEvent.OnRefreshClick)
+                    lazyPagingItems.refresh()
                 }
             }
         }
@@ -122,7 +130,8 @@ private fun HomeContentSuccessPreview() {
             posterPath = "",
             genre = "Sci-Fi",
             isFavorite = true,
-            releaseDate = "2010-07-16"
+            releaseDate = "2010-07-16",
+            year = "2010"
         ),
         PopularMovieUI(
             id = 2,
@@ -130,7 +139,8 @@ private fun HomeContentSuccessPreview() {
             posterPath = "",
             genre = "Action",
             isFavorite = false,
-            releaseDate = "2023-06-02"
+            releaseDate = "2023-06-02",
+            year = "2023"
         )
     )
 
