@@ -9,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.space.ui.theme.MovieAppTheme
-import com.space.ui.theme.MovieTheme
 import com.space.ui.theme.MovieTheme.colors
 
 @Composable
@@ -19,8 +18,8 @@ fun LoadingScreen() {
         contentAlignment = Alignment.Center
     ) {
         MovieappCircularLoader(
-            mainColor = MovieTheme.colors.primary,
-            backgroundColor = MovieTheme.colors.background
+            mainColor = colors.primary,
+            backgroundColor = colors.background
         )
     }
 }

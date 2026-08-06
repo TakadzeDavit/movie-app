@@ -9,6 +9,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -34,15 +35,14 @@ fun MovieappCircularLoader(
         label = "RotationAngle"
     )
 
+    val brush = remember(mainColor, backgroundColor) {
+        Brush.sweepGradient(colors = listOf(backgroundColor, mainColor))
+    }
+
     Canvas(modifier = modifier.size(size)) {
         rotate(rotationAngle) {
             drawCircle(
-                brush = Brush.sweepGradient(
-                    colors = listOf(
-                        backgroundColor,
-                        mainColor
-                    )
-                ),
+                brush = brush,
                 radius = size.toPx() / 2
             )
         }

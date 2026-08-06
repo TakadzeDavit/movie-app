@@ -25,7 +25,6 @@ import com.space.movieapp.feature.favorites.presentation.contract.FavoritesState
 import com.space.movieapp.feature.favorites.presentation.vm.FavoritesVM
 import com.space.ui.component.card.MovieCatalogueCard
 import com.space.ui.component.error.ErrorScreen
-import com.space.ui.component.loader.LoadingScreen
 import com.space.ui.theme.MovieAppTheme
 import com.space.ui.theme.MovieTheme.colors
 import com.space.ui.theme.Spacing
@@ -69,9 +68,7 @@ private fun FavoritesContent(
                 )
             }
 
-            is DataState.Loading -> {
-                LoadingScreen()
-            }
+            is DataState.Loading -> Unit
 
             is DataState.Success -> {
                 if (movieState.data.isEmpty()) {

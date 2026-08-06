@@ -55,6 +55,17 @@ private fun HomeContent(
     onEvent: (HomeEvent) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
+        if (lazyPagingItems.loadState.refresh !is LoadState.Error) {
+            HomeHeaderSection(
+                searchState = state.searchState,
+                areFiltersExpanded = state.areFiltersExpanded,
+                filters = state.filters,
+                selectedGenreId = state.selectedGenreId,
+                onFilterClick = { onEvent(OnFilterClick(it)) },
+                onFilterIconClick = { onEvent(HomeEvent.OnFilterIconClick) }
+            )
+        }
+
         when (lazyPagingItems.loadState.refresh) {
             is LoadState.Loading -> {
                 Box(
@@ -73,18 +84,11 @@ private fun HomeContent(
                     lazyPagingItems = lazyPagingItems
                 )
 
-                HomeHeaderSection(
-                    searchState = state.searchState,
-                    areFiltersExpanded = state.areFiltersExpanded,
-                    filters = state.filters,
-                    selectedGenreId = state.selectedGenreId,
-                    onFilterClick = { onEvent(OnFilterClick(it)) },
-                    onFilterIconClick = { onEvent(HomeEvent.OnFilterIconClick) }
-                )
-
                 if (lazyPagingItems.itemCount == 0) {
                     EmptyResultView()
-                } else {
+                }
+
+                if (state.isOnline) {
                     MovieGridSection(
                         lazyPagingItems = lazyPagingItems,
                         state = state,
@@ -97,9 +101,11 @@ private fun HomeContent(
 
             is LoadState.Error -> {
                 HomeErrorScreen(
-                    lazyPagingItems = lazyPagingItems,
-                    resetSearch = { onEvent(HomeEvent.ResetSearch) }
-                )
+                    lazyPagingItems = lazyPagingItems
+                ) {
+                    onEvent(HomeEvent.ResetSearch)
+                    lazyPagingItems.retry()
+                }
             }
         }
     }

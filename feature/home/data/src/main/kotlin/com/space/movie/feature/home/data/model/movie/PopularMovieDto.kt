@@ -10,7 +10,7 @@ data class PopularMovieDto(
     @SerialName("genre_ids")
     val genreIds: List<Int> = emptyList(),
     @SerialName("poster_path")
-    val posterPath: String? = null,
+    val posterPath: String?,
     @SerialName("release_date")
     val releaseDate: String = "",
 )

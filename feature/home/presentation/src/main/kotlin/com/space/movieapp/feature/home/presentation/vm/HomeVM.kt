@@ -13,7 +13,6 @@ import com.space.core.domain.usecase.GetFavoriteIdsUseCase
 import com.space.core.domain.usecase.InsertFavoriteUseCase
 import com.space.feature.details.api.DetailsFeatureKey
 import com.space.movie.core.presentation.common.BaseVM
-import com.space.movie.core.presentation.extension.globalNavigator
 import com.space.movie.core.presentation.extension.handleApiResult
 import com.space.movie.feature.home.domain.usecase.genres.GetGenresUseCase
 import com.space.movie.feature.home.domain.usecase.movies.GetMoviesUseCase
@@ -22,7 +21,6 @@ import com.space.movieapp.feature.home.presentation.contract.HomeState
 import com.space.movieapp.feature.home.presentation.mapper.MovieDomainMapper
 import com.space.movieapp.feature.home.presentation.mapper.PopularMovieUiMapper
 import com.space.movieapp.feature.home.presentation.model.PopularMovieUI
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -34,7 +32,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.milliseconds
 
 class HomeVM(
@@ -53,6 +50,7 @@ class HomeVM(
             is HomeEvent.OnFavoriteClick -> toggleFavorite(event.movie)
             is HomeEvent.ResetSearch -> {
                 state.value.searchState.clearText()
+                loadGenres()
             }
 
             is HomeEvent.OnFilterClick -> onFilterClick(event.genreId)
@@ -156,7 +154,7 @@ class HomeVM(
      * Fetches genres on startup. Movies paging starts only after genres are cached in DB.
      */
     private fun loadGenres() {
-        viewModelScope.launch {
+        launchWithLoader {
             getGenresUseCase.invoke().handleApiResult(
                 onSuccess = { genres ->
                     updateState {

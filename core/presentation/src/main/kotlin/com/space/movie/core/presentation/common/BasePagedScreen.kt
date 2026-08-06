@@ -6,8 +6,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.space.movie.core.presentation.extension.NavCommands
-import com.space.movie.core.presentation.extension.koinViewModel
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.parameter.ParametersDefinition
 import kotlin.reflect.KClass

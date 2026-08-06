@@ -1,14 +1,9 @@
-package com.space.movie.core.presentation.extension
+package com.space.movie.core.presentation.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
-import com.space.movie.core.presentation.common.BaseVM
-import com.space.movie.core.presentation.common.UiEvent
-import com.space.movie.core.presentation.common.UiState
-import com.space.movieapp.core.navigation.FeatureNavigationHelper
 import com.space.movieapp.core.navigation.NavigationCommand
-import com.space.movieapp.core.navigation.globalNavigator
 import com.space.movieapp.core.navigation.requireGlobalNavigator
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.koin.compose.currentKoinScope
@@ -47,10 +42,4 @@ internal fun NavCommands(navigationCommands: MutableSharedFlow<NavigationCommand
             )
         }
     }
-}
-
-fun BaseVM<*, *>.globalNavigator(navigation: FeatureNavigationHelper.() -> NavigationCommand) {
-    navigationCommands.tryEmit(
-        FeatureNavigationHelper.navigation()
-    )
 }
