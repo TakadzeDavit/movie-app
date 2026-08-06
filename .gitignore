@@ -1,0 +1,19 @@
+*.iml
+.gradle
+/local.properties
+local.properties
+
+# Android Studio configuration files
+.idea/
+/.idea/
+
+.DS_Store
+/captures
+.externalNativeBuild
+.cxx
+
+# Build directories
+build/
+**/build/
+build-logic/convention/build/
+build-logic/.gradle/

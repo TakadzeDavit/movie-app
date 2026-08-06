@@ -1,0 +1,38 @@
+package com.space.movie.feature.home.data.repository
+
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.space.core.database.dao.GenreDao
+import com.space.core.domain.model.PopularMovie
+import com.space.movie.feature.home.data.mapper.PopularMovieDtoMapper
+import com.space.movie.feature.home.data.remote.apiservice.PopularMoviesApiService
+import com.space.movie.feature.home.data.paging.search.SearchPagingSource
+import com.space.movie.feature.home.data.remote.datasource.search.SearchRemoteDataSource
+import com.space.movie.feature.home.domain.repository.SearchMoviesRepository
+import kotlinx.coroutines.flow.Flow
+
+class SearchMoviesRepositoryImpl(
+    private val searchRemoteDataSource: SearchRemoteDataSource,
+    private val popularMovieDtoMapper: PopularMovieDtoMapper,
+    private val genreDao: GenreDao
+) : SearchMoviesRepository {
+    override fun getMovies(query: String): Flow<PagingData<PopularMovie>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                prefetchDistance = 1,
+                initialLoadSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                SearchPagingSource(
+                    remoteDataSource = searchRemoteDataSource,
+                    query = query,
+                    dtoMapper = popularMovieDtoMapper,
+                    genreDao = genreDao,
+                )
+            }
+        ).flow
+    }
+}
